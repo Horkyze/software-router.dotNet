@@ -37,6 +37,13 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description);
                 comboBox2.Items.Add(device.Description);
             }
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 1;
+           
+
+            arpTable_grid.DataSource = sw_router.Processing.Arp.Instance.arpTable;
+            arpTable_grid.AutoGenerateColumns = true;
+            arpTable_grid.Visible = true;
 
         }
 
@@ -68,6 +75,11 @@ namespace sw_router
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void arpTable_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 }

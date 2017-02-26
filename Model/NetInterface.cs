@@ -23,5 +23,10 @@ namespace sw_router
             PcapDevice = d;   
         }
 
+        public override string ToString()
+        {
+            return "asdsa"; //  PcapDevice.Description;
+        }
+
     }
 }

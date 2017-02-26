@@ -9,20 +9,22 @@ namespace sw_router
 
     public class Controller
     {
-        public Controller _instance = null;
+        /* SINGLETON START*/
+        private static readonly Lazy<Controller> _instance = new Lazy<Controller>(() => new Controller());
+        public static Controller Instance
+        {
+            get
+            {
+                return _instance.Value;
+            }
+        }
+        /* SINGLETON END*/
 
         public ReadOnlyCollection<LivePacketDevice> allDevices { get; private set; }
         public NetInterface[] netInterfaces = new NetInterface[2];
         public ListenController[] listenControllers = new ListenController[2];
 
-        public Controller getInstance()
-        {
-            if (_instance == null)
-            {
-                _instance = new Controller();
-            }
-            return _instance;
-        }
+        
 
 
         public void createInterfaces(String i1, String i2)

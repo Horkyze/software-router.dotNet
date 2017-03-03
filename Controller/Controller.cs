@@ -25,7 +25,12 @@ namespace sw_router
         public ListenController[] listenControllers = new ListenController[2];
 
         
-
+        public void applyIpMaskForInterface(String ip, String mask, String mac, int interfaceIndex)
+        {
+            netInterfaces[interfaceIndex].IpV4Address = new PcapDotNet.Packets.IpV4.IpV4Address(ip);
+            netInterfaces[interfaceIndex].NetMask = Int32.Parse(mask);
+            netInterfaces[interfaceIndex].MacAddress = new PcapDotNet.Packets.Ethernet.MacAddress(mac);
+        }
 
         public void createInterfaces(String i1, String i2)
         {
@@ -45,8 +50,7 @@ namespace sw_router
 
                 if (i1 == device.Description)
                 {
-                    netInterfaces[index] = new NetInterface(device);
-                    // set ip, mac addresses
+                    netInterfaces[index] = new NetInterface(device, index);
 
                     listenControllers[index] = new ListenController(netInterfaces[index]);
                     listenControllers[index].SetUpThread(device.Name);

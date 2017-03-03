@@ -64,7 +64,9 @@ namespace sw_router
 
         private void button1_Click(object sender, EventArgs e)
         {
-            c.createInterfaces(comboBox1.Text, comboBox2.Text);
+            Controller.Instance.createInterfaces(comboBox1.Text, comboBox2.Text);
+            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
+            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -80,6 +82,21 @@ namespace sw_router
         private void arpTable_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void apply_1_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
+        }
+
+        private void apply_2_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
         }
     }
 }

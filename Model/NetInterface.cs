@@ -17,15 +17,12 @@ namespace sw_router
         public IpV4Address IpV4Address { get; set; }
         public MacAddress MacAddress { get; set; }
         public int NetMask { get; set; }
+        public int id { get; }
 
-        public NetInterface(LivePacketDevice d)
+        public NetInterface(LivePacketDevice d, int id)
         {
-            PcapDevice = d;   
-        }
-
-        public override string ToString()
-        {
-            return "asdsa"; //  PcapDevice.Description;
+            PcapDevice = d;
+            this.id = id;
         }
 
     }

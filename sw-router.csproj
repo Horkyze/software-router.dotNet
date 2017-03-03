@@ -102,6 +102,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\ArpBuilder.cs" />
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Controller\ListenController.cs" />
     <Compile Include="Controller\Logger.cs" />

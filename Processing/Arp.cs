@@ -7,7 +7,8 @@ using PcapDotNet.Packets;
 using System.Data;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Ethernet;
-
+using System.Collections.ObjectModel;
+using sw_router.Builder;
 
 namespace sw_router.Processing
 {
@@ -29,12 +30,12 @@ namespace sw_router.Processing
         private Arp()
         {
             arpTable = new DataTable();
-            arpTable.Columns.Add("ip", typeof(IpV4Address));
-            arpTable.Columns.Add("mac", typeof(MacAddress));
+            arpTable.Columns.Add("ip", typeof(string));
+            arpTable.Columns.Add("mac", typeof(string));
             arpTable.Columns.Add("time", typeof(DateTime));
             arpTable.Columns.Add("interface", typeof(int));
 
-            addArp(new IpV4Address(0), new MacAddress("00:00:00:00:00:00"), DateTime.Now, 0);
+            //addArp(new IpV4Address(0)., new MacAddress("00:00:00:00:00:00"), DateTime.Now, 0);
         }
 
         public void flushArp()
@@ -42,24 +43,81 @@ namespace sw_router.Processing
             arpTable.Rows.Clear();
         }
 
+        public DataRow searchArpCache(IpV4Address ip)
+        {
+            DataRow[] result = arpTable.Select("ip = '" + ip.ToString() + "'" );
+            if (result.Length == 1)
+            {
+                Logger.log("Found matching entry in ARP cache for ip: " + ip);
+                return result[0];
+            } else if (result.Length > 1)
+            {
+                Logger.log("?? More entried for in ARP cache for ip: " + ip);
+            }
+            return null;
+        }
+
         public void addArp(IpV4Address ip, MacAddress mac, DateTime time, int netInterface)
         {
             DataRow row = arpTable.NewRow();
-            row["ip"] = ip;
-            row["mac"] = mac;
+            row["ip"] = ip.ToString();
+            row["mac"] = mac.ToString().ToLower();
             row["time"] = time;
             row["interface"] = netInterface;
             arpTable.Rows.Add(row);
         }
 
-        public override void forwardPacketToProcessor(Packet packet)
+        public override void forwardPacketToProcessor(Packet packet, NetInterface netInterface)
         {
             throw new NotImplementedException();
         }
 
-        public override void process(Packet packet)
+        public override void process(Packet packet, NetInterface netInterface)
         {
-            
+            bool mergeFlag = false;
+            DataRow row;
+            row = searchArpCache(packet.Ethernet.Arp.SenderProtocolIpV4Address);
+            if (row != null)
+            {
+                row["mac"] = packet.Ethernet.Arp.SenderHardwareAddress.ToString().ToLower();
+                mergeFlag = true;
+            }
+
+            // if packet is for me
+            if (packet.Ethernet.Arp.TargetProtocolIpV4Address == netInterface.IpV4Address || packet.Ethernet.Arp.TargetProtocolIpV4Address.ToValue() == 0)
+            {
+                if (mergeFlag == false)
+                {
+                    addArp(
+                        packet.Ethernet.Arp.TargetProtocolIpV4Address, 
+                        ByteToMac(packet.Ethernet.Arp.TargetHardwareAddress),
+                        DateTime.Now,
+                        netInterface.id
+                    );
+                }
+                if (packet.Ethernet.Arp.Operation == PcapDotNet.Packets.Arp.ArpOperation.Request)
+                {
+                    Packet response = ArpBuilder.BuildRequest(packet);
+                    Controller.Instance.listenControllers[netInterface.id].com.SendPacket(response);
+                    
+                }
+            } else // proxy arp
+            {
+
+            }
+
+        }
+
+        private MacAddress ByteToMac(ReadOnlyCollection<byte> byteCollection)
+        {
+            var str = new System.Text.StringBuilder();
+            str.Append(byteCollection[0].ToString("X"));
+            for (int i = 1; i < byteCollection.Count; i++)
+            {
+                str.AppendFormat(":{0}", byteCollection[i].ToString("X"));
+            }
+            MacAddress mac = new MacAddress(str.ToString());
+            return mac;
         }
     }
 }

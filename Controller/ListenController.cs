@@ -1,5 +1,6 @@
 ﻿using PcapDotNet.Core;
 using PcapDotNet.Packets;
+using sw_router.Processing;
 using System;
 using System.Threading;
 
@@ -30,19 +31,20 @@ namespace sw_router
         }
 
 
-
+        // high level processing
         private void ProcessCapturedPacket(Packet packet)
         {
-            
+            /*
             if (packet.Ethernet.Source == _netInterface.MacAddress)
             {
                 //Logging.InstanceLogger.LogMessage("ListenController:ProcessReceivedPacket: Source IP is my...Dropping packet");
                 return;
                 
-            }
+            }*/
             if (packet.Ethernet.EtherType == PcapDotNet.Packets.Ethernet.EthernetType.Arp)
             {
-                Logger.log(packet.Ethernet.Arp.TargetHardwareAddress.ToString());
+                Arp.Instance.process(packet, _netInterface);
+                return;
             }
             
         }

@@ -9,8 +9,8 @@ namespace sw_router.Processing
 {
     public abstract class Processing
     {
-        abstract public void process(Packet packet);
-        abstract public void forwardPacketToProcessor(Packet packet);
+        abstract public void process(Packet packet, NetInterface netInterface);
+        abstract public void forwardPacketToProcessor(Packet packet, NetInterface netInterface);
 
     }
 

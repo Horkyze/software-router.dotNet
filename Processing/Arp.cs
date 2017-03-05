@@ -45,7 +45,7 @@ namespace sw_router.Processing
 
         public DataRow searchArpCache(IpV4Address ip)
         {
-            DataRow[] result = arpTable.Select("ip = '" + ip.ToString() + "'" );
+            DataRow[] result = arpTable.Select("ip = '" + ip.ToString().Trim() + "'" );
             if (result.Length == 1)
             {
                 Logger.log("Found matching entry in ARP cache for ip: " + ip);
@@ -60,45 +60,49 @@ namespace sw_router.Processing
         public void addArp(IpV4Address ip, MacAddress mac, DateTime time, int netInterface)
         {
             DataRow row = arpTable.NewRow();
-            row["ip"] = ip.ToString();
+            row["ip"] = ip.ToString().Trim();
             row["mac"] = mac.ToString().ToLower();
             row["time"] = time;
             row["interface"] = netInterface;
             arpTable.Rows.Add(row);
+            Logger.log("ARP cache update");
         }
 
-        public override void forwardPacketToProcessor(Packet packet, NetInterface netInterface)
+        public override void forwardPacketToProcessor(Packet packet, Comminucator com)
         {
             throw new NotImplementedException();
         }
 
-        public override void process(Packet packet, NetInterface netInterface)
+        public override void process(Packet packet, Comminucator com)
         {
+            MacAddress m;
             bool mergeFlag = false;
             DataRow row;
             row = searchArpCache(packet.Ethernet.Arp.SenderProtocolIpV4Address);
             if (row != null)
             {
-                row["mac"] = packet.Ethernet.Arp.SenderHardwareAddress.ToString().ToLower();
+                Utils.ByteToMac(packet.Ethernet.Arp.SenderHardwareAddress, out m);
+                row["mac"] = m.ToString().ToLower();
                 mergeFlag = true;
             }
 
             // if packet is for me
-            if (packet.Ethernet.Arp.TargetProtocolIpV4Address == netInterface.IpV4Address || packet.Ethernet.Arp.TargetProtocolIpV4Address.ToValue() == 0)
+            if (packet.Ethernet.Arp.TargetProtocolIpV4Address == com._netInterface.IpV4Address || packet.Ethernet.Arp.TargetProtocolIpV4Address.ToValue() == 0)
             {
                 if (mergeFlag == false)
                 {
+                    Utils.ByteToMac(packet.Ethernet.Arp.SenderHardwareAddress, out m);
                     addArp(
-                        packet.Ethernet.Arp.TargetProtocolIpV4Address, 
-                        ByteToMac(packet.Ethernet.Arp.TargetHardwareAddress),
+                        packet.Ethernet.Arp.SenderProtocolIpV4Address,
+                        m,
                         DateTime.Now,
-                        netInterface.id
+                        com._netInterface.id
                     );
                 }
                 if (packet.Ethernet.Arp.Operation == PcapDotNet.Packets.Arp.ArpOperation.Request)
                 {
-                    Packet response = ArpBuilder.BuildRequest(packet);
-                    Controller.Instance.listenControllers[netInterface.id].com.SendPacket(response);
+                    Packet response = ArpBuilder.BuildRepy(packet, com._netInterface);
+                    com.inject(response);
                     
                 }
             } else // proxy arp

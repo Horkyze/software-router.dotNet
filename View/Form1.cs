@@ -67,6 +67,7 @@ namespace sw_router
             Controller.Instance.createInterfaces(comboBox1.Text, comboBox2.Text);
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
+            button1.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

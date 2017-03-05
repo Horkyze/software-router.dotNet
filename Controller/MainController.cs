@@ -22,7 +22,7 @@ namespace sw_router
 
         public ReadOnlyCollection<LivePacketDevice> allDevices { get; private set; }
         public NetInterface[] netInterfaces = new NetInterface[2];
-        public ListenController[] listenControllers = new ListenController[2];
+        public Comminucator[] communicators = new Comminucator[2];
 
         
         public void applyIpMaskForInterface(String ip, String mask, String mac, int interfaceIndex)
@@ -47,13 +47,11 @@ namespace sw_router
             for (int i = 0; i != allDevices.Count; ++i)
             {
                 LivePacketDevice device = allDevices[i];
-
                 if (i1 == device.Description)
                 {
                     netInterfaces[index] = new NetInterface(device, index);
-
-                    listenControllers[index] = new ListenController(netInterfaces[index]);
-                    listenControllers[index].SetUpThread(device.Name);
+                    communicators[index] = new Comminucator(netInterfaces[index]);   
+                                  
                     Logger.log("Creating ListenController" + device.Description);
                     if (i1 == i2)
                         break;
@@ -61,10 +59,10 @@ namespace sw_router
                     i1 = i2;
                     i = 0;
                 }
-
-
             }
-            
+            communicators[0].SetUpThread("Interface 1");
+            communicators[1].SetUpThread("Interface 2");
+
         }
 
 

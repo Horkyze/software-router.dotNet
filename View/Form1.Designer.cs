@@ -46,10 +46,10 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.interface_tab = new System.Windows.Forms.TabPage();
+            this.mac_2 = new System.Windows.Forms.TextBox();
+            this.mac_1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.arpTable_grid = new System.Windows.Forms.DataGridView();
-            this.mac_1 = new System.Windows.Forms.TextBox();
-            this.mac_2 = new System.Windows.Forms.TextBox();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -237,6 +237,23 @@
             this.interface_tab.Text = "Interfaces";
             this.interface_tab.UseVisualStyleBackColor = true;
             // 
+            // mac_2
+            // 
+            this.mac_2.Location = new System.Drawing.Point(289, 151);
+            this.mac_2.Name = "mac_2";
+            this.mac_2.Size = new System.Drawing.Size(100, 20);
+            this.mac_2.TabIndex = 18;
+            this.mac_2.Text = "2E:00:00:00:00:02";
+            // 
+            // mac_1
+            // 
+            this.mac_1.Location = new System.Drawing.Point(289, 38);
+            this.mac_1.Name = "mac_1";
+            this.mac_1.Size = new System.Drawing.Size(100, 20);
+            this.mac_1.TabIndex = 17;
+            this.mac_1.Text = "1E:00:00:00:00:01";
+            this.mac_1.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.arpTable_grid);
@@ -256,23 +273,6 @@
             this.arpTable_grid.Size = new System.Drawing.Size(722, 224);
             this.arpTable_grid.TabIndex = 0;
             this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
-            // 
-            // mac_1
-            // 
-            this.mac_1.Location = new System.Drawing.Point(289, 38);
-            this.mac_1.Name = "mac_1";
-            this.mac_1.Size = new System.Drawing.Size(100, 20);
-            this.mac_1.TabIndex = 17;
-            this.mac_1.Text = "11:00:00:00:00:01";
-            this.mac_1.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
-            // 
-            // mac_2
-            // 
-            this.mac_2.Location = new System.Drawing.Point(289, 151);
-            this.mac_2.Name = "mac_2";
-            this.mac_2.Size = new System.Drawing.Size(100, 20);
-            this.mac_2.TabIndex = 18;
-            this.mac_2.Text = "22:00:00:00:00:02";
             // 
             // Form1
             // 

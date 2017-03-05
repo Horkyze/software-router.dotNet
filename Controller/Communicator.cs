@@ -6,18 +6,24 @@ using System.Threading;
 
 namespace sw_router
 {
-    public class ListenController
+    public class Comminucator
     {
 
         
         public PacketCommunicator com { get; set; }
-        private NetInterface _netInterface;
+        public NetInterface _netInterface;
         private Thread _listenThread = null;
 
 
-        public ListenController(NetInterface i)
+        public Comminucator(NetInterface i)
         {
             _netInterface = i;
+            com = _netInterface.PcapDevice.Open(
+                65536, 
+                /*PacketDeviceOpenAttributes.NoCaptureLocal |*/ PacketDeviceOpenAttributes.Promiscuous, 
+                0
+            );
+
         }
 
         public void SetUpThread(String id)
@@ -43,15 +49,20 @@ namespace sw_router
             }*/
             if (packet.Ethernet.EtherType == PcapDotNet.Packets.Ethernet.EthernetType.Arp)
             {
-                Arp.Instance.process(packet, _netInterface);
+                Arp.Instance.process(packet, this);
                 return;
             }
             
         }
 
+        public void inject(Packet packet)
+        {
+            com.SendPacket(packet);
+        }
+
         public void listen()
         {
-            com = _netInterface.PcapDevice.Open(65536, /*PacketDeviceOpenAttributes.NoCaptureLocal |*/ PacketDeviceOpenAttributes.Promiscuous, 100000);
+            Logger.log("Hello from linsten thread: " + _netInterface.id);
             Packet packet;
             do
             {

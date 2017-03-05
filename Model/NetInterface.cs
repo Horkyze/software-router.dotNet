@@ -1,4 +1,5 @@
 ﻿using PcapDotNet.Core;
+using PcapDotNet.Packets;
 using PcapDotNet.Packets.Ethernet;
 using PcapDotNet.Packets.IpV4;
 using System;
@@ -13,7 +14,6 @@ namespace sw_router
     {
 
         public LivePacketDevice PcapDevice { get; set; }
-        public ListenController ListenController { get; }
         public IpV4Address IpV4Address { get; set; }
         public MacAddress MacAddress { get; set; }
         public int NetMask { get; set; }

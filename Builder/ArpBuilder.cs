@@ -12,28 +12,33 @@ namespace sw_router.Builder
 {
     public class ArpBuilder
     {
+        private static MacAddress _broadcastAddress = new MacAddress("FF:FF:FF:FF:FF:FF");
+
         /// <summary>
         /// This function build an ARP over Ethernet packet.
         /// </summary>
-        public static Packet BuildRequest(Packet request)
+        public static Packet BuildRepy(Packet request, NetInterface netInterface)
         {
             EthernetLayer ethernetLayer =
                 new EthernetLayer
                 {
-                    Source = request.Ethernet.Destination,
+                    Source = netInterface.MacAddress,
+                   
                     Destination = request.Ethernet.Source,
-                    EtherType = EthernetType.None, // Will be filled automatically.
+                    EtherType = EthernetType.None, 
                 };
 
             ArpLayer arpLayer =
                 new ArpLayer
                 {
                     ProtocolType = EthernetType.IpV4,
-                    Operation = ArpOperation.Request,
-                    SenderHardwareAddress = new byte[] { 3, 3, 3, 3, 3, 3 }.AsReadOnly(), // 03:03:03:03:03:03.
-                    SenderProtocolAddress = new byte[] { 1, 2, 3, 4 }.AsReadOnly(), // 1.2.3.4.
-                    TargetHardwareAddress = new byte[] { 4, 4, 4, 4, 4, 4 }.AsReadOnly(), // 04:04:04:04:04:04.
-                    TargetProtocolAddress = new byte[] { 11, 22, 33, 44 }.AsReadOnly(), // 11.22.33.44.
+                    Operation = ArpOperation.Reply,
+                    SenderHardwareAddress =
+                        (request.Ethernet.Arp.TargetHardwareAddress.AsReadOnly() == Utils.AddressToByte(null, _broadcastAddress).AsReadOnly()) ?
+                        Utils.AddressToByte(null, _broadcastAddress).AsReadOnly() : Utils.AddressToByte(null, netInterface.MacAddress).AsReadOnly(),
+                    SenderProtocolAddress = Utils.AddressToByte(netInterface.IpV4Address, null).AsReadOnly(),
+                    TargetHardwareAddress = request.Ethernet.Arp.SenderHardwareAddress.AsReadOnly(),
+                    TargetProtocolAddress = request.Ethernet.Arp.SenderProtocolAddress.AsReadOnly(),
                 };
 
             PacketBuilder builder = new PacketBuilder(ethernetLayer, arpLayer);

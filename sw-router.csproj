@@ -103,12 +103,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\ArpBuilder.cs" />
-    <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Controller\ListenController.cs" />
+    <Compile Include="Controller\MainController.cs" />
+    <Compile Include="Controller\Communicator.cs" />
     <Compile Include="Controller\Logger.cs" />
     <Compile Include="Model\NetInterface.cs" />
     <Compile Include="Processing\Arp.cs" />
     <Compile Include="Processing\Processing.cs" />
+    <Compile Include="Utils\Formatting.cs" />
+    <Compile Include="Utils\Utils.cs" />
     <Compile Include="View\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

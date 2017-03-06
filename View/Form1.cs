@@ -1,4 +1,5 @@
 ﻿using PcapDotNet.Core;
+using sw_router.Processing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,6 +114,46 @@ namespace sw_router
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arping_button1_Click(object sender, EventArgs e)
+        {
+            Arp.Instance.arping(0, arping_textBox1.Text);
+        }
+
+        private void arping_button2_Click(object sender, EventArgs e)
+        {
+            Arp.Instance.arping(1, arping_textBox2.Text);
+        }
+
+        private void clear_arp_button_Click(object sender, EventArgs e)
+        {
+            Arp.Instance.flushArp();
+        }
+
+        private void arpTable_grid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                
+                long value = 0;
+                if (long.TryParse(e.Value.ToString(), out value))
+                {
+                    e.Value = String.Format("{0:HH:mm:ss.ff}", new DateTime(value));                      
+                    e.FormattingApplied = true;
+                }
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+            System.Environment.Exit(1);
         }
     }
 }

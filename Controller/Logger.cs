@@ -19,9 +19,13 @@ namespace sw_router
 
         public static void log(String s)
         {
-            _instance.box.Invoke(new Action(() => Logger._instance.box.AppendText(s.TrimEnd()+"\n")));
+            try
+            {
+                _instance.box.Invoke(new Action(() => Logger._instance.box.AppendText(s.TrimEnd() + "\n")));
+            } catch (Exception e)
+            {
 
-            
+            }
         }
 
     }

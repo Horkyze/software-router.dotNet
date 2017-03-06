@@ -9,6 +9,7 @@ using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Ethernet;
 using System.Collections.ObjectModel;
 using sw_router.Builder;
+using System.Threading;
 
 namespace sw_router.Processing
 {
@@ -26,21 +27,56 @@ namespace sw_router.Processing
         /* SINGLETON END*/
 
         public DataTable arpTable { get; }
+        public Thread checkOldArp_t;
+        public Object arpCache_lock;
 
         private Arp()
         {
+            arpCache_lock = new Object();
+
             arpTable = new DataTable();
             arpTable.Columns.Add("ip", typeof(string));
             arpTable.Columns.Add("mac", typeof(string));
-            arpTable.Columns.Add("time", typeof(DateTime));
+            arpTable.Columns.Add("time", typeof(long));
             arpTable.Columns.Add("interface", typeof(int));
-
+            checkOldArp_t = new Thread(new ThreadStart(checkOldArp));
+            checkOldArp_t.Start();
             //addArp(new IpV4Address(0)., new MacAddress("00:00:00:00:00:00"), DateTime.Now, 0);
         }
 
+        
+        
+
+        public void checkOldArp()
+        {
+            long value = 0;     
+            while (true)
+            {
+                // Logger.log("Check arp for old");
+                for (int i = arpTable.Rows.Count - 1; i >= 0; i--)
+                {
+                    DataRow dr = arpTable.Rows[i];
+                    if ( long.TryParse(dr["time"].ToString(), out value) ) 
+                    {                  
+                        if (value + 30000000 < DateTime.Now.Ticks)
+                            dr.Delete();
+                    }  
+                }
+                try
+                {
+                    Controller.Instance.gui.refresArpTable();
+                }
+                catch (Exception e)
+                {
+                }
+                Thread.Sleep(1000);
+            }
+        }
+       
         public void flushArp()
         {
             arpTable.Rows.Clear();
+            Controller.Instance.gui.refresArpTable();
         }
 
         public DataRow searchArpCache(IpV4Address ip)
@@ -62,11 +98,17 @@ namespace sw_router.Processing
             DataRow row = arpTable.NewRow();
             row["ip"] = ip.ToString().Trim();
             row["mac"] = mac.ToString().ToLower();
-            row["time"] = time;
+            row["time"] = time.Ticks;
             row["interface"] = netInterface;
             arpTable.Rows.Add(row);
             Logger.log("ARP cache update");
             Controller.Instance.gui.refresArpTable();
+        }
+
+        public void arping(int interfaceIndex, string ip)
+        {
+            Packet p = ArpBuilder.BuildRequest(Controller.Instance.netInterfaces[interfaceIndex], new IpV4Address(ip));
+            Controller.Instance.communicators[interfaceIndex].inject(p);
         }
 
         public override void forwardPacketToProcessor(Packet packet, Comminucator com)
@@ -84,6 +126,7 @@ namespace sw_router.Processing
             {
                 Utils.ByteToMac(packet.Ethernet.Arp.SenderHardwareAddress, out m);
                 row["mac"] = m.ToString().ToLower();
+                row["time"] = DateTime.Now.Ticks;
                 mergeFlag = true;
             }
 
@@ -110,7 +153,7 @@ namespace sw_router.Processing
             {
 
             }
-
+            Controller.Instance.gui.refresArpTable();
         }
 
         private MacAddress ByteToMac(ReadOnlyCollection<byte> byteCollection)

@@ -2,6 +2,7 @@
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.Arp;
 using PcapDotNet.Packets.Ethernet;
+using PcapDotNet.Packets.IpV4;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,33 @@ namespace sw_router.Builder
                     SenderProtocolAddress = Utils.AddressToByte(netInterface.IpV4Address, null).AsReadOnly(),
                     TargetHardwareAddress = request.Ethernet.Arp.SenderHardwareAddress.AsReadOnly(),
                     TargetProtocolAddress = request.Ethernet.Arp.SenderProtocolAddress.AsReadOnly(),
+                };
+
+            PacketBuilder builder = new PacketBuilder(ethernetLayer, arpLayer);
+
+            return builder.Build(DateTime.Now);
+        }
+
+        public static Packet BuildRequest(NetInterface netInterface, IpV4Address target)
+        {
+            EthernetLayer ethernetLayer =
+                new EthernetLayer
+                {
+                    Source = netInterface.MacAddress,
+
+                    Destination = _broadcastAddress,
+                    EtherType = EthernetType.None,
+                };
+
+            ArpLayer arpLayer =
+                new ArpLayer
+                {
+                    ProtocolType = EthernetType.IpV4,
+                    Operation = ArpOperation.Request,
+                    SenderHardwareAddress = Utils.AddressToByte(null, netInterface.MacAddress).AsReadOnly(),
+                    SenderProtocolAddress = Utils.AddressToByte(netInterface.IpV4Address, null).AsReadOnly(),
+                    TargetHardwareAddress = Utils.AddressToByte(null, _broadcastAddress).AsReadOnly(),
+                    TargetProtocolAddress = Utils.AddressToByte(target, null).AsReadOnly(),
                 };
 
             PacketBuilder builder = new PacketBuilder(ethernetLayer, arpLayer);

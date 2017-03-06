@@ -13,14 +13,13 @@ namespace sw_router
 {
     public partial class Form1 : Form
     {
-        public Controller c;
         public Logger logger;
+        public static Form Instance;
 
         public Form1()
         {
             InitializeComponent();
-            c = new Controller();
-            logger = new Logger(log_richTextBox);
+            new Logger(log_richTextBox);
 
 
             IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
@@ -44,7 +43,13 @@ namespace sw_router
             arpTable_grid.DataSource = sw_router.Processing.Arp.Instance.arpTable;
             arpTable_grid.AutoGenerateColumns = true;
             arpTable_grid.Visible = true;
+            arpTable_grid.Refresh();
+            
+        }
 
+        public void refresArpTable()
+        {
+            arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Refresh()));
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -98,6 +103,16 @@ namespace sw_router
         private void apply_2_Click(object sender, EventArgs e)
         {
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

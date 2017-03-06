@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace sw_router
 {
@@ -18,13 +19,23 @@ namespace sw_router
                 return _instance.Value;
             }
         }
+        
         /* SINGLETON END*/
+
+        public Object locker = new Object();
+        public Object processPacketLock = new Object();
+
+        public Form1 gui;
 
         public ReadOnlyCollection<LivePacketDevice> allDevices { get; private set; }
         public NetInterface[] netInterfaces = new NetInterface[2];
         public Comminucator[] communicators = new Comminucator[2];
 
-        
+        public void setForm(Form1 form)
+        {
+            gui = form;
+        }
+
         public void applyIpMaskForInterface(String ip, String mask, String mac, int interfaceIndex)
         {
             netInterfaces[interfaceIndex].IpV4Address = new PcapDotNet.Packets.IpV4.IpV4Address(ip);
@@ -57,7 +68,7 @@ namespace sw_router
                         break;
                     index++;
                     i1 = i2;
-                    i = 0;
+                    i = -1;
                 }
             }
             communicators[0].SetUpThread("Interface 1");

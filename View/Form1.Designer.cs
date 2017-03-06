@@ -267,9 +267,12 @@
             // 
             // arpTable_grid
             // 
+            this.arpTable_grid.AllowUserToAddRows = false;
+            this.arpTable_grid.AllowUserToDeleteRows = false;
             this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.arpTable_grid.Location = new System.Drawing.Point(121, 35);
             this.arpTable_grid.Name = "arpTable_grid";
+            this.arpTable_grid.ReadOnly = true;
             this.arpTable_grid.Size = new System.Drawing.Size(722, 224);
             this.arpTable_grid.TabIndex = 0;
             this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
@@ -283,6 +286,8 @@
             this.Controls.Add(this.log_richTextBox);
             this.Name = "Form1";
             this.Text = "sw-router - Matej Bellus";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.tab_control.ResumeLayout(false);
             this.interface_tab.ResumeLayout(false);
             this.interface_tab.PerformLayout();

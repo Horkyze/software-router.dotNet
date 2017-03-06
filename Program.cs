@@ -19,7 +19,10 @@ namespace sw_router
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Form1 form = new Form1();
+            new Controller();
+            Controller.Instance.setForm(form);
+            Application.Run(form);
         }
 
     }

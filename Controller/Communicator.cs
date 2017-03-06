@@ -62,7 +62,13 @@ namespace sw_router
 
         public void listen()
         {
-            Logger.log("Hello from linsten thread: " + _netInterface.id);
+            lock (Controller.Instance.locker)
+            {
+                Logger.log("Hello from linsten thread: " + _netInterface.id);
+                Logger.log("  IP:    " + _netInterface.IpV4Address);
+                Logger.log("  Mask:  " + _netInterface.NetMask);
+                Logger.log("  MAC:   " + _netInterface.MacAddress);            
+            }
             Packet packet;
             do
             {
@@ -74,7 +80,11 @@ namespace sw_router
                         continue;
                     case PacketCommunicatorReceiveResult.Ok:
                         //Logger.log(packet.Timestamp.ToString("yyyy-MM-dd hh:mm:ss.fff") + " length:" + packet.Length);
-                        ProcessCapturedPacket(packet);
+                        lock (Controller.Instance.processPacketLock)
+                        {
+                            ProcessCapturedPacket(packet);
+                        }
+                        
                         break;
                     default:
                         throw new InvalidOperationException("The result " + result + " shoudl never be reached here");

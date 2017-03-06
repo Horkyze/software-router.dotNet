@@ -66,6 +66,7 @@ namespace sw_router.Processing
             row["interface"] = netInterface;
             arpTable.Rows.Add(row);
             Logger.log("ARP cache update");
+            Controller.Instance.gui.refresArpTable();
         }
 
         public override void forwardPacketToProcessor(Packet packet, Comminucator com)

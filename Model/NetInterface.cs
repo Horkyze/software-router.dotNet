@@ -21,6 +21,7 @@ namespace sw_router
 
         public NetInterface(LivePacketDevice d, int id)
         {
+            Logger.log("Creating NetInterface ["+id+"] "+d.Description);
             PcapDevice = d;
             this.id = id;
         }

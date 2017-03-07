@@ -43,8 +43,8 @@ namespace sw_router
                 Logger.log(" Name:        " + device.Name.ToString());
                 Logger.log(" Attributes:  " + device.Attributes.ToString());
                 Logger.log(" Description: " + device.Description.ToString());
-                comboBox1.Items.Add(device.Description);
-                comboBox2.Items.Add(device.Description);
+                comboBox1.Items.Add(device.Description+device.Name);
+                comboBox2.Items.Add(device.Description+device.Name);
             }
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 1;
@@ -80,7 +80,7 @@ namespace sw_router
         {
             Controller.Instance.createInterfaces(comboBox1.Text, comboBox2.Text);
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
-            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
+            Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
             button1.Enabled = false;
         }
 
@@ -111,7 +111,7 @@ namespace sw_router
 
         private void apply_2_Click(object sender, EventArgs e)
         {
-            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 1);
+            Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -162,6 +162,11 @@ namespace sw_router
         {
             System.Windows.Forms.Application.Exit();
             System.Environment.Exit(1);
+        }
+
+        private void set_arpcache_timeout_button_Click(object sender, EventArgs e)
+        {
+            Arp.Instance.setCacheTimeout(arp_cache_timeout_textBox.Text);
         }
     }
 }

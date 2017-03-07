@@ -17,6 +17,8 @@ namespace sw_router
 
         public Comminucator(NetInterface i)
         {
+            Logger.log("Creating Comminucator (netInferdate.id = "+i.id);
+
             _netInterface = i;
             com = _netInterface.PcapDevice.Open(
                 65536, 

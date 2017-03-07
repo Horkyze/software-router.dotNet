@@ -29,6 +29,7 @@ namespace sw_router.Processing
         public DataTable arpTable { get; }
         public Thread checkOldArp_t;
         public Object arpCache_lock;
+        public int arpCacheTimeout = 3;
 
         private Arp()
         {
@@ -58,18 +59,22 @@ namespace sw_router.Processing
                     DataRow dr = arpTable.Rows[i];
                     if ( long.TryParse(dr["time"].ToString(), out value) ) 
                     {                  
-                        if (value + 30000000 < DateTime.Now.Ticks)
+                        if (value + arpCacheTimeout * 10000000 < DateTime.Now.Ticks)
+                        {
                             dr.Delete();
+                            try
+                            {
+                                Controller.Instance.gui.refresArpTable();
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        }
+                            
                     }  
                 }
-                try
-                {
-                    Controller.Instance.gui.refresArpTable();
-                }
-                catch (Exception e)
-                {
-                }
-                Thread.Sleep(1000);
+                
+                Thread.Sleep(500);
             }
         }
        
@@ -154,6 +159,15 @@ namespace sw_router.Processing
 
             }
             Controller.Instance.gui.refresArpTable();
+        }
+
+        public void setCacheTimeout(string timeout)
+        {
+            int value = 3;
+            if (int.TryParse(timeout, out value))
+            {
+                this.arpCacheTimeout = value;
+            }
         }
 
         private MacAddress ByteToMac(ReadOnlyCollection<byte> byteCollection)

@@ -49,14 +49,16 @@
             this.mac_2 = new System.Windows.Forms.TextBox();
             this.mac_1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.arpTable_grid = new System.Windows.Forms.DataGridView();
-            this.arping_button1 = new System.Windows.Forms.Button();
-            this.arping_textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.clear_arp_button = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.arping_button2 = new System.Windows.Forms.Button();
             this.arping_textBox2 = new System.Windows.Forms.TextBox();
-            this.clear_arp_button = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.arping_button1 = new System.Windows.Forms.Button();
+            this.arping_textBox1 = new System.Windows.Forms.TextBox();
+            this.arpTable_grid = new System.Windows.Forms.DataGridView();
+            this.set_arpcache_timeout_button = new System.Windows.Forms.Button();
+            this.arp_cache_timeout_textBox = new System.Windows.Forms.TextBox();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -263,6 +265,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.arp_cache_timeout_textBox);
+            this.tabPage2.Controls.Add(this.set_arpcache_timeout_button);
             this.tabPage2.Controls.Add(this.clear_arp_button);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.arping_button2);
@@ -279,46 +283,15 @@
             this.tabPage2.Text = "ARP";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // arpTable_grid
+            // clear_arp_button
             // 
-            this.arpTable_grid.AllowUserToAddRows = false;
-            this.arpTable_grid.AllowUserToDeleteRows = false;
-            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.arpTable_grid.Location = new System.Drawing.Point(6, 6);
-            this.arpTable_grid.Name = "arpTable_grid";
-            this.arpTable_grid.ReadOnly = true;
-            this.arpTable_grid.Size = new System.Drawing.Size(630, 250);
-            this.arpTable_grid.TabIndex = 0;
-            this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
-            this.arpTable_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.arpTable_grid_CellFormatting);
-            // 
-            // arping_button1
-            // 
-            this.arping_button1.Location = new System.Drawing.Point(851, 68);
-            this.arping_button1.Name = "arping_button1";
-            this.arping_button1.Size = new System.Drawing.Size(96, 23);
-            this.arping_button1.TabIndex = 16;
-            this.arping_button1.Text = "arping";
-            this.arping_button1.UseVisualStyleBackColor = true;
-            this.arping_button1.Click += new System.EventHandler(this.arping_button1_Click);
-            // 
-            // arping_textBox1
-            // 
-            this.arping_textBox1.Location = new System.Drawing.Point(730, 70);
-            this.arping_textBox1.Name = "arping_textBox1";
-            this.arping_textBox1.Size = new System.Drawing.Size(100, 20);
-            this.arping_textBox1.TabIndex = 15;
-            this.arping_textBox1.Text = "10.0.1.2";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(654, 73);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "Interface 1";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.clear_arp_button.Location = new System.Drawing.Point(657, 233);
+            this.clear_arp_button.Name = "clear_arp_button";
+            this.clear_arp_button.Size = new System.Drawing.Size(75, 23);
+            this.clear_arp_button.TabIndex = 21;
+            this.clear_arp_button.Text = "Clear ARP cache";
+            this.clear_arp_button.UseVisualStyleBackColor = true;
+            this.clear_arp_button.Click += new System.EventHandler(this.clear_arp_button_Click);
             // 
             // label3
             // 
@@ -347,15 +320,64 @@
             this.arping_textBox2.TabIndex = 18;
             this.arping_textBox2.Text = "10.0.1.2";
             // 
-            // clear_arp_button
+            // label2
             // 
-            this.clear_arp_button.Location = new System.Drawing.Point(657, 233);
-            this.clear_arp_button.Name = "clear_arp_button";
-            this.clear_arp_button.Size = new System.Drawing.Size(75, 23);
-            this.clear_arp_button.TabIndex = 21;
-            this.clear_arp_button.Text = "Clear ARP cache";
-            this.clear_arp_button.UseVisualStyleBackColor = true;
-            this.clear_arp_button.Click += new System.EventHandler(this.clear_arp_button_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(654, 73);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Interface 1";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // arping_button1
+            // 
+            this.arping_button1.Location = new System.Drawing.Point(851, 68);
+            this.arping_button1.Name = "arping_button1";
+            this.arping_button1.Size = new System.Drawing.Size(96, 23);
+            this.arping_button1.TabIndex = 16;
+            this.arping_button1.Text = "arping";
+            this.arping_button1.UseVisualStyleBackColor = true;
+            this.arping_button1.Click += new System.EventHandler(this.arping_button1_Click);
+            // 
+            // arping_textBox1
+            // 
+            this.arping_textBox1.Location = new System.Drawing.Point(730, 70);
+            this.arping_textBox1.Name = "arping_textBox1";
+            this.arping_textBox1.Size = new System.Drawing.Size(100, 20);
+            this.arping_textBox1.TabIndex = 15;
+            this.arping_textBox1.Text = "10.0.1.2";
+            // 
+            // arpTable_grid
+            // 
+            this.arpTable_grid.AllowUserToAddRows = false;
+            this.arpTable_grid.AllowUserToDeleteRows = false;
+            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.arpTable_grid.Location = new System.Drawing.Point(6, 6);
+            this.arpTable_grid.Name = "arpTable_grid";
+            this.arpTable_grid.ReadOnly = true;
+            this.arpTable_grid.Size = new System.Drawing.Size(630, 250);
+            this.arpTable_grid.TabIndex = 0;
+            this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
+            this.arpTable_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.arpTable_grid_CellFormatting);
+            // 
+            // set_arpcache_timeout_button
+            // 
+            this.set_arpcache_timeout_button.Location = new System.Drawing.Point(705, 14);
+            this.set_arpcache_timeout_button.Name = "set_arpcache_timeout_button";
+            this.set_arpcache_timeout_button.Size = new System.Drawing.Size(136, 23);
+            this.set_arpcache_timeout_button.TabIndex = 22;
+            this.set_arpcache_timeout_button.Text = "Set ARP cache timeout";
+            this.set_arpcache_timeout_button.UseVisualStyleBackColor = true;
+            this.set_arpcache_timeout_button.Click += new System.EventHandler(this.set_arpcache_timeout_button_Click);
+            // 
+            // arp_cache_timeout_textBox
+            // 
+            this.arp_cache_timeout_textBox.Location = new System.Drawing.Point(657, 17);
+            this.arp_cache_timeout_textBox.Name = "arp_cache_timeout_textBox";
+            this.arp_cache_timeout_textBox.Size = new System.Drawing.Size(42, 20);
+            this.arp_cache_timeout_textBox.TabIndex = 23;
+            this.arp_cache_timeout_textBox.Text = "3";
             // 
             // Form1
             // 
@@ -409,6 +431,8 @@
         private System.Windows.Forms.Button arping_button2;
         private System.Windows.Forms.TextBox arping_textBox2;
         private System.Windows.Forms.Button clear_arp_button;
+        private System.Windows.Forms.TextBox arp_cache_timeout_textBox;
+        private System.Windows.Forms.Button set_arpcache_timeout_button;
     }
 }
 

@@ -58,12 +58,12 @@ namespace sw_router
             for (int i = 0; i != allDevices.Count; ++i)
             {
                 LivePacketDevice device = allDevices[i];
-                if (i1 == device.Description)
+                if (i1 == device.Description+device.Name)
                 {
                     netInterfaces[index] = new NetInterface(device, index);
                     communicators[index] = new Comminucator(netInterfaces[index]);   
                                   
-                    Logger.log("Creating ListenController" + device.Description);
+                    Logger.log("Creating ListenController " + device.Description);
                     if (i1 == i2)
                         break;
                     index++;

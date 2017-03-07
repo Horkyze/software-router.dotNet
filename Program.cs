@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using PcapDotNet.Base;
-using PcapDotNet.Core;
-using System.Threading;
+
 
 namespace sw_router
 {
@@ -20,6 +15,7 @@ namespace sw_router
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Form1 form = new Form1();
+            
             new Controller();
             Controller.Instance.setForm(form);
             Application.Run(form);

@@ -20,8 +20,13 @@ namespace sw_router
         public Form1()
         {
             InitializeComponent();
-            new Logger(log_richTextBox);
+            
+            postFormCreate();
+        }
 
+        private void postFormCreate()
+        {
+            new Logger(log_richTextBox);
 
             IList<LivePacketDevice> allDevices = LivePacketDevice.AllLocalMachine;
             if (allDevices.Count == 0)
@@ -30,22 +35,25 @@ namespace sw_router
                 return;
             }
 
+            Logger.log("Available adapters: ");
             for (int i = 0; i != allDevices.Count; ++i)
             {
                 LivePacketDevice device = allDevices[i];
-
+                Logger.log(" Address:     " + device.Addresses.ToString());
+                Logger.log(" Name:        " + device.Name.ToString());
+                Logger.log(" Attributes:  " + device.Attributes.ToString());
+                Logger.log(" Description: " + device.Description.ToString());
                 comboBox1.Items.Add(device.Description);
                 comboBox2.Items.Add(device.Description);
             }
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 1;
-           
+
 
             arpTable_grid.DataSource = sw_router.Processing.Arp.Instance.arpTable;
             arpTable_grid.AutoGenerateColumns = true;
             arpTable_grid.Visible = true;
             arpTable_grid.Refresh();
-            
         }
 
         public void refresArpTable()

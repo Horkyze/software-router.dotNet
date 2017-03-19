@@ -49,6 +49,8 @@
             this.mac_2 = new System.Windows.Forms.TextBox();
             this.mac_1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.arp_cache_timeout_textBox = new System.Windows.Forms.TextBox();
+            this.set_arpcache_timeout_button = new System.Windows.Forms.Button();
             this.clear_arp_button = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.arping_button2 = new System.Windows.Forms.Button();
@@ -57,12 +59,19 @@
             this.arping_button1 = new System.Windows.Forms.Button();
             this.arping_textBox1 = new System.Windows.Forms.TextBox();
             this.arpTable_grid = new System.Windows.Forms.DataGridView();
-            this.set_arpcache_timeout_button = new System.Windows.Forms.Button();
-            this.arp_cache_timeout_textBox = new System.Windows.Forms.TextBox();
+            this.routing_tab = new System.Windows.Forms.TabPage();
+            this.route_dataGridView = new System.Windows.Forms.DataGridView();
+            this.Network = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
+            this.routing_tab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -213,6 +222,7 @@
             // 
             this.tab_control.Controls.Add(this.interface_tab);
             this.tab_control.Controls.Add(this.tabPage2);
+            this.tab_control.Controls.Add(this.routing_tab);
             this.tab_control.Location = new System.Drawing.Point(12, 12);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
@@ -282,6 +292,24 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ARP";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // arp_cache_timeout_textBox
+            // 
+            this.arp_cache_timeout_textBox.Location = new System.Drawing.Point(657, 17);
+            this.arp_cache_timeout_textBox.Name = "arp_cache_timeout_textBox";
+            this.arp_cache_timeout_textBox.Size = new System.Drawing.Size(42, 20);
+            this.arp_cache_timeout_textBox.TabIndex = 23;
+            this.arp_cache_timeout_textBox.Text = "3";
+            // 
+            // set_arpcache_timeout_button
+            // 
+            this.set_arpcache_timeout_button.Location = new System.Drawing.Point(705, 14);
+            this.set_arpcache_timeout_button.Name = "set_arpcache_timeout_button";
+            this.set_arpcache_timeout_button.Size = new System.Drawing.Size(136, 23);
+            this.set_arpcache_timeout_button.TabIndex = 22;
+            this.set_arpcache_timeout_button.Text = "Set ARP cache timeout";
+            this.set_arpcache_timeout_button.UseVisualStyleBackColor = true;
+            this.set_arpcache_timeout_button.Click += new System.EventHandler(this.set_arpcache_timeout_button_Click);
             // 
             // clear_arp_button
             // 
@@ -361,23 +389,58 @@
             this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
             this.arpTable_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.arpTable_grid_CellFormatting);
             // 
-            // set_arpcache_timeout_button
+            // routing_tab
             // 
-            this.set_arpcache_timeout_button.Location = new System.Drawing.Point(705, 14);
-            this.set_arpcache_timeout_button.Name = "set_arpcache_timeout_button";
-            this.set_arpcache_timeout_button.Size = new System.Drawing.Size(136, 23);
-            this.set_arpcache_timeout_button.TabIndex = 22;
-            this.set_arpcache_timeout_button.Text = "Set ARP cache timeout";
-            this.set_arpcache_timeout_button.UseVisualStyleBackColor = true;
-            this.set_arpcache_timeout_button.Click += new System.EventHandler(this.set_arpcache_timeout_button_Click);
+            this.routing_tab.Controls.Add(this.route_dataGridView);
+            this.routing_tab.Location = new System.Drawing.Point(4, 22);
+            this.routing_tab.Name = "routing_tab";
+            this.routing_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.routing_tab.Size = new System.Drawing.Size(1085, 302);
+            this.routing_tab.TabIndex = 2;
+            this.routing_tab.Text = "Routing";
+            this.routing_tab.UseVisualStyleBackColor = true;
             // 
-            // arp_cache_timeout_textBox
+            // route_dataGridView
             // 
-            this.arp_cache_timeout_textBox.Location = new System.Drawing.Point(657, 17);
-            this.arp_cache_timeout_textBox.Name = "arp_cache_timeout_textBox";
-            this.arp_cache_timeout_textBox.Size = new System.Drawing.Size(42, 20);
-            this.arp_cache_timeout_textBox.TabIndex = 23;
-            this.arp_cache_timeout_textBox.Text = "3";
+            this.route_dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.route_dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Network,
+            this.Mask,
+            this.ad,
+            this.NextHop,
+            this.OutInterface});
+            this.route_dataGridView.Location = new System.Drawing.Point(6, 6);
+            this.route_dataGridView.Name = "route_dataGridView";
+            this.route_dataGridView.Size = new System.Drawing.Size(657, 282);
+            this.route_dataGridView.TabIndex = 1;
+            this.route_dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.route_dataGridView_CellContentClick);
+            // 
+            // Network
+            // 
+            this.Network.HeaderText = "Network";
+            this.Network.Name = "Network";
+            // 
+            // Mask
+            // 
+            this.Mask.HeaderText = "Mask";
+            this.Mask.Name = "Mask";
+            // 
+            // ad
+            // 
+            this.ad.HeaderText = "Administrative Distance";
+            this.ad.Name = "ad";
+            this.ad.Width = 150;
+            // 
+            // NextHop
+            // 
+            this.NextHop.HeaderText = "Next Hop";
+            this.NextHop.Name = "NextHop";
+            // 
+            // OutInterface
+            // 
+            this.OutInterface.HeaderText = "Outgoing Interface";
+            this.OutInterface.Name = "OutInterface";
+            this.OutInterface.Width = 150;
             // 
             // Form1
             // 
@@ -396,6 +459,8 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).EndInit();
+            this.routing_tab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -433,6 +498,13 @@
         private System.Windows.Forms.Button clear_arp_button;
         private System.Windows.Forms.TextBox arp_cache_timeout_textBox;
         private System.Windows.Forms.Button set_arpcache_timeout_button;
+        private System.Windows.Forms.TabPage routing_tab;
+        private System.Windows.Forms.DataGridView route_dataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Network;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NextHop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OutInterface;
     }
 }
 

@@ -54,11 +54,49 @@ namespace sw_router
             arpTable_grid.AutoGenerateColumns = true;
             arpTable_grid.Visible = true;
             arpTable_grid.Refresh();
+
         }
 
         public void refresArpTable()
         {
             arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Refresh()));
+        }
+
+        public void updateRoutingTable()
+        {
+            // empty
+            if (this.InvokeRequired)
+                route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Rows.Clear()));
+            else
+                route_dataGridView.Rows.Clear();
+
+            // update
+            for (int i = 0; i < RoutingTable.Instance.table.Count; i++)
+            {
+                Route r = RoutingTable.Instance.table.ElementAt(i);
+                object[] data = new object[] {
+                    r.network,
+                    r.mask,
+                    r.ad,
+                    r.nextHop,
+                    r.outgoingInterfate
+                };
+                if (this.InvokeRequired)
+                    route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Rows.Add(data)));
+                else
+                    route_dataGridView.Rows.Add(data);
+            }
+
+            // refresh
+            if (this.InvokeRequired)
+                route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Refresh()));
+            else
+                route_dataGridView.Refresh();
+        }
+
+        public void refresRoutingTable()
+        {
+            route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Refresh()));
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -81,6 +119,7 @@ namespace sw_router
             Controller.Instance.createInterfaces(comboBox1.Text, comboBox2.Text);
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
             Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
+            RoutingTable.Instance.updateDirectlyConnected();
             button1.Enabled = false;
         }
 
@@ -107,11 +146,13 @@ namespace sw_router
         private void apply_1_Click(object sender, EventArgs e)
         {
             Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
+            RoutingTable.Instance.updateDirectlyConnected();
         }
 
         private void apply_2_Click(object sender, EventArgs e)
         {
             Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
+            RoutingTable.Instance.updateDirectlyConnected();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -167,6 +208,17 @@ namespace sw_router
         private void set_arpcache_timeout_button_Click(object sender, EventArgs e)
         {
             Arp.Instance.setCacheTimeout(arp_cache_timeout_textBox.Text);
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void route_dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            route_dataGridView.Rows.Add("five", "six", "seven", "eight", "sdf");
+            route_dataGridView.Refresh();
         }
     }
 }

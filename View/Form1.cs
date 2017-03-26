@@ -1,4 +1,5 @@
 ﻿using PcapDotNet.Core;
+using PcapDotNet.Packets.IpV4;
 using sw_router.Processing;
 using System;
 using System.Collections.Generic;
@@ -121,6 +122,9 @@ namespace sw_router
             Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
             RoutingTable.Instance.updateDirectlyConnected();
             button1.Enabled = false;
+            comboBox1.Enabled = false;
+            comboBox2.Enabled = false;
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -217,8 +221,86 @@ namespace sw_router
 
         private void route_dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            route_dataGridView.Rows.Add("five", "six", "seven", "eight", "sdf");
-            route_dataGridView.Refresh();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void static_addButton_Click(object sender, EventArgs e)
+        {
+            int nextHopInt = -1;
+            IpV4Address nexthopIP = new IpV4Address();
+
+            if (static_intConbo.Text == "0" || static_intConbo.Text == "1")
+            {
+                nextHopInt = int.Parse(static_intConbo.Text);
+            }
+            else
+            {
+                nexthopIP = new IpV4Address(static_ipText.Text.Trim());
+            }
+
+            RoutingTable.Instance.addRoute(new Route(
+                Utils.GetNetworkAddress(new IpV4Address(static_networkText.Text), int.Parse(static_maskText.Text)),
+                int.Parse(static_maskText.Text),
+                Route.STATIC_AD,
+                0,
+                nexthopIP,
+                nextHopInt
+            ));
+
+        }
+
+        private void test_searchButton_Click(object sender, EventArgs e)
+        {
+            Route r = RoutingTable.Instance.search(new IpV4Address(testSearch_Text.Text));
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void delete_routeComboBox_Enter(object sender, EventArgs e)
+        {
+            delete_routeComboBox.Items.Clear();
+            for (int i = 0; i < RoutingTable.Instance.table.Count; i++)
+            {
+                Route r = RoutingTable.Instance.table.ElementAt(i);
+                delete_routeComboBox.Items.Add(r.ToString());
+            }
+        }
+
+        private void delete_routeButton_Click(object sender, EventArgs e)
+        {
+            // perform delete
+            RoutingTable.Instance.delete(delete_routeComboBox.Text);
+
+            // update table
+            Controller.Instance.gui.updateRoutingTable();
+
+            // refresh list
+            delete_routeComboBox.Items.Clear();
+            for (int i = 0; i < RoutingTable.Instance.table.Count; i++)
+            {
+                Route r = RoutingTable.Instance.table.ElementAt(i);
+                delete_routeComboBox.Items.Add(r.ToString());
+            }
+        }
+
+        private void log_richTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // set the current caret position to the end
+            log_richTextBox.SelectionStart = log_richTextBox.Text.Length;
+            // scroll it automatically
+            log_richTextBox.ScrollToCaret();
         }
     }
 }

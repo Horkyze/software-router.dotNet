@@ -32,6 +32,11 @@ namespace sw_router.Processing
             this.nextHop = next;
             this.outgoingInterfate = i;
         }
+
+        public string ToString()
+        {
+            return network.ToString() + "/" + mask.ToString() + " ad " + ad.ToString() + " via " + nextHop.ToString() + " interface " +outgoingInterfate.ToString();
+        }
     }
 
     class RoutingTable
@@ -54,14 +59,82 @@ namespace sw_router.Processing
             table = new List<Route>();      
         }
 
-        public void addRoute(Route r)
+        public void addRoute(Route route)
         {
-            table.Add(r);
+            for (int i = 0; i < table.Count; i++)
+            {
+                Route r = table.ElementAt(i);
+                if (r.ToString() == route.ToString())
+                {
+                    Logger.log("Cannot add same route twice");
+                    return;
+                }
+               
+            }
+
+            table.Add(route);
             Controller.Instance.gui.updateRoutingTable();
+        }
+
+        public void delete(string route)
+        {
+            for (int i = 0; i < table.Count; i++)
+            {
+                Route r = table.ElementAt(i);
+                if (r.ToString() == route)
+                {
+                    if (r.ad == Route.DIRECTLY_CONNECTED_AD)
+                    {
+                        Logger.log("Cannor remove directly connected route");
+                        break;
+                    }
+                    else
+                    {
+                        table.RemoveAt(i);
+                        break;
+                    }
+                    
+                }
+            }
+        }
+
+        public Route search(IpV4Address dstIp)
+        {
+            for (int i = 0; i < table.Count; i++)
+            {
+                Route r = table.ElementAt(i);
+                if (Utils.belongsToSubnet(dstIp, r.mask, r.network))
+                {
+                    if (r.outgoingInterfate == 0 || r.outgoingInterfate == 1)
+                    {
+                        Logger.log("Found route for " + dstIp.ToString());
+                        Logger.log(" " + r.ToString());
+                        return r;
+                    }
+                    if (r.outgoingInterfate == -1)
+                    {
+                        // perform recurvice routing search
+                        Logger.log("Recursive route search with " + r.nextHop.ToString());
+                        return search(r.nextHop);
+                    }
+                }
+            }
+            Logger.log("No route for " + dstIp.ToString());
+            return null;
         }
 
         public void updateDirectlyConnected()
         {
+            for (int i = 0; i < table.Count; i++)
+            {
+                Route r = table.ElementAt(i);
+                if(r.ad == Route.DIRECTLY_CONNECTED_AD)
+                {
+                    table.RemoveAt(i);
+                    i--;
+                }
+            }
+
             // add static routes
             for (int a = 0; a < 2; a++)
             {

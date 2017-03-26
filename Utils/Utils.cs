@@ -116,31 +116,19 @@ namespace sw_router
 
         }
 
-        /// <summary>
-        /// Returns network address of given ip address and mask
-        /// </summary>
-        /// <param name="address"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public static IpV4Address GetNetworkAddress(IpV4Address address, string mask)
+        public static IpV4Address GetNetworkAddress(IpV4Address address, int network_bits)
         {
+            UInt32 mask = 0xFFFFFFFF << (32 - network_bits);
+            return new IpV4Address(address.ToValue() & mask);
+        }
 
-            var ipMaskString = address.ToString().Split('.');
-            var maskString = mask.Split('.');
-            var net = "";
-            var i = 0;
+        public static bool belongsToSubnet(IpV4Address add, int network_bits, IpV4Address subnet)
+        {
+            UInt32 ip = add.ToValue();
+            UInt32 net = subnet.ToValue();
 
-            foreach (var part in ipMaskString)
-            {
-                var a = Convert.ToInt32(part, 10);
-                var b = Convert.ToInt32(maskString[i], 10);
-                net += (a & b).ToString() + (i < 4 ? "." : "");
-
-                i++;
-            }
-            var network = new IpV4Address(net);
-            return network;
-
+            UInt32 mask = 0xFFFFFFFF << (32 - network_bits);
+            return (net & mask) == (ip & mask);
         }
 
     }

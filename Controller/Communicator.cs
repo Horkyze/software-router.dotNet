@@ -1,5 +1,7 @@
 ﻿using PcapDotNet.Core;
 using PcapDotNet.Packets;
+using PcapDotNet.Packets.Ethernet;
+using PcapDotNet.Packets.IpV4;
 using sw_router.Processing;
 using System;
 using System.Threading;
@@ -23,7 +25,7 @@ namespace sw_router
             com = _netInterface.PcapDevice.Open(
                 65536, 
                 /*PacketDeviceOpenAttributes.NoCaptureLocal |*/ PacketDeviceOpenAttributes.Promiscuous, 
-                0
+                1000
             );
 
         }
@@ -49,10 +51,39 @@ namespace sw_router
                 return;
                 
             }*/
-            if (packet.Ethernet.EtherType == PcapDotNet.Packets.Ethernet.EthernetType.Arp)
+            if (packet.Ethernet.EtherType == EthernetType.Arp)
             {
                 Arp.Instance.process(packet, this);
                 return;
+            }
+            
+            if (packet.Ethernet.IpV4.Protocol == IpV4Protocol.InternetControlMessageProtocol)
+            {
+                if (packet.Ethernet.IpV4.Destination == _netInterface.IpV4Address &&
+                    packet.Ethernet.Destination == _netInterface.MacAddress)
+                    //Icmp.Instance.process(packet, this);
+                return;
+            }
+                        
+            //dont process non-IPv4 packets..
+            if (packet.Ethernet.EtherType != EthernetType.IpV4)
+                return;
+
+            Route r = RoutingTable.Instance.search(packet.Ethernet.IpV4.Destination);
+            if (r != null)
+            {
+
+                var ethLayer = (EthernetLayer)packet.Ethernet.ExtractLayer();
+                var ipLayer = (IpV4Layer)packet.Ethernet.IpV4.ExtractLayer();
+                var ipPayload = (PayloadLayer)packet.Ethernet.IpV4.Payload.ExtractLayer();
+
+                ethLayer.Destination = Arp.Instance.get(packet.Ethernet.IpV4.Destination, r.outgoingInterfate);
+                ethLayer.Source = Controller.Instance.netInterfaces[r.outgoingInterfate].MacAddress;
+
+                ILayer[] layers = { ethLayer, ipLayer, ipPayload };
+
+                var pkt = new PacketBuilder(layers).Build(DateTime.Now);
+                Controller.Instance.communicators[r.outgoingInterfate].inject(pkt);
             }
             
         }
@@ -60,6 +91,7 @@ namespace sw_router
         public void inject(Packet packet)
         {
             com.SendPacket(packet);
+            Logger.log("Inject int " + _netInterface.id );
         }
 
         public void listen()
@@ -71,27 +103,7 @@ namespace sw_router
                 Logger.log("  Mask:  " + _netInterface.NetMask);
                 Logger.log("  MAC:   " + _netInterface.MacAddress);            
             }
-            Packet packet;
-            do
-            {
-                PacketCommunicatorReceiveResult result = com.ReceivePacket(out packet);
-                switch (result)
-                {
-                    case PacketCommunicatorReceiveResult.Timeout:
-                        // Timeout elapsed
-                        continue;
-                    case PacketCommunicatorReceiveResult.Ok:
-                        //Logger.log(packet.Timestamp.ToString("yyyy-MM-dd hh:mm:ss.fff") + " length:" + packet.Length);
-                        lock (Controller.Instance.processPacketLock)
-                        {
-                            ProcessCapturedPacket(packet);
-                        }
-                        
-                        break;
-                    default:
-                        throw new InvalidOperationException("The result " + result + " shoudl never be reached here");
-                }
-            } while (true);
+            com.ReceivePackets(-1, ProcessCapturedPacket);
 
         }
     }

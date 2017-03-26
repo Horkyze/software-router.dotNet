@@ -124,7 +124,7 @@
             this.ldfg.Name = "ldfg";
             this.ldfg.Size = new System.Drawing.Size(58, 13);
             this.ldfg.TabIndex = 3;
-            this.ldfg.Text = "Interface 1";
+            this.ldfg.Text = "Interface 0";
             this.ldfg.Click += new System.EventHandler(this.label1_Click);
             // 
             // log_richTextBox
@@ -154,7 +154,7 @@
             this.ip_1.Name = "ip_1";
             this.ip_1.Size = new System.Drawing.Size(100, 20);
             this.ip_1.TabIndex = 7;
-            this.ip_1.Text = "10.0.1.1";
+            this.ip_1.Text = "10.0.0.250";
             this.ip_1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // mask_1
@@ -172,7 +172,7 @@
             this.ip_2.Name = "ip_2";
             this.ip_2.Size = new System.Drawing.Size(100, 20);
             this.ip_2.TabIndex = 9;
-            this.ip_2.Text = "10.0.2.1";
+            this.ip_2.Text = "10.10.0.1";
             // 
             // mask_2
             // 
@@ -180,7 +180,7 @@
             this.mask_2.Name = "mask_2";
             this.mask_2.Size = new System.Drawing.Size(38, 20);
             this.mask_2.TabIndex = 10;
-            this.mask_2.Text = "24";
+            this.mask_2.Text = "16";
             // 
             // label1
             // 
@@ -189,7 +189,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Interface 2";
+            this.label1.Text = "Interface 1";
             // 
             // apply_2
             // 
@@ -316,7 +316,7 @@
             this.arp_cache_timeout_textBox.Name = "arp_cache_timeout_textBox";
             this.arp_cache_timeout_textBox.Size = new System.Drawing.Size(42, 20);
             this.arp_cache_timeout_textBox.TabIndex = 23;
-            this.arp_cache_timeout_textBox.Text = "3";
+            this.arp_cache_timeout_textBox.Text = "100";
             // 
             // set_arpcache_timeout_button
             // 
@@ -345,7 +345,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
             this.label3.TabIndex = 20;
-            this.label3.Text = "Interface 2";
+            this.label3.Text = "Interface 1";
             // 
             // arping_button2
             // 
@@ -372,7 +372,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Interface 1";
+            this.label2.Text = "Interface 0";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // arping_button1

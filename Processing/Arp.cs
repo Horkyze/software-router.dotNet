@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PcapDotNet.Packets;
-using System.Data;
-using PcapDotNet.Packets.IpV4;
+﻿using PcapDotNet.Packets;
 using PcapDotNet.Packets.Ethernet;
-using System.Collections.ObjectModel;
+using PcapDotNet.Packets.IpV4;
 using sw_router.Builder;
+using System;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Threading;
 
 namespace sw_router.Processing
@@ -45,11 +41,34 @@ namespace sw_router.Processing
             //addArp(new IpV4Address(0)., new MacAddress("00:00:00:00:00:00"), DateTime.Now, 0);
         }
 
-        
+        public MacAddress get(IpV4Address ip, int netInterface)
+        {
+            arping(netInterface, ip.ToString());
+            DataRow row = searchArpCache(ip);
+            long now = DateTime.Now.Ticks;
+            int max_rounds = 100;            
+            do
+            {
+                row = searchArpCache(ip);
+                if (row == null)
+                {
+                    
+                }
+                else
+                {
+                    return new MacAddress(row["mac"].ToString());
+                }
+            } while (max_rounds > 0 || DateTime.Now.Ticks - now < 10000000);
+            
+            Logger.log("Host didnt respond to arping in time...");
+            return new MacAddress("ff:ff:ff:ff:ff:ff");
+        }
         
 
         public void checkOldArp()
         {
+            // dont delete
+            return;
             long value = 0;     
             while (true)
             {

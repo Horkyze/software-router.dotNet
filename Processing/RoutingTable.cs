@@ -33,7 +33,7 @@ namespace sw_router.Processing
             this.outgoingInterfate = i;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return network.ToString() + "/" + mask.ToString() + " ad " + ad.ToString() + " via " + nextHop.ToString() + " interface " +outgoingInterfate.ToString();
         }

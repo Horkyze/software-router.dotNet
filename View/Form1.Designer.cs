@@ -58,36 +58,42 @@
             this.label2 = new System.Windows.Forms.Label();
             this.arping_button1 = new System.Windows.Forms.Button();
             this.arping_textBox1 = new System.Windows.Forms.TextBox();
-            this.arpTable_grid = new System.Windows.Forms.DataGridView();
             this.routing_tab = new System.Windows.Forms.TabPage();
+            this.delete_routeButton = new System.Windows.Forms.Button();
+            this.delete_routeComboBox = new System.Windows.Forms.ComboBox();
+            this.test_searchButton = new System.Windows.Forms.Button();
+            this.testSearch_Text = new System.Windows.Forms.TextBox();
+            this.static_intConbo = new System.Windows.Forms.ComboBox();
+            this.static_addButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.static_ipText = new System.Windows.Forms.TextBox();
+            this.static_maskText = new System.Windows.Forms.TextBox();
+            this.static_networkText = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.route_dataGridView = new System.Windows.Forms.DataGridView();
             this.Network = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.static_networkText = new System.Windows.Forms.TextBox();
-            this.static_maskText = new System.Windows.Forms.TextBox();
-            this.static_ipText = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.static_addButton = new System.Windows.Forms.Button();
-            this.static_intConbo = new System.Windows.Forms.ComboBox();
-            this.testSearch_Text = new System.Windows.Forms.TextBox();
-            this.test_searchButton = new System.Windows.Forms.Button();
-            this.delete_routeComboBox = new System.Windows.Forms.ComboBox();
-            this.delete_routeButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.arp_testSearchTextBox = new System.Windows.Forms.TextBox();
+            this.arpTable_grid = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
             this.routing_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -130,7 +136,7 @@
             // log_richTextBox
             // 
             this.log_richTextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.log_richTextBox.Location = new System.Drawing.Point(15, 446);
+            this.log_richTextBox.Location = new System.Drawing.Point(17, 366);
             this.log_richTextBox.Name = "log_richTextBox";
             this.log_richTextBox.Size = new System.Drawing.Size(1088, 291);
             this.log_richTextBox.TabIndex = 4;
@@ -154,7 +160,7 @@
             this.ip_1.Name = "ip_1";
             this.ip_1.Size = new System.Drawing.Size(100, 20);
             this.ip_1.TabIndex = 7;
-            this.ip_1.Text = "10.0.0.250";
+            this.ip_1.Text = "10.0.0.99";
             this.ip_1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // mask_1
@@ -287,11 +293,14 @@
             this.mac_1.Name = "mac_1";
             this.mac_1.Size = new System.Drawing.Size(100, 20);
             this.mac_1.TabIndex = 17;
-            this.mac_1.Text = "1E:00:00:00:00:01";
+            this.mac_1.Text = "2E:00:00:00:00:01";
             this.mac_1.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.arpTable_grid);
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.arp_testSearchTextBox);
             this.tabPage2.Controls.Add(this.arp_cache_timeout_textBox);
             this.tabPage2.Controls.Add(this.set_arpcache_timeout_button);
             this.tabPage2.Controls.Add(this.clear_arp_button);
@@ -301,7 +310,6 @@
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.arping_button1);
             this.tabPage2.Controls.Add(this.arping_textBox1);
-            this.tabPage2.Controls.Add(this.arpTable_grid);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -393,19 +401,6 @@
             this.arping_textBox1.TabIndex = 15;
             this.arping_textBox1.Text = "10.0.1.2";
             // 
-            // arpTable_grid
-            // 
-            this.arpTable_grid.AllowUserToAddRows = false;
-            this.arpTable_grid.AllowUserToDeleteRows = false;
-            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.arpTable_grid.Location = new System.Drawing.Point(6, 6);
-            this.arpTable_grid.Name = "arpTable_grid";
-            this.arpTable_grid.ReadOnly = true;
-            this.arpTable_grid.Size = new System.Drawing.Size(630, 250);
-            this.arpTable_grid.TabIndex = 0;
-            this.arpTable_grid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.arpTable_grid_CellContentClick);
-            this.arpTable_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.arpTable_grid_CellFormatting);
-            // 
             // routing_tab
             // 
             this.routing_tab.Controls.Add(this.delete_routeButton);
@@ -432,6 +427,151 @@
             this.routing_tab.TabIndex = 2;
             this.routing_tab.Text = "Routing";
             this.routing_tab.UseVisualStyleBackColor = true;
+            // 
+            // delete_routeButton
+            // 
+            this.delete_routeButton.Location = new System.Drawing.Point(1004, 182);
+            this.delete_routeButton.Name = "delete_routeButton";
+            this.delete_routeButton.Size = new System.Drawing.Size(64, 23);
+            this.delete_routeButton.TabIndex = 18;
+            this.delete_routeButton.Text = "Delete";
+            this.delete_routeButton.UseVisualStyleBackColor = true;
+            this.delete_routeButton.Click += new System.EventHandler(this.delete_routeButton_Click);
+            // 
+            // delete_routeComboBox
+            // 
+            this.delete_routeComboBox.FormattingEnabled = true;
+            this.delete_routeComboBox.Location = new System.Drawing.Point(684, 184);
+            this.delete_routeComboBox.Name = "delete_routeComboBox";
+            this.delete_routeComboBox.Size = new System.Drawing.Size(314, 21);
+            this.delete_routeComboBox.TabIndex = 17;
+            this.delete_routeComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.delete_routeComboBox.Enter += new System.EventHandler(this.delete_routeComboBox_Enter);
+            // 
+            // test_searchButton
+            // 
+            this.test_searchButton.Location = new System.Drawing.Point(944, 265);
+            this.test_searchButton.Name = "test_searchButton";
+            this.test_searchButton.Size = new System.Drawing.Size(124, 23);
+            this.test_searchButton.TabIndex = 16;
+            this.test_searchButton.Text = "Test Search";
+            this.test_searchButton.UseVisualStyleBackColor = true;
+            this.test_searchButton.Click += new System.EventHandler(this.test_searchButton_Click);
+            // 
+            // testSearch_Text
+            // 
+            this.testSearch_Text.Location = new System.Drawing.Point(838, 267);
+            this.testSearch_Text.Name = "testSearch_Text";
+            this.testSearch_Text.Size = new System.Drawing.Size(100, 20);
+            this.testSearch_Text.TabIndex = 15;
+            // 
+            // static_intConbo
+            // 
+            this.static_intConbo.FormattingEnabled = true;
+            this.static_intConbo.Items.AddRange(new object[] {
+            "0",
+            "1"});
+            this.static_intConbo.Location = new System.Drawing.Point(968, 92);
+            this.static_intConbo.Name = "static_intConbo";
+            this.static_intConbo.Size = new System.Drawing.Size(54, 21);
+            this.static_intConbo.TabIndex = 14;
+            this.static_intConbo.Text = "none";
+            // 
+            // static_addButton
+            // 
+            this.static_addButton.Location = new System.Drawing.Point(944, 118);
+            this.static_addButton.Name = "static_addButton";
+            this.static_addButton.Size = new System.Drawing.Size(124, 23);
+            this.static_addButton.TabIndex = 13;
+            this.static_addButton.Text = "Add Static Route";
+            this.static_addButton.UseVisualStyleBackColor = true;
+            this.static_addButton.Click += new System.EventHandler(this.static_addButton_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(870, 95);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(92, 13);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "Nexthop Interface";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(929, 43);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(33, 13);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Mask";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(915, 17);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Network";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(902, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(60, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Nexthop IP";
+            // 
+            // static_ipText
+            // 
+            this.static_ipText.Location = new System.Drawing.Point(968, 66);
+            this.static_ipText.Name = "static_ipText";
+            this.static_ipText.Size = new System.Drawing.Size(100, 20);
+            this.static_ipText.TabIndex = 7;
+            // 
+            // static_maskText
+            // 
+            this.static_maskText.Location = new System.Drawing.Point(968, 40);
+            this.static_maskText.Name = "static_maskText";
+            this.static_maskText.Size = new System.Drawing.Size(38, 20);
+            this.static_maskText.TabIndex = 6;
+            // 
+            // static_networkText
+            // 
+            this.static_networkText.Location = new System.Drawing.Point(968, 14);
+            this.static_networkText.Name = "static_networkText";
+            this.static_networkText.Size = new System.Drawing.Size(100, 20);
+            this.static_networkText.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(681, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 13);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "110 - RIP";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(681, 31);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "1 - Static";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(681, 15);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(111, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "0 - Directly connected";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // route_dataGridView
             // 
@@ -475,156 +615,61 @@
             this.OutInterface.Name = "OutInterface";
             this.OutInterface.Width = 150;
             // 
-            // label4
+            // button2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(681, 15);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "0 - Directly connected";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            this.button2.Location = new System.Drawing.Point(851, 163);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 23);
+            this.button2.TabIndex = 25;
+            this.button2.Text = "Test search";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label5
+            // arp_testSearchTextBox
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(681, 31);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "1 - Static";
+            this.arp_testSearchTextBox.Location = new System.Drawing.Point(730, 165);
+            this.arp_testSearchTextBox.Name = "arp_testSearchTextBox";
+            this.arp_testSearchTextBox.Size = new System.Drawing.Size(100, 20);
+            this.arp_testSearchTextBox.TabIndex = 24;
             // 
-            // label6
+            // arpTable_grid
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(681, 47);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 13);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "110 - RIP";
+            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.arpTable_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4});
+            this.arpTable_grid.Location = new System.Drawing.Point(6, 3);
+            this.arpTable_grid.Name = "arpTable_grid";
+            this.arpTable_grid.Size = new System.Drawing.Size(618, 283);
+            this.arpTable_grid.TabIndex = 26;
             // 
-            // static_networkText
+            // Column1
             // 
-            this.static_networkText.Location = new System.Drawing.Point(968, 14);
-            this.static_networkText.Name = "static_networkText";
-            this.static_networkText.Size = new System.Drawing.Size(100, 20);
-            this.static_networkText.TabIndex = 5;
+            this.Column1.HeaderText = "IP";
+            this.Column1.Name = "Column1";
             // 
-            // static_maskText
+            // Column2
             // 
-            this.static_maskText.Location = new System.Drawing.Point(968, 40);
-            this.static_maskText.Name = "static_maskText";
-            this.static_maskText.Size = new System.Drawing.Size(38, 20);
-            this.static_maskText.TabIndex = 6;
+            this.Column2.HeaderText = "Mac";
+            this.Column2.Name = "Column2";
             // 
-            // static_ipText
+            // Column3
             // 
-            this.static_ipText.Location = new System.Drawing.Point(968, 66);
-            this.static_ipText.Name = "static_ipText";
-            this.static_ipText.Size = new System.Drawing.Size(100, 20);
-            this.static_ipText.TabIndex = 7;
+            this.Column3.HeaderText = "Time";
+            this.Column3.Name = "Column3";
             // 
-            // label7
+            // Column4
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(902, 69);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(60, 13);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "Nexthop IP";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(915, 17);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 13);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "Network";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(929, 43);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(33, 13);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "Mask";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(870, 95);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(92, 13);
-            this.label10.TabIndex = 12;
-            this.label10.Text = "Nexthop Interface";
-            // 
-            // static_addButton
-            // 
-            this.static_addButton.Location = new System.Drawing.Point(944, 118);
-            this.static_addButton.Name = "static_addButton";
-            this.static_addButton.Size = new System.Drawing.Size(124, 23);
-            this.static_addButton.TabIndex = 13;
-            this.static_addButton.Text = "Add Static Route";
-            this.static_addButton.UseVisualStyleBackColor = true;
-            this.static_addButton.Click += new System.EventHandler(this.static_addButton_Click);
-            // 
-            // static_intConbo
-            // 
-            this.static_intConbo.FormattingEnabled = true;
-            this.static_intConbo.Items.AddRange(new object[] {
-            "0",
-            "1"});
-            this.static_intConbo.Location = new System.Drawing.Point(968, 92);
-            this.static_intConbo.Name = "static_intConbo";
-            this.static_intConbo.Size = new System.Drawing.Size(54, 21);
-            this.static_intConbo.TabIndex = 14;
-            this.static_intConbo.Text = "none";
-            // 
-            // testSearch_Text
-            // 
-            this.testSearch_Text.Location = new System.Drawing.Point(838, 267);
-            this.testSearch_Text.Name = "testSearch_Text";
-            this.testSearch_Text.Size = new System.Drawing.Size(100, 20);
-            this.testSearch_Text.TabIndex = 15;
-            // 
-            // test_searchButton
-            // 
-            this.test_searchButton.Location = new System.Drawing.Point(944, 265);
-            this.test_searchButton.Name = "test_searchButton";
-            this.test_searchButton.Size = new System.Drawing.Size(124, 23);
-            this.test_searchButton.TabIndex = 16;
-            this.test_searchButton.Text = "Test Search";
-            this.test_searchButton.UseVisualStyleBackColor = true;
-            this.test_searchButton.Click += new System.EventHandler(this.test_searchButton_Click);
-            // 
-            // delete_routeComboBox
-            // 
-            this.delete_routeComboBox.FormattingEnabled = true;
-            this.delete_routeComboBox.Location = new System.Drawing.Point(684, 184);
-            this.delete_routeComboBox.Name = "delete_routeComboBox";
-            this.delete_routeComboBox.Size = new System.Drawing.Size(314, 21);
-            this.delete_routeComboBox.TabIndex = 17;
-            this.delete_routeComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            this.delete_routeComboBox.Enter += new System.EventHandler(this.delete_routeComboBox_Enter);
-            // 
-            // delete_routeButton
-            // 
-            this.delete_routeButton.Location = new System.Drawing.Point(1004, 182);
-            this.delete_routeButton.Name = "delete_routeButton";
-            this.delete_routeButton.Size = new System.Drawing.Size(64, 23);
-            this.delete_routeButton.TabIndex = 18;
-            this.delete_routeButton.Text = "Delete";
-            this.delete_routeButton.UseVisualStyleBackColor = true;
-            this.delete_routeButton.Click += new System.EventHandler(this.delete_routeButton_Click);
+            this.Column4.HeaderText = "Interface";
+            this.Column4.Name = "Column4";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1117, 765);
+            this.ClientSize = new System.Drawing.Size(1117, 669);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.log_richTextBox);
             this.Name = "Form1";
@@ -636,10 +681,10 @@
             this.interface_tab.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).EndInit();
             this.routing_tab.ResumeLayout(false);
             this.routing_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -665,7 +710,6 @@
         private System.Windows.Forms.TabPage interface_tab;
         private System.Windows.Forms.TabPage tabPage2;
         public System.Windows.Forms.RichTextBox log_richTextBox;
-        private System.Windows.Forms.DataGridView arpTable_grid;
         private System.Windows.Forms.TextBox mac_1;
         private System.Windows.Forms.TextBox mac_2;
         private System.Windows.Forms.Label label2;
@@ -700,6 +744,13 @@
         private System.Windows.Forms.TextBox testSearch_Text;
         private System.Windows.Forms.Button delete_routeButton;
         private System.Windows.Forms.ComboBox delete_routeComboBox;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox arp_testSearchTextBox;
+        private System.Windows.Forms.DataGridView arpTable_grid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
     }
 }
 

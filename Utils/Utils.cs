@@ -108,6 +108,18 @@ namespace sw_router
 
         }
 
+        public static bool isIPv4Multicast(IpV4Address ip)
+        {
+            return belongsToSubnet(ip, 28, new IpV4Address("224.0.0.0"));
+        }
+
+        public static bool isIPv4Broadcast(IpV4Address ip, int network_bits, IpV4Address subnet)
+        {
+            if (belongsToSubnet(ip, network_bits, subnet) && !belongsToSubnet(new IpV4Address(ip.ToValue() + 1), network_bits, subnet))
+                return true;
+            return false;
+        }
+
         public static IpV4Address GetNetworkAddress(IpV4Address address, int network_bits)
         {
             UInt32 mask = 0xFFFFFFFF << (32 - network_bits);
@@ -121,6 +133,28 @@ namespace sw_router
 
             UInt32 mask = 0xFFFFFFFF << (32 - network_bits);
             return (net & mask) == (ip & mask);
+        }
+
+        public static void tests()
+        {
+            if (! isIPv4Multicast(new IpV4Address("239.255.255.250")))
+            {
+                Logger.log("TEST FAILED !isIPv4Multicast");
+            }
+            if (isIPv4Multicast(new IpV4Address("172.30.5.255")))
+            {
+                Logger.log("TEST FAILED isIPv4Multicast");
+            }
+
+            if (!isIPv4Broadcast(new IpV4Address("10.10.255.255"), 16, new IpV4Address("255.255.0.0")))
+            {
+                Logger.log("TEST FAILED isIPv4Multicast");
+            }
+            if (isIPv4Broadcast(new IpV4Address("192.168.255.25"), 24, new IpV4Address("255.255.255.0")))
+            {
+                Logger.log("TEST FAILED isIPv4Multicast");
+            }
+
         }
 
     }

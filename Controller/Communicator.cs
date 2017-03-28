@@ -24,7 +24,7 @@ namespace sw_router
             _netInterface = i;
             com = _netInterface.PcapDevice.Open(
                 65536, 
-                /*PacketDeviceOpenAttributes.NoCaptureLocal |*/ PacketDeviceOpenAttributes.Promiscuous, 
+                PacketDeviceOpenAttributes.NoCaptureLocal | PacketDeviceOpenAttributes.Promiscuous, 
                 1000
             );
 
@@ -68,6 +68,19 @@ namespace sw_router
             //dont process non-IPv4 packets..
             if (packet.Ethernet.EtherType != EthernetType.IpV4)
                 return;
+
+            // dont process broadcast ips
+            if (Utils.isIPv4Broadcast(packet.Ethernet.IpV4.Destination, this._netInterface.NetMask, this._netInterface.IpV4Address))
+            {
+                Logger.log("Drop broadcast..");
+                return;
+            }
+            // dont process multicast ips
+            if (Utils.isIPv4Multicast(packet.Ethernet.IpV4.Destination))
+            {
+                Logger.log("Drop multicast..");
+                return;
+            }
 
             Route r = RoutingTable.Instance.search(packet.Ethernet.IpV4.Destination);
             if (r != null)

@@ -50,17 +50,37 @@ namespace sw_router
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 1;
 
-
-            arpTable_grid.DataSource = sw_router.Processing.Arp.Instance.arpTable;
-            arpTable_grid.AutoGenerateColumns = true;
-            arpTable_grid.Visible = true;
-            arpTable_grid.Refresh();
-
         }
 
         public void refresArpTable()
         {
-            arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Refresh()));
+            // empty
+            if (this.InvokeRequired)
+                arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Rows.Clear()));
+            else
+                arpTable_grid.Rows.Clear();
+
+            // update
+            for (int i = 0; i < Arp.Instance.arpTable.Count; i++)
+            {
+                ArpEntry entry = Arp.Instance.arpTable[i];
+                object[] data = new object[] {
+                    entry.ip,
+                    entry.mac,
+                    entry.time,
+                    entry.netInterface
+                };
+                if (this.InvokeRequired)
+                    arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Rows.Add(data)));
+                else
+                    arpTable_grid.Rows.Add(data);
+            }
+
+            // refresh
+            if (this.InvokeRequired)
+                arpTable_grid.Invoke((MethodInvoker)(() => arpTable_grid.Refresh()));
+            else
+                arpTable_grid.Refresh();
         }
 
         public void updateRoutingTable()
@@ -93,11 +113,6 @@ namespace sw_router
                 route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Refresh()));
             else
                 route_dataGridView.Refresh();
-        }
-
-        public void refresRoutingTable()
-        {
-            route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Refresh()));
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -301,6 +316,19 @@ namespace sw_router
             log_richTextBox.SelectionStart = log_richTextBox.Text.Length;
             // scroll it automatically
             log_richTextBox.ScrollToCaret();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ArpEntry entry = Arp.Instance.searchArpCache(new IpV4Address(arp_testSearchTextBox.Text));
+            if (entry != null)
+            {
+                Logger.log("Arp test search: "+entry.ToString());
+            }
+            else
+            {
+                Logger.log("Arp test search - no result ");
+            }
         }
     }
 }

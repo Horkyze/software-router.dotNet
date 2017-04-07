@@ -39,19 +39,20 @@ namespace sw_router.Processing
                     // send reply
                     var ethLayer = (EthernetLayer)packet.Ethernet.ExtractLayer();
                     var ipLayer = (IpV4Layer)packet.Ethernet.IpV4.ExtractLayer();
-                    var icmpPayload = (IcmpEchoLayer)packet.Ethernet.IpV4.Icmp.ExtractLayer();
+                    var icmpHdr = (IcmpEchoLayer)packet.Ethernet.IpV4.Icmp.ExtractLayer();
+                    var icmpPayload = (PayloadLayer)packet.Ethernet.IpV4.Icmp.Payload.ExtractLayer();
 
-                    ethLayer.Destination = Arp.Instance.get(packet.Ethernet.IpV4.Destination, com._netInterface.id);
+                    ethLayer.Destination = Arp.Instance.get(packet.Ethernet.IpV4.Source, com._netInterface.id);
                     ethLayer.Source = com._netInterface.MacAddress;
                     
                     ipLayer.CurrentDestination = ipLayer.Source;
                     ipLayer.Source = com._netInterface.IpV4Address;
 
                     var replyLayer = new IcmpEchoReplyLayer();
-                    replyLayer.SequenceNumber = icmpPayload.SequenceNumber;
-                    replyLayer.Identifier = icmpPayload.Identifier;
+                    replyLayer.SequenceNumber = icmpHdr.SequenceNumber;
+                    replyLayer.Identifier = icmpHdr.Identifier;
                     
-                    ILayer[] layers = { ethLayer, ipLayer, replyLayer };
+                    ILayer[] layers = { ethLayer, ipLayer, replyLayer, icmpPayload };
 
                     var pkt = new PacketBuilder(layers).Build(DateTime.Now);
                     Controller.Instance.communicators[com._netInterface.id].inject(pkt);

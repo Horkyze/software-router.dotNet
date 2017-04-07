@@ -57,11 +57,12 @@ namespace sw_router
                 return;
             }
             
+            // ICMP
             if (packet.Ethernet.IpV4.Protocol == IpV4Protocol.InternetControlMessageProtocol)
             {
                 if (packet.Ethernet.IpV4.Destination == _netInterface.IpV4Address &&
                     packet.Ethernet.Destination == _netInterface.MacAddress)
-                    //Icmp.Instance.process(packet, this);
+                    Icmp.Instance.process(packet, this);
                 return;
             }
                         
@@ -82,10 +83,23 @@ namespace sw_router
                 return;
             }
 
+            // IP packet just for me?
+            if (packet.Ethernet.IpV4.Destination == this._netInterface.IpV4Address)
+            {
+                // nah, i only ping out, drop..., or? TODO
+                return;
+            }
+            
+            // find route for packet
             Route r = RoutingTable.Instance.search(packet.Ethernet.IpV4.Destination);
             if (r != null)
             {
 
+                // do not reply to the same interface?? TODO !!!
+                if (r.outgoingInterfate == this._netInterface.id)
+                {
+                    return;
+                }
                 var ethLayer = (EthernetLayer)packet.Ethernet.ExtractLayer();
                 var ipLayer = (IpV4Layer)packet.Ethernet.IpV4.ExtractLayer();
                 var ipPayload = (PayloadLayer)packet.Ethernet.IpV4.Payload.ExtractLayer();

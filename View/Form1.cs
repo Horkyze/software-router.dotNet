@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,7 +36,7 @@ namespace sw_router
                 Logger.log("!!! No interfaces found! Make sure WinPcap is installed.");
                 return;
             }
-
+            Thread.Sleep(500);
             Logger.log("Available adapters: ");
             for (int i = 0; i != allDevices.Count; ++i)
             {
@@ -47,8 +48,8 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description+device.Name);
                 comboBox2.Items.Add(device.Description+device.Name);
             }
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 1;
+            comboBox1.SelectedIndex = 3;
+            comboBox2.SelectedIndex = 4;
 
         }
 

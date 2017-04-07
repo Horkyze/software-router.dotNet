@@ -49,6 +49,13 @@
             this.mac_2 = new System.Windows.Forms.TextBox();
             this.mac_1 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.arpTable_grid = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button2 = new System.Windows.Forms.Button();
+            this.arp_testSearchTextBox = new System.Windows.Forms.TextBox();
             this.arp_cache_timeout_textBox = new System.Windows.Forms.TextBox();
             this.set_arpcache_timeout_button = new System.Windows.Forms.Button();
             this.clear_arp_button = new System.Windows.Forms.Button();
@@ -81,19 +88,12 @@
             this.ad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button2 = new System.Windows.Forms.Button();
-            this.arp_testSearchTextBox = new System.Windows.Forms.TextBox();
-            this.arpTable_grid = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
             this.routing_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -160,7 +160,7 @@
             this.ip_1.Name = "ip_1";
             this.ip_1.Size = new System.Drawing.Size(100, 20);
             this.ip_1.TabIndex = 7;
-            this.ip_1.Text = "10.0.0.99";
+            this.ip_1.Text = "10.0.0.2";
             this.ip_1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // mask_1
@@ -169,7 +169,7 @@
             this.mask_1.Name = "mask_1";
             this.mask_1.Size = new System.Drawing.Size(38, 20);
             this.mask_1.TabIndex = 8;
-            this.mask_1.Text = "24";
+            this.mask_1.Text = "30";
             this.mask_1.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // ip_2
@@ -178,7 +178,7 @@
             this.ip_2.Name = "ip_2";
             this.ip_2.Size = new System.Drawing.Size(100, 20);
             this.ip_2.TabIndex = 9;
-            this.ip_2.Text = "10.10.0.1";
+            this.ip_2.Text = "172.16.0.1";
             // 
             // mask_2
             // 
@@ -186,7 +186,7 @@
             this.mask_2.Name = "mask_2";
             this.mask_2.Size = new System.Drawing.Size(38, 20);
             this.mask_2.TabIndex = 10;
-            this.mask_2.Text = "16";
+            this.mask_2.Text = "28";
             // 
             // label1
             // 
@@ -213,7 +213,6 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 13;
-            this.textBox5.Text = "10.0.1.2";
             // 
             // button4
             // 
@@ -239,7 +238,6 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 15;
-            this.textBox6.Text = "10.0.2.2";
             // 
             // tab_control
             // 
@@ -318,6 +316,56 @@
             this.tabPage2.Text = "ARP";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // arpTable_grid
+            // 
+            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.arpTable_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4});
+            this.arpTable_grid.Location = new System.Drawing.Point(6, 3);
+            this.arpTable_grid.Name = "arpTable_grid";
+            this.arpTable_grid.Size = new System.Drawing.Size(618, 283);
+            this.arpTable_grid.TabIndex = 26;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "IP";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Mac";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Time";
+            this.Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Interface";
+            this.Column4.Name = "Column4";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(851, 163);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 23);
+            this.button2.TabIndex = 25;
+            this.button2.Text = "Test search";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // arp_testSearchTextBox
+            // 
+            this.arp_testSearchTextBox.Location = new System.Drawing.Point(730, 165);
+            this.arp_testSearchTextBox.Name = "arp_testSearchTextBox";
+            this.arp_testSearchTextBox.Size = new System.Drawing.Size(100, 20);
+            this.arp_testSearchTextBox.TabIndex = 24;
+            // 
             // arp_cache_timeout_textBox
             // 
             this.arp_cache_timeout_textBox.Location = new System.Drawing.Point(657, 17);
@@ -371,7 +419,6 @@
             this.arping_textBox2.Name = "arping_textBox2";
             this.arping_textBox2.Size = new System.Drawing.Size(100, 20);
             this.arping_textBox2.TabIndex = 18;
-            this.arping_textBox2.Text = "10.0.1.2";
             // 
             // label2
             // 
@@ -399,7 +446,6 @@
             this.arping_textBox1.Name = "arping_textBox1";
             this.arping_textBox1.Size = new System.Drawing.Size(100, 20);
             this.arping_textBox1.TabIndex = 15;
-            this.arping_textBox1.Text = "10.0.1.2";
             // 
             // routing_tab
             // 
@@ -615,56 +661,6 @@
             this.OutInterface.Name = "OutInterface";
             this.OutInterface.Width = 150;
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(851, 163);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 23);
-            this.button2.TabIndex = 25;
-            this.button2.Text = "Test search";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // arp_testSearchTextBox
-            // 
-            this.arp_testSearchTextBox.Location = new System.Drawing.Point(730, 165);
-            this.arp_testSearchTextBox.Name = "arp_testSearchTextBox";
-            this.arp_testSearchTextBox.Size = new System.Drawing.Size(100, 20);
-            this.arp_testSearchTextBox.TabIndex = 24;
-            // 
-            // arpTable_grid
-            // 
-            this.arpTable_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.arpTable_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
-            this.arpTable_grid.Location = new System.Drawing.Point(6, 3);
-            this.arpTable_grid.Name = "arpTable_grid";
-            this.arpTable_grid.Size = new System.Drawing.Size(618, 283);
-            this.arpTable_grid.TabIndex = 26;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "IP";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Mac";
-            this.Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Time";
-            this.Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Interface";
-            this.Column4.Name = "Column4";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,10 +677,10 @@
             this.interface_tab.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).EndInit();
             this.routing_tab.ResumeLayout(false);
             this.routing_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).EndInit();
             this.ResumeLayout(false);
 
         }

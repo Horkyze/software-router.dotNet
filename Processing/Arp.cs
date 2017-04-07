@@ -66,14 +66,15 @@ namespace sw_router.Processing
         public MacAddress get(IpV4Address ip, int netInterface)
         {
             ArpEntry entry = searchArpCache(ip);
-            int max_rounds = 10;            
+            int max_rounds = 2;            
             do
             {
                 entry = searchArpCache(ip);
                 if (entry == null)
                 {
+                    Logger.log("Getting mac (via ARP) for ip: " + ip.ToString());
                     arping(netInterface, ip.ToString());
-                    Thread.Sleep(1100);
+                    Thread.Sleep(500);
                 }
                 else
                 {
@@ -199,7 +200,13 @@ namespace sw_router.Processing
                 }
             } else // proxy arp
             {
-
+                Route r = RoutingTable.Instance.search(packet.Ethernet.Arp.TargetProtocolIpV4Address);
+                if (r != null)
+                {
+                    Logger.log("Proxy arp - " + packet.Ethernet.Arp.TargetProtocolIpV4Address);
+                    Packet response = ArpBuilder.BuildRepy(packet, com._netInterface);
+                    com.inject(response);
+                }
             }
             Controller.Instance.gui.refresArpTable();
         }

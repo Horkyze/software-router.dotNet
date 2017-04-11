@@ -63,7 +63,7 @@ namespace sw_router
                 if (packet.Ethernet.IpV4.Destination == _netInterface.IpV4Address &&
                     packet.Ethernet.Destination == _netInterface.MacAddress)
                     Icmp.Instance.process(packet, this);
-                return;
+                //return;
             }
                         
             //dont process non-IPv4 packets..

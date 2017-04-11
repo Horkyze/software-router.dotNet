@@ -66,6 +66,7 @@
             this.arping_button1 = new System.Windows.Forms.Button();
             this.arping_textBox1 = new System.Windows.Forms.TextBox();
             this.routing_tab = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.delete_routeButton = new System.Windows.Forms.Button();
             this.delete_routeComboBox = new System.Windows.Forms.ComboBox();
             this.test_searchButton = new System.Windows.Forms.Button();
@@ -89,12 +90,11 @@
             this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RIP = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -168,7 +168,7 @@
             this.ip_1.Name = "ip_1";
             this.ip_1.Size = new System.Drawing.Size(100, 20);
             this.ip_1.TabIndex = 7;
-            this.ip_1.Text = "10.0.0.2";
+            this.ip_1.Text = "172.16.1.2";
             this.ip_1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // mask_1
@@ -186,7 +186,7 @@
             this.ip_2.Name = "ip_2";
             this.ip_2.Size = new System.Drawing.Size(100, 20);
             this.ip_2.TabIndex = 9;
-            this.ip_2.Text = "172.16.0.1";
+            this.ip_2.Text = "192.168.0.1";
             // 
             // mask_2
             // 
@@ -194,7 +194,7 @@
             this.mask_2.Name = "mask_2";
             this.mask_2.Size = new System.Drawing.Size(38, 20);
             this.mask_2.TabIndex = 10;
-            this.mask_2.Text = "28";
+            this.mask_2.Text = "24";
             // 
             // label1
             // 
@@ -484,6 +484,16 @@
             this.routing_tab.Text = "Routing";
             this.routing_tab.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(684, 264);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(124, 23);
+            this.button7.TabIndex = 19;
+            this.button7.Text = "Run Tests";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // delete_routeButton
             // 
             this.delete_routeButton.Location = new System.Drawing.Point(1004, 182);
@@ -686,29 +696,14 @@
             this.RIP.Text = "RIP";
             this.RIP.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // button6
             // 
-            this.textBox1.Location = new System.Drawing.Point(615, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 0;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(9, 31);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(301, 96);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(9, 264);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(212, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "RIP On / Off";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button6.Location = new System.Drawing.Point(201, 133);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(109, 23);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "Apply";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -719,24 +714,29 @@
             this.label11.TabIndex = 3;
             this.label11.Text = "Insert ip addresses below (corresponding to network command)";
             // 
-            // button6
+            // button3
             // 
-            this.button6.Location = new System.Drawing.Point(201, 133);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(109, 23);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "Apply";
-            this.button6.UseVisualStyleBackColor = true;
+            this.button3.Location = new System.Drawing.Point(9, 264);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(212, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "RIP On / Off";
+            this.button3.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // richTextBox1
             // 
-            this.button7.Location = new System.Drawing.Point(684, 264);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(124, 23);
-            this.button7.TabIndex = 19;
-            this.button7.Text = "Run Tests";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.richTextBox1.Location = new System.Drawing.Point(9, 31);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(301, 96);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(615, 79);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 0;
             // 
             // Form1
             // 

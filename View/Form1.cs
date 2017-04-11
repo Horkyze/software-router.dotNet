@@ -48,8 +48,8 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description+device.Name);
                 comboBox2.Items.Add(device.Description+device.Name);
             }
-            comboBox1.SelectedIndex = 3;
-            comboBox2.SelectedIndex = 4;
+            comboBox1.SelectedIndex = 1;
+            comboBox2.SelectedIndex = 3;
 
         }
 

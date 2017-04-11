@@ -17,7 +17,7 @@ namespace sw_router
         public IpV4Address IpV4Address { get; set; }
         public MacAddress MacAddress { get; set; }
         public int NetMask { get; set; }
-        public int id { get; }
+        public int id { get; set; }
 
         public NetInterface(LivePacketDevice d, int id)
         {

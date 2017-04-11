@@ -154,7 +154,7 @@ namespace sw_router
 
         public static bool belongsToSubnet(IpV4Address add, int network_bits, IpV4Address subnet)
         {
-            if (network_bits == 32)
+            if (network_bits == 0)
             {
                 return true;
             }

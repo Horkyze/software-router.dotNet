@@ -69,6 +69,7 @@ namespace sw_router.Processing
             int max_rounds = 2;            
             do
             {
+                // TODO: shall i wait for arp reply or just sed request and drop packet?
                 entry = searchArpCache(ip);
                 if (entry == null)
                 {

@@ -54,6 +54,8 @@ namespace sw_router.Processing
         private Object _tableLock = new Object();
         public List<Route> table;
         private List<Route> potecialRoutes = new List<Route>();
+        private object lock_potecialRoutes = new Object();
+
 
         public RoutingTable()
         {
@@ -102,34 +104,36 @@ namespace sw_router.Processing
         public Route search(IpV4Address dstIp)
         {
             Route best = null;
-            this.potecialRoutes.Clear();
-            getAllRoutes(dstIp);
+            lock(lock_potecialRoutes) {
+
+                this.potecialRoutes.Clear();
+                getAllRoutes(dstIp);
             
 
-            foreach (Route r in this.potecialRoutes)
-            {
-                if (best == null)
-                    best = r;
-
-                if (r.ad < best.ad || r.metric < best.metric || r.mask > best.mask)
-                    best = r;
-            }
-            if (best != null)
-            {
-                Logger.log("Potencial routes for " + dstIp.ToString());
                 foreach (Route r in this.potecialRoutes)
                 {
-                    if(r.ToString() == best.ToString())
-                        Logger.log("> " + r.ToString());
-                    Logger.log("  " + r.ToString());
+                    if (best == null)
+                        best = r;
 
+                    if (r.ad < best.ad || r.metric < best.metric || r.mask > best.mask)
+                        best = r;
+                }
+                if (best != null)
+                {
+                    Logger.log("Potencial routes for " + dstIp.ToString());
+                    foreach (Route r in this.potecialRoutes)
+                    {
+                        if(r.ToString() == best.ToString())
+                            Logger.log("> " + r.ToString());
+                        Logger.log("  " + r.ToString());
+
+                    }
+                }
+                else
+                {
+                    Logger.log("No route for " + dstIp.ToString());
                 }
             }
-            else
-            {
-                Logger.log("No route for " + dstIp.ToString());
-            }
-            
             return best;
         }
 

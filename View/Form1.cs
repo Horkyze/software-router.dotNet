@@ -331,5 +331,43 @@ namespace sw_router
                 Logger.log("Arp test search - no result ");
             }
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            RoutingTable.Instance.addRoute(new Route(
+                new IpV4Address("1.1.1.0"),
+                24,
+                Route.RIP_AD,
+                0,
+                Controller.Instance.netInterfaces[0].IpV4Address,
+                -1
+            ));
+            RoutingTable.Instance.addRoute(new Route(
+                new IpV4Address("2.2.0.0"),
+                24,
+                Route.RIP_AD,
+                0,
+                new IpV4Address("1.1.1.1"),
+                -1
+            ));
+            RoutingTable.Instance.search(new IpV4Address("2.2.0.5"));
+            RoutingTable.Instance.addRoute(new Route(
+                new IpV4Address("2.2.0.0"),
+                24,
+                Route.STATIC_AD,
+                0,
+                Controller.Instance.netInterfaces[1].IpV4Address,
+                -1
+            ));
+            RoutingTable.Instance.search(new IpV4Address("2.2.0.5"));
+            RoutingTable.Instance.addRoute(new Route(
+                new IpV4Address("2.2.0.0"),
+                32,
+                Route.STATIC_AD,
+                0,
+                Controller.Instance.netInterfaces[0].IpV4Address,
+                -1
+            ));
+        }
     }
 }

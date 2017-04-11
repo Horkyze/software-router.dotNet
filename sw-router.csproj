@@ -94,6 +94,7 @@
     <Compile Include="Processing\Arp.cs" />
     <Compile Include="Processing\Icmp.cs" />
     <Compile Include="Processing\Processing.cs" />
+    <Compile Include="Processing\Rip.cs" />
     <Compile Include="Processing\RoutingTable.cs" />
     <Compile Include="Utils\Formatting.cs" />
     <Compile Include="Utils\Utils.cs" />

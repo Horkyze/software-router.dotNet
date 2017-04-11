@@ -7,6 +7,12 @@ namespace sw_router
 {
     class Utils
     {
+        public static int epoch()
+        {
+            TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+            return (int)t.TotalSeconds;
+        }
+        
 
         /// <summary>
         /// Convert ReadOnlyCollection<byte> into pcap MacAddress
@@ -110,7 +116,15 @@ namespace sw_router
 
         public static bool isIPv4Multicast(IpV4Address ip)
         {
-            return belongsToSubnet(ip, 28, new IpV4Address("224.0.0.0"));
+            if (ip == new IpV4Address("255.255.255.255"))
+                return true;
+
+            // Used for link-local addresses between two hosts on a single link when no IP address 
+            // is otherwise specified, such as would have normally been retrieved from a DHCP server[5]
+            if (belongsToSubnet(ip, 16, new IpV4Address("169.254.0.0")))
+                return true;
+
+            return belongsToSubnet(ip, 4, new IpV4Address("224.0.0.0"));
         }
 
         public static bool isIPv4Broadcast(IpV4Address ip, int network_bits, IpV4Address subnet)
@@ -126,12 +140,29 @@ namespace sw_router
             return new IpV4Address(address.ToValue() & mask);
         }
 
+        public static int getPrefix(IpV4Address m)
+        {
+            UInt32 mask = m.ToValue();
+            int i = 0;
+            while (mask != 0 && i < 33)
+            {
+                i++;
+                mask = (mask << 1);
+            }
+            return i;
+        }
+
         public static bool belongsToSubnet(IpV4Address add, int network_bits, IpV4Address subnet)
         {
+            if (network_bits == 32)
+            {
+                return true;
+            }
             UInt32 ip = add.ToValue();
             UInt32 net = subnet.ToValue();
+            UInt32 full = 0xFFFFFFFF;
 
-            UInt32 mask = 0xFFFFFFFF << (32 - network_bits);
+            UInt32 mask = full << (32 - network_bits);
             return (net & mask) == (ip & mask);
         }
 
@@ -146,14 +177,29 @@ namespace sw_router
                 Logger.log("TEST FAILED isIPv4Multicast");
             }
 
-            if (!isIPv4Broadcast(new IpV4Address("10.10.255.255"), 16, new IpV4Address("255.255.0.0")))
+            if (!isIPv4Broadcast(new IpV4Address("10.10.255.255"), 16, new IpV4Address("10.10.0.0")))
             {
-                Logger.log("TEST FAILED isIPv4Multicast");
+                Logger.log("TEST FAILED !isIPv4Broadcast");
             }
-            if (isIPv4Broadcast(new IpV4Address("192.168.255.25"), 24, new IpV4Address("255.255.255.0")))
+            if (isIPv4Broadcast(new IpV4Address("192.168.255.25"), 24, new IpV4Address("192.168.255.0")))
             {
-                Logger.log("TEST FAILED isIPv4Multicast");
+                Logger.log("TEST FAILED isIPv4Broadcast");
             }
+            if (getPrefix(new IpV4Address("255.255.0.0")) != 16 )
+            {
+                Logger.log("TEST FAILED getPrefix");
+            }
+            if (getPrefix(new IpV4Address("255.255.255.252")) != 30)
+            {
+                Logger.log("TEST FAILED getPrefix");
+            }
+            if (!belongsToSubnet(new IpV4Address("15.26.65.87"), 0, new IpV4Address("0.0.0.0")) )
+            {
+                Logger.log("TEST FAILED belongsToSubnet");
+            }
+
+            Logger.log("TESTS FINISHED");
+
 
         }
 

@@ -88,12 +88,20 @@
             this.ad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RIP = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
             this.routing_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
+            this.RIP.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -244,6 +252,7 @@
             this.tab_control.Controls.Add(this.interface_tab);
             this.tab_control.Controls.Add(this.tabPage2);
             this.tab_control.Controls.Add(this.routing_tab);
+            this.tab_control.Controls.Add(this.RIP);
             this.tab_control.Location = new System.Drawing.Point(12, 12);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
@@ -449,6 +458,7 @@
             // 
             // routing_tab
             // 
+            this.routing_tab.Controls.Add(this.button7);
             this.routing_tab.Controls.Add(this.delete_routeButton);
             this.routing_tab.Controls.Add(this.delete_routeComboBox);
             this.routing_tab.Controls.Add(this.test_searchButton);
@@ -661,6 +671,73 @@
             this.OutInterface.Name = "OutInterface";
             this.OutInterface.Width = 150;
             // 
+            // RIP
+            // 
+            this.RIP.Controls.Add(this.button6);
+            this.RIP.Controls.Add(this.label11);
+            this.RIP.Controls.Add(this.button3);
+            this.RIP.Controls.Add(this.richTextBox1);
+            this.RIP.Controls.Add(this.textBox1);
+            this.RIP.Location = new System.Drawing.Point(4, 22);
+            this.RIP.Name = "RIP";
+            this.RIP.Padding = new System.Windows.Forms.Padding(3);
+            this.RIP.Size = new System.Drawing.Size(1085, 302);
+            this.RIP.TabIndex = 3;
+            this.RIP.Text = "RIP";
+            this.RIP.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(615, 79);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 0;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(9, 31);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(301, 96);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(9, 264);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(212, 23);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "RIP On / Off";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 15);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(304, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Insert ip addresses below (corresponding to network command)";
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(201, 133);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(109, 23);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "Apply";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(684, 264);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(124, 23);
+            this.button7.TabIndex = 19;
+            this.button7.Text = "Run Tests";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,6 +758,8 @@
             this.routing_tab.ResumeLayout(false);
             this.routing_tab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).EndInit();
+            this.RIP.ResumeLayout(false);
+            this.RIP.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -747,6 +826,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.TabPage RIP;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button7;
     }
 }
 

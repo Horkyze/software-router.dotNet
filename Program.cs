@@ -19,7 +19,7 @@ namespace sw_router
             new Controller();
             Controller.Instance.setForm(form);
             Application.Run(form);
-            Utils.tests();
+            
         }
 
     }

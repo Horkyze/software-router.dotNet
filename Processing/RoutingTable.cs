@@ -53,6 +53,7 @@ namespace sw_router.Processing
         /* SINGLETON END*/
         private Object _tableLock = new Object();
         public List<Route> table;
+        private List<Route> potecialRoutes = new List<Route>();
 
         public RoutingTable()
         {
@@ -100,27 +101,59 @@ namespace sw_router.Processing
 
         public Route search(IpV4Address dstIp)
         {
+            Route best = null;
+            this.potecialRoutes.Clear();
+            getAllRoutes(dstIp);
+            
+
+            foreach (Route r in this.potecialRoutes)
+            {
+                if (best == null)
+                    best = r;
+
+                if (r.ad < best.ad || r.metric < best.metric || r.mask > best.mask)
+                    best = r;
+            }
+            if (best != null)
+            {
+                Logger.log("Potencial routes for " + dstIp.ToString());
+                foreach (Route r in this.potecialRoutes)
+                {
+                    if(r.ToString() == best.ToString())
+                        Logger.log("> " + r.ToString());
+                    Logger.log("  " + r.ToString());
+
+                }
+            }
+            else
+            {
+                Logger.log("No route for " + dstIp.ToString());
+            }
+            
+            return best;
+        }
+
+        private void getAllRoutes(IpV4Address dstIp)
+        {
             for (int i = 0; i < table.Count; i++)
             {
                 Route r = table.ElementAt(i);
                 if (Utils.belongsToSubnet(dstIp, r.mask, r.network))
                 {
+
                     if (r.outgoingInterfate == 0 || r.outgoingInterfate == 1)
-                    {
-                        Logger.log("Found route for " + dstIp.ToString());
-                        Logger.log(" " + r.ToString());
-                        return r;
+                    {                      
+                        this.potecialRoutes.Add(r);
+                        return;
                     }
                     if (r.outgoingInterfate == -1)
                     {
                         // perform recurvice routing search
                         Logger.log("Recursive route search with " + r.nextHop.ToString());
-                        return search(r.nextHop);
+                        getAllRoutes(r.nextHop);
                     }
                 }
             }
-            Logger.log("No route for " + dstIp.ToString());
-            return null;
         }
 
         public void updateDirectlyConnected()

@@ -70,6 +70,17 @@ namespace sw_router
             if (packet.Ethernet.EtherType != EthernetType.IpV4)
                 return;
 
+            if (packet.Ethernet.Destination == RipRouteEntry.MULTICAST_MAC &&
+                packet.Ethernet.IpV4.Protocol == IpV4Protocol.Udp &&
+                packet.Ethernet.IpV4.Destination == RipRouteEntry.BROADCAST_IP &&
+                packet.Ethernet.IpV4.Udp.DestinationPort == RipRouteEntry.UDP_PORT &&
+                packet.Ethernet.IpV4.Udp.SourcePort == RipRouteEntry.UDP_PORT
+                
+                )
+            { 
+                Rip.Instance.process(packet, this);
+            }
+
             // dont process broadcast ips
             if (Utils.isIPv4Broadcast(packet.Ethernet.IpV4.Destination, this._netInterface.NetMask, this._netInterface.IpV4Address))
             {

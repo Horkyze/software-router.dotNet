@@ -46,6 +46,7 @@ namespace sw_router
 
         public void createInterfaces(String i1, String i2)
         {
+            Utils.tests();
             int index = 0;
             allDevices = LivePacketDevice.AllLocalMachine;
 
@@ -74,6 +75,7 @@ namespace sw_router
             }
             communicators[0].SetUpThread("Interface 1");
             communicators[1].SetUpThread("Interface 2");
+            
 
         }
 

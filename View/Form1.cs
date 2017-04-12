@@ -48,8 +48,8 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description+device.Name);
                 comboBox2.Items.Add(device.Description+device.Name);
             }
-            comboBox1.SelectedIndex = 3;
-            comboBox2.SelectedIndex = 4;
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 2;
 
         }
 
@@ -101,7 +101,8 @@ namespace sw_router
                     r.mask,
                     r.ad,
                     r.nextHop,
-                    r.outgoingInterfate
+                    r.outgoingInterfate,
+                    r.advertiseInRip
                 };
                 if (this.InvokeRequired)
                     route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Rows.Add(data)));
@@ -114,6 +115,37 @@ namespace sw_router
                 route_dataGridView.Invoke((MethodInvoker)(() => route_dataGridView.Refresh()));
             else
                 route_dataGridView.Refresh();
+        }
+
+        public void updateRipDb()
+        {
+            // empty
+            if (this.InvokeRequired)
+                ripdb_grid.Invoke((MethodInvoker)(() => ripdb_grid.Rows.Clear()));
+            else
+                ripdb_grid.Rows.Clear();
+
+            // update
+            foreach (var item in Rip.Instance.RipDatabase)
+            {
+                object[] data = new object[] {
+                    item.ip,
+                    item.mask,
+                    item.next_hop,
+                    item.metric,
+                    item.recieveInterface
+                };
+                if (this.InvokeRequired)
+                    ripdb_grid.Invoke((MethodInvoker)(() => ripdb_grid.Rows.Add(data)));
+                else
+                    ripdb_grid.Rows.Add(data);
+            }
+
+            // refresh
+            if (this.InvokeRequired)
+                ripdb_grid.Invoke((MethodInvoker)(() => ripdb_grid.Refresh()));
+            else
+                ripdb_grid.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -368,6 +400,48 @@ namespace sw_router
                 Controller.Instance.netInterfaces[0].IpV4Address,
                 -1
             ));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Rip.Instance.RipEnabled = Rip.Instance.RipEnabled == false;
+            button3.Text = (Rip.Instance.RipEnabled) ? "Rip enabled - turn OFF" : "Rip disabled - turn ON";
+        }
+
+        private void comboBox3_Enter(object sender, EventArgs e)
+        {
+            comboBox3.Items.Clear();
+            foreach (Route r in RoutingTable.Instance.table)
+            {
+                if (r.ad == Route.DIRECTLY_CONNECTED_AD)
+                {
+                    comboBox3.Items.Add(r.ToString());
+                }
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            foreach (Route r in RoutingTable.Instance.table)
+            {
+                if (r.ToString() == comboBox3.Text)
+                {
+                    r.advertiseInRip = true;
+                    // TODO: add uniq and delete
+                    Rip.Instance.RipDatabase.Add(new RipRouteEntry()
+                    {
+                        family = 2,
+                        metric = 1,
+                        next_hop = new IpV4Address("0.0.0.0"),
+                        route_tag = 0,
+                        recieveInterface = r.outgoingInterfate,
+                        ip = Utils.GetNetworkAddress(r.network, r.mask),
+                        mask = Utils.prefixToMask(r.mask),
+                        insertedManually = true
+                    });
+                }
+            }
+            Controller.Instance.gui.updateRipDb();
         }
     }
 }

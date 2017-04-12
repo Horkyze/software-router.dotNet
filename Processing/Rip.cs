@@ -8,6 +8,8 @@ using PcapDotNet.Packets.IpV4;
 using System.Collections.ObjectModel;
 using PcapDotNet.Packets.Ethernet;
 using System.Net;
+using sw_router.Builder;
+using System.Threading;
 
 namespace sw_router.Processing
 {
@@ -26,7 +28,7 @@ namespace sw_router.Processing
     {     
         static public IpV4Address BROADCAST_IP = new IpV4Address("224.0.0.9");
         static public MacAddress MULTICAST_MAC = new MacAddress("01:00:5E:00:00:09");
-        static public UInt32 UDP_PORT = 520;
+        static public UInt16 UDP_PORT = 520;
 
         public ushort family { set; get; }
         public ushort route_tag { set; get; }
@@ -39,7 +41,14 @@ namespace sw_router.Processing
         public enum State { ACTIVE=0, INVALID=1, HOLD_DOWN=2, FLUSH=3 }
         public long insert_time { set; get; }
         public long update_time { set; get; }
-        public State state; 
+        public State state;
+        public int recieveInterface = -1;
+        public bool insertedManually = false;
+
+        public string ToString()
+        {
+            return this.ip + " " + this.mask + " " + this.next_hop + " " + this.metric;
+        }
     }
     class RipData
     {
@@ -73,11 +82,6 @@ namespace sw_router.Processing
                 entries.Add(entry);
             }
         }
-
-        public Packet buildUpdate()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     class Rip : Processing
@@ -100,9 +104,17 @@ namespace sw_router.Processing
             public static int HOLD_DOWN = 40;
             public static int FLUSH = 80;
         }
-        
+
+        public Rip()
+        {
+            rip_timers_t = new Thread(new ThreadStart(ripTimers));
+            rip_timers_t.Start();
+        }
+
+        public Thread rip_timers_t;
         public bool RipEnabled = false;
         public List<RipRouteEntry> RipDatabase = new List<RipRouteEntry>();
+        public List<IpV4Address> networks = new List<IpV4Address>();
         
         public void updateRipDb(RipRouteEntry entry)
         {
@@ -111,6 +123,13 @@ namespace sw_router.Processing
                 if(item.ip == entry.ip && item.mask == item.mask)
                 {
                     item.update_time = Utils.epoch();
+                    if(item.metric <= entry.metric)
+                    {
+
+                    } else
+                    {
+
+                    }
                     return;
                 }
             }
@@ -120,6 +139,7 @@ namespace sw_router.Processing
             entry.update_time = Utils.epoch();
             entry.state = RipRouteEntry.State.ACTIVE;
             RipDatabase.Add(entry);
+            Controller.Instance.gui.updateRipDb();
         }
 
         public Route getRoute(RipRouteEntry entry)
@@ -168,9 +188,78 @@ namespace sw_router.Processing
             foreach (var entry in ripData.entries)
             {
                 // here parsing route entries from update packet
+                if (entry.next_hop == new IpV4Address("0.0.0.0"))
+                    entry.next_hop = packet.Ethernet.IpV4.Source;
+
+                entry.recieveInterface = com._netInterface.id;
                 updateRipDb(entry);
             }
+            updateRoutingTable();
         }
 
+        public void sendUpdates()
+        {
+            int len;
+            Packet p;
+            byte[] bytes;
+            foreach (Route r in RoutingTable.Instance.table)
+            {
+                if (r.advertiseInRip && r.ad == Route.DIRECTLY_CONNECTED_AD)
+                {
+                    NetInterface netInt = Controller.Instance.netInterfaces[r.outgoingInterfate];
+                    bytes = ToBytes(netInt, out len);
+                    var segment = bytes.Subsegment(0, len);
+                    p = RipBuilder.BuildUpdate(netInt, segment.ToArray(), len);
+                    Logger.log("Sending RIP update from " + netInt.IpV4Address);
+                    Controller.Instance.communicators[netInt.id].inject(p);
+
+                }
+            }
+
+        }
+
+        public byte[] ToBytes(NetInterface netInterface, out int len)
+        {
+            byte[] bytes = new byte[4 + 20 * 5];
+            bytes.Write(0, 0x02);
+            bytes.Write(1, 0x02);
+            bytes.Write(2, 0x0000);
+            int i = 0, offset;
+            len = 4;
+            foreach (RipRouteEntry entry in Rip.Instance.RipDatabase)
+            {
+                if (entry.recieveInterface == netInterface.id)
+                    continue;
+                IpV4Address new_nexthop = new IpV4Address("0.0.0.0");
+                if(entry.next_hop != new_nexthop)
+                {
+                    new_nexthop = netInterface.IpV4Address;
+                }
+
+                offset = 4 + i * 20;
+                bytes.Write(offset, entry.family, Endianity.Big);
+                bytes.Write(offset + 2, entry.route_tag, Endianity.Big);
+                bytes.Write(offset + 4, entry.ip, Endianity.Big);
+                bytes.Write(offset + 8, entry.mask, Endianity.Big);
+                bytes.Write(offset + 12, new_nexthop, Endianity.Big);
+                bytes.Write(offset + 16, entry.metric, Endianity.Big);
+                len += 20;
+                i++;
+            }
+            return bytes;
+        }
+
+        public void ripTimers()
+        {
+            do
+            {
+                if (Rip.Instance.RipEnabled)
+                {
+                    Logger.log("RIP timers");
+                    sendUpdates();
+                    Thread.Sleep(1000 * Rip.Timers.UPDATE);
+                }
+            } while (true);      
+        }
     }
 }

@@ -51,8 +51,12 @@ namespace sw_router
                 return;
                 
             }*/
+            //if (packet.DataLink.Kind != DataLinkKind.Ethernet)
+            //    return;
+
             if (packet.Ethernet.EtherType == EthernetType.Arp)
             {
+                Logger.log("Got arp");
                 Arp.Instance.process(packet, this);
                 return;
             }
@@ -63,7 +67,7 @@ namespace sw_router
                 if (packet.Ethernet.IpV4.Destination == _netInterface.IpV4Address &&
                     packet.Ethernet.Destination == _netInterface.MacAddress)
                     Icmp.Instance.process(packet, this);
-                return;
+                //return;
             }
                         
             //dont process non-IPv4 packets..
@@ -84,13 +88,13 @@ namespace sw_router
             // dont process broadcast ips
             if (Utils.isIPv4Broadcast(packet.Ethernet.IpV4.Destination, this._netInterface.NetMask, this._netInterface.IpV4Address))
             {
-                Logger.log("Drop broadcast..");
+                //Logger.log("Drop broadcast..");
                 return;
             }
             // dont process multicast ips
             if (Utils.isIPv4Multicast(packet.Ethernet.IpV4.Destination))
             {
-                Logger.log("Drop multicast..");
+                //Logger.log("Drop multicast..");
                 return;
             }
 
@@ -115,7 +119,12 @@ namespace sw_router
                 var ipLayer = (IpV4Layer)packet.Ethernet.IpV4.ExtractLayer();
                 var ipPayload = (PayloadLayer)packet.Ethernet.IpV4.Payload.ExtractLayer();
 
-                ethLayer.Destination = Arp.Instance.get(packet.Ethernet.IpV4.Destination, r.outgoingInterfate);
+                MacAddress got = Arp.Instance.get(packet.Ethernet.IpV4.Destination, r.outgoingInterfate);
+                if ( got == new MacAddress("aa:ff:ff:ff:ff:aa") )
+                {
+                    return;
+                }
+                ethLayer.Destination = got;
                 ethLayer.Source = Controller.Instance.netInterfaces[r.outgoingInterfate].MacAddress;
 
                 ILayer[] layers = { ethLayer, ipLayer, ipPayload };

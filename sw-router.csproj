@@ -58,19 +58,19 @@
   <ItemGroup>
     <Reference Include="PcapDotNet.Base, Version=1.0.2.21699, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>pcap\PcapDotNet.Binaries.1.0.2.76195.x64\PcapDotNet.Base.dll</HintPath>
+      <HintPath>pcap\PcapDotNet.Binaries.1.0.4.x64\PcapDotNet.Base.dll</HintPath>
     </Reference>
-    <Reference Include="PcapDotNet.Core, Version=1.0.2.21711, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=x86">
+    <Reference Include="PcapDotNet.Core, Version=1.0.2.21772, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>pcap\PcapDotNet.Binaries.1.0.2.76195.x64\PcapDotNet.Core.dll</HintPath>
+      <HintPath>pcap\PcapDotNet.Binaries.1.0.4.x64\PcapDotNet.Core.dll</HintPath>
     </Reference>
-    <Reference Include="PcapDotNet.Core.Extensions, Version=1.0.2.21712, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=x86">
+    <Reference Include="PcapDotNet.Core.Extensions, Version=1.0.2.21773, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>pcap\PcapDotNet.Binaries.1.0.2.76195.x64\PcapDotNet.Core.Extensions.dll</HintPath>
+      <HintPath>pcap\PcapDotNet.Binaries.1.0.4.x64\PcapDotNet.Core.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Packets, Version=1.0.2.21701, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>pcap\PcapDotNet.Binaries.1.0.2.76195.x64\PcapDotNet.Packets.dll</HintPath>
+      <HintPath>pcap\PcapDotNet.Binaries.1.0.4.x64\PcapDotNet.Packets.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Builder\ArpBuilder.cs" />
     <Compile Include="Builder\Builder.cs" />
+    <Compile Include="Builder\RipBuilder.cs" />
     <Compile Include="Controller\MainController.cs" />
     <Compile Include="Controller\Communicator.cs" />
     <Compile Include="Controller\Logger.cs" />
@@ -147,7 +148,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

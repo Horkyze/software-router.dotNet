@@ -66,6 +66,7 @@
             this.arping_button1 = new System.Windows.Forms.Button();
             this.arping_textBox1 = new System.Windows.Forms.TextBox();
             this.routing_tab = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.delete_routeButton = new System.Windows.Forms.Button();
             this.delete_routeComboBox = new System.Windows.Forms.ComboBox();
             this.test_searchButton = new System.Windows.Forms.Button();
@@ -88,13 +89,21 @@
             this.ad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NextHop = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.RIP = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
+            this.button9 = new System.Windows.Forms.Button();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ripdb_grid = new System.Windows.Forms.DataGridView();
+            this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.next_hop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.metric = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -102,6 +111,7 @@
             this.routing_tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
             this.RIP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -484,9 +494,19 @@
             this.routing_tab.Text = "Routing";
             this.routing_tab.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(684, 264);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(124, 23);
+            this.button7.TabIndex = 19;
+            this.button7.Text = "Run Tests";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // delete_routeButton
             // 
-            this.delete_routeButton.Location = new System.Drawing.Point(1004, 182);
+            this.delete_routeButton.Location = new System.Drawing.Point(1004, 172);
             this.delete_routeButton.Name = "delete_routeButton";
             this.delete_routeButton.Size = new System.Drawing.Size(64, 23);
             this.delete_routeButton.TabIndex = 18;
@@ -497,7 +517,7 @@
             // delete_routeComboBox
             // 
             this.delete_routeComboBox.FormattingEnabled = true;
-            this.delete_routeComboBox.Location = new System.Drawing.Point(684, 184);
+            this.delete_routeComboBox.Location = new System.Drawing.Point(684, 174);
             this.delete_routeComboBox.Name = "delete_routeComboBox";
             this.delete_routeComboBox.Size = new System.Drawing.Size(314, 21);
             this.delete_routeComboBox.TabIndex = 17;
@@ -637,10 +657,11 @@
             this.Mask,
             this.ad,
             this.NextHop,
-            this.OutInterface});
+            this.OutInterface,
+            this.Column5});
             this.route_dataGridView.Location = new System.Drawing.Point(6, 6);
             this.route_dataGridView.Name = "route_dataGridView";
-            this.route_dataGridView.Size = new System.Drawing.Size(657, 282);
+            this.route_dataGridView.Size = new System.Drawing.Size(669, 282);
             this.route_dataGridView.TabIndex = 1;
             this.route_dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.route_dataGridView_CellContentClick);
             // 
@@ -653,6 +674,7 @@
             // 
             this.Mask.HeaderText = "Mask";
             this.Mask.Name = "Mask";
+            this.Mask.Width = 50;
             // 
             // ad
             // 
@@ -669,14 +691,22 @@
             // 
             this.OutInterface.HeaderText = "Outgoing Interface";
             this.OutInterface.Name = "OutInterface";
-            this.OutInterface.Width = 150;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Advertise in RIP Updates?";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
             // 
             // RIP
             // 
+            this.RIP.Controls.Add(this.ripdb_grid);
+            this.RIP.Controls.Add(this.button9);
+            this.RIP.Controls.Add(this.comboBox3);
+            this.RIP.Controls.Add(this.button8);
+            this.RIP.Controls.Add(this.textBox2);
             this.RIP.Controls.Add(this.button6);
-            this.RIP.Controls.Add(this.label11);
             this.RIP.Controls.Add(this.button3);
-            this.RIP.Controls.Add(this.richTextBox1);
             this.RIP.Controls.Add(this.textBox1);
             this.RIP.Location = new System.Drawing.Point(4, 22);
             this.RIP.Name = "RIP";
@@ -686,20 +716,49 @@
             this.RIP.Text = "RIP";
             this.RIP.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // button9
             // 
-            this.textBox1.Location = new System.Drawing.Point(615, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 0;
+            this.button9.Location = new System.Drawing.Point(570, 264);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(64, 23);
+            this.button9.TabIndex = 20;
+            this.button9.Text = "Network";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // richTextBox1
+            // comboBox3
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(9, 31);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(301, 96);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(250, 266);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(314, 21);
+            this.comboBox3.TabIndex = 19;
+            this.comboBox3.Enter += new System.EventHandler(this.comboBox3_Enter);
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(855, 279);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(109, 23);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "NO Network";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(677, 281);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(163, 20);
+            this.textBox2.TabIndex = 5;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(855, 233);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(109, 23);
+            this.button6.TabIndex = 4;
+            this.button6.Text = "Network";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -709,34 +768,53 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "RIP On / Off";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // label11
+            // textBox1
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 15);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(304, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Insert ip addresses below (corresponding to network command)";
+            this.textBox1.Location = new System.Drawing.Point(677, 235);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 0;
             // 
-            // button6
+            // ripdb_grid
             // 
-            this.button6.Location = new System.Drawing.Point(201, 133);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(109, 23);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "Apply";
-            this.button6.UseVisualStyleBackColor = true;
+            this.ripdb_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ripdb_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IP,
+            this.net_mask,
+            this.next_hop,
+            this.metric,
+            this.recv_int});
+            this.ripdb_grid.Location = new System.Drawing.Point(6, 6);
+            this.ripdb_grid.Name = "ripdb_grid";
+            this.ripdb_grid.Size = new System.Drawing.Size(628, 215);
+            this.ripdb_grid.TabIndex = 21;
             // 
-            // button7
+            // IP
             // 
-            this.button7.Location = new System.Drawing.Point(684, 264);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(124, 23);
-            this.button7.TabIndex = 19;
-            this.button7.Text = "Run Tests";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.IP.HeaderText = "IP";
+            this.IP.Name = "IP";
+            // 
+            // net_mask
+            // 
+            this.net_mask.HeaderText = "Mask";
+            this.net_mask.Name = "net_mask";
+            // 
+            // next_hop
+            // 
+            this.next_hop.HeaderText = "Next Hop";
+            this.next_hop.Name = "next_hop";
+            // 
+            // metric
+            // 
+            this.metric.HeaderText = "Metric";
+            this.metric.Name = "metric";
+            // 
+            // recv_int
+            // 
+            this.recv_int.HeaderText = "Recieved in int";
+            this.recv_int.Name = "recv_int";
             // 
             // Form1
             // 
@@ -760,6 +838,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).EndInit();
             this.RIP.ResumeLayout(false);
             this.RIP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -798,11 +877,6 @@
         private System.Windows.Forms.Button set_arpcache_timeout_button;
         private System.Windows.Forms.TabPage routing_tab;
         private System.Windows.Forms.DataGridView route_dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Network;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mask;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NextHop;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OutInterface;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label9;
@@ -828,11 +902,25 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.TabPage RIP;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Network;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NextHop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OutInterface;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Column5;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.DataGridView ripdb_grid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn net_mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn next_hop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn metric;
+        private System.Windows.Forms.DataGridViewTextBoxColumn recv_int;
     }
 }
 

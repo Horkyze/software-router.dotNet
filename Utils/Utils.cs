@@ -154,7 +154,7 @@ namespace sw_router
 
         public static bool belongsToSubnet(IpV4Address add, int network_bits, IpV4Address subnet)
         {
-            if (network_bits == 32)
+            if (network_bits == 0)
             {
                 return true;
             }
@@ -164,6 +164,13 @@ namespace sw_router
 
             UInt32 mask = full << (32 - network_bits);
             return (net & mask) == (ip & mask);
+        }
+
+        public static IpV4Address prefixToMask(int prefix)
+        {
+            UInt32 full = 0xFFFFFFFF;
+            UInt32 mask = full << (32 - prefix);
+            return new IpV4Address(mask);
         }
 
         public static void tests()

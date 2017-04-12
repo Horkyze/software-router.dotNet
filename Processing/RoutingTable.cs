@@ -22,8 +22,9 @@ namespace sw_router.Processing
         public int metric { get; set; }
         public IpV4Address nextHop { get; set; }
         public int outgoingInterfate { get; set; }
+        public bool advertiseInRip { get; set; }
 
-        public Route(IpV4Address n, int m, int a, int me, IpV4Address next, int i )
+        public Route(IpV4Address n, int m, int a, int me, IpV4Address next, int i)
         {
             this.network = n;
             this.mask = m;
@@ -31,11 +32,12 @@ namespace sw_router.Processing
             this.metric = me;
             this.nextHop = next;
             this.outgoingInterfate = i;
+            this.advertiseInRip = false;
         }
 
         public override string ToString()
         {
-            return network.ToString() + "/" + mask.ToString() + " ad " + ad.ToString() + " via " + nextHop.ToString() + " interface " +outgoingInterfate.ToString();
+            return network.ToString() + "/" + mask.ToString() + " ad " + ad.ToString() + " via " + nextHop.ToString() + " interface " + outgoingInterfate.ToString();
         }
     }
 
@@ -54,10 +56,12 @@ namespace sw_router.Processing
         private Object _tableLock = new Object();
         public List<Route> table;
         private List<Route> potecialRoutes = new List<Route>();
+        private object lock_potecialRoutes = new Object();
+
 
         public RoutingTable()
         {
-            table = new List<Route>();      
+            table = new List<Route>();
         }
 
         public void addRoute(Route route)
@@ -65,12 +69,12 @@ namespace sw_router.Processing
             for (int i = 0; i < table.Count; i++)
             {
                 Route r = table.ElementAt(i);
-                if (r.ToString() == route.ToString())
+                if (r.ToString() == route.ToString() || r.network == route.network && r.mask == route.mask)
                 {
                     Logger.log("Cannot add same route twice");
                     return;
                 }
-               
+
             }
 
             table.Add(route);
@@ -94,7 +98,7 @@ namespace sw_router.Processing
                         table.RemoveAt(i);
                         break;
                     }
-                    
+
                 }
             }
         }
@@ -102,34 +106,37 @@ namespace sw_router.Processing
         public Route search(IpV4Address dstIp)
         {
             Route best = null;
-            this.potecialRoutes.Clear();
-            getAllRoutes(dstIp);
-            
-
-            foreach (Route r in this.potecialRoutes)
+            lock (lock_potecialRoutes)
             {
-                if (best == null)
-                    best = r;
 
-                if (r.ad < best.ad || r.metric < best.metric || r.mask > best.mask)
-                    best = r;
-            }
-            if (best != null)
-            {
-                Logger.log("Potencial routes for " + dstIp.ToString());
+                this.potecialRoutes.Clear();
+                getAllRoutes(dstIp);
+
+
                 foreach (Route r in this.potecialRoutes)
                 {
-                    if(r.ToString() == best.ToString())
-                        Logger.log("> " + r.ToString());
-                    Logger.log("  " + r.ToString());
+                    if (best == null)
+                        best = r;
 
+                    if (r.ad < best.ad || r.metric < best.metric || r.mask > best.mask)
+                        best = r;
+                }
+                if (best != null)
+                {
+                    Logger.log("Potencial routes for " + dstIp.ToString());
+                    foreach (Route r in this.potecialRoutes)
+                    {
+                        if (r.ToString() == best.ToString())
+                            Logger.log("> " + r.ToString());
+                        Logger.log("  " + r.ToString());
+
+                    }
+                }
+                else
+                {
+                    Logger.log("No route for " + dstIp.ToString());
                 }
             }
-            else
-            {
-                Logger.log("No route for " + dstIp.ToString());
-            }
-            
             return best;
         }
 
@@ -142,7 +149,7 @@ namespace sw_router.Processing
                 {
 
                     if (r.outgoingInterfate == 0 || r.outgoingInterfate == 1)
-                    {                      
+                    {
                         this.potecialRoutes.Add(r);
                         return;
                     }
@@ -161,7 +168,7 @@ namespace sw_router.Processing
             for (int i = 0; i < table.Count; i++)
             {
                 Route r = table.ElementAt(i);
-                if(r.ad == Route.DIRECTLY_CONNECTED_AD)
+                if (r.ad == Route.DIRECTLY_CONNECTED_AD)
                 {
                     table.RemoveAt(i);
                     i--;
@@ -172,7 +179,7 @@ namespace sw_router.Processing
             for (int a = 0; a < 2; a++)
             {
                 NetInterface i = Controller.Instance.netInterfaces[a];
-                this.addRoute(new Route(i.IpV4Address, i.NetMask, Route.DIRECTLY_CONNECTED_AD, 0, new IpV4Address(), a));
+                this.addRoute(new Route(Utils.GetNetworkAddress(i.IpV4Address, i.NetMask), i.NetMask, Route.DIRECTLY_CONNECTED_AD, 0, new IpV4Address(), a));
             }
         }
     }

@@ -66,25 +66,19 @@ namespace sw_router.Processing
         public MacAddress get(IpV4Address ip, int netInterface)
         {
             ArpEntry entry = searchArpCache(ip);
-            int max_rounds = 2;            
-            do
+
+            if (entry == null)
             {
-                entry = searchArpCache(ip);
-                if (entry == null)
-                {
-                    Logger.log("Getting mac (via ARP) for ip: " + ip.ToString());
-                    arping(netInterface, ip.ToString());
-                    Thread.Sleep(500);
-                }
-                else
-                {
-                    Controller.Instance.gui.refresArpTable();
-                    return entry.mac;
-                }
-            } while (max_rounds-- > 0);
-            
-            Logger.log("Host didnt respond to arping in time...");
-            return new MacAddress("ff:ff:ff:ff:ff:ff");
+                Logger.log("Getting mac (via ARPING) for ip: " + ip.ToString());
+                arping(netInterface, ip.ToString());
+            }
+            else
+            {
+                Controller.Instance.gui.refresArpTable();
+                return entry.mac;
+            }
+
+            return new MacAddress("aa:ff:ff:ff:ff:aa");
         }
         
 

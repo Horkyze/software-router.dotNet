@@ -40,10 +40,6 @@
             this.mask_2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.apply_2 = new System.Windows.Forms.Button();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.stats_grid = new System.Windows.Forms.DataGridView();
             this.asdas = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -115,6 +111,8 @@
             this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.ping_text = new System.Windows.Forms.TextBox();
             this.tab_control.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).BeginInit();
             this.interface_tab.SuspendLayout();
@@ -149,7 +147,7 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(110, 124);
+            this.comboBox2.Location = new System.Drawing.Point(110, 88);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(782, 21);
             this.comboBox2.TabIndex = 2;
@@ -205,7 +203,7 @@
             // 
             // ip_2
             // 
-            this.ip_2.Location = new System.Drawing.Point(110, 151);
+            this.ip_2.Location = new System.Drawing.Point(110, 115);
             this.ip_2.Name = "ip_2";
             this.ip_2.Size = new System.Drawing.Size(100, 20);
             this.ip_2.TabIndex = 9;
@@ -213,7 +211,7 @@
             // 
             // mask_2
             // 
-            this.mask_2.Location = new System.Drawing.Point(231, 151);
+            this.mask_2.Location = new System.Drawing.Point(231, 115);
             this.mask_2.Name = "mask_2";
             this.mask_2.Size = new System.Drawing.Size(38, 20);
             this.mask_2.TabIndex = 10;
@@ -222,7 +220,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 127);
+            this.label1.Location = new System.Drawing.Point(6, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 11;
@@ -230,45 +228,13 @@
             // 
             // apply_2
             // 
-            this.apply_2.Location = new System.Drawing.Point(404, 151);
+            this.apply_2.Location = new System.Drawing.Point(404, 115);
             this.apply_2.Name = "apply_2";
             this.apply_2.Size = new System.Drawing.Size(96, 23);
             this.apply_2.TabIndex = 12;
             this.apply_2.Text = "Apply settings";
             this.apply_2.UseVisualStyleBackColor = true;
             this.apply_2.Click += new System.EventHandler(this.apply_2_Click);
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(110, 75);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 13;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(231, 73);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(96, 23);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "Ping";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(231, 187);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(96, 23);
-            this.button5.TabIndex = 16;
-            this.button5.Text = "Ping";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(110, 189);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 15;
             // 
             // tab_control
             // 
@@ -306,60 +272,65 @@
             // 
             this.asdas.HeaderText = "INT.0 IN";
             this.asdas.Name = "asdas";
+            this.asdas.ReadOnly = true;
             // 
             // Column6
             // 
             this.Column6.HeaderText = "INT.0 OUT";
             this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
             // 
             // Column7
             // 
             this.Column7.HeaderText = "INT.1 IN";
             this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
             // 
             // Column8
             // 
             this.Column8.HeaderText = "INT.1 OUT";
             this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
             // 
             // Column9
             // 
             this.Column9.HeaderText = "ARP Cache Timeout";
             this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
             // 
             // Column10
             // 
             this.Column10.HeaderText = "RIP Update";
             this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
             // 
             // Column11
             // 
             this.Column11.HeaderText = "RIP Hold-down";
             this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
             // 
             // Column12
             // 
             this.Column12.HeaderText = "RIP Invalid";
             this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
             // 
             // Column13
             // 
             this.Column13.HeaderText = "RIP Flush";
             this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
             // 
             // interface_tab
             // 
             this.interface_tab.Controls.Add(this.mac_2);
             this.interface_tab.Controls.Add(this.mac_1);
             this.interface_tab.Controls.Add(this.ldfg);
-            this.interface_tab.Controls.Add(this.button5);
             this.interface_tab.Controls.Add(this.button1);
             this.interface_tab.Controls.Add(this.comboBox1);
-            this.interface_tab.Controls.Add(this.textBox6);
             this.interface_tab.Controls.Add(this.comboBox2);
-            this.interface_tab.Controls.Add(this.button4);
             this.interface_tab.Controls.Add(this.apply_1);
-            this.interface_tab.Controls.Add(this.textBox5);
             this.interface_tab.Controls.Add(this.ip_1);
             this.interface_tab.Controls.Add(this.apply_2);
             this.interface_tab.Controls.Add(this.mask_1);
@@ -376,7 +347,7 @@
             // 
             // mac_2
             // 
-            this.mac_2.Location = new System.Drawing.Point(289, 151);
+            this.mac_2.Location = new System.Drawing.Point(289, 115);
             this.mac_2.Name = "mac_2";
             this.mac_2.Size = new System.Drawing.Size(100, 20);
             this.mac_2.TabIndex = 18;
@@ -546,6 +517,8 @@
             // 
             // routing_tab
             // 
+            this.routing_tab.Controls.Add(this.button5);
+            this.routing_tab.Controls.Add(this.ping_text);
             this.routing_tab.Controls.Add(this.button7);
             this.routing_tab.Controls.Add(this.delete_routeButton);
             this.routing_tab.Controls.Add(this.delete_routeComboBox);
@@ -905,6 +878,23 @@
             this.tabPage3.Text = "Stats";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(944, 218);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(124, 23);
+            this.button5.TabIndex = 21;
+            this.button5.Text = "Ping";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // ping_text
+            // 
+            this.ping_text.Location = new System.Drawing.Point(838, 220);
+            this.ping_text.Name = "ping_text";
+            this.ping_text.Size = new System.Drawing.Size(100, 20);
+            this.ping_text.TabIndex = 20;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -947,10 +937,6 @@
         private System.Windows.Forms.TextBox mask_2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button apply_2;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TabControl tab_control;
         private System.Windows.Forms.TabPage interface_tab;
         private System.Windows.Forms.TabPage tabPage2;
@@ -1023,6 +1009,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox ping_text;
     }
 }
 

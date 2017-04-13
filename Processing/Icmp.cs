@@ -7,6 +7,7 @@ using PcapDotNet.Packets;
 using PcapDotNet.Packets.Ethernet;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Icmp;
+using sw_router.Builder;
 
 namespace sw_router.Processing
 {
@@ -57,6 +58,30 @@ namespace sw_router.Processing
                     var pkt = new PacketBuilder(layers).Build(DateTime.Now);
                     Controller.Instance.communicators[com._netInterface.id].inject(pkt);
                 }
+                else if(packet.Ethernet.IpV4.Icmp.MessageType == IcmpMessageType.EchoReply)
+                {
+                    var reply = (IcmpEchoReplyLayer)packet.Ethernet.IpV4.Icmp.ExtractLayer();
+                    if (reply.Identifier == 666 && reply.SequenceNumber == 666)
+                    {
+                        Logger.log("[PING] - Got Reply " + packet.Ethernet);
+                    }
+                }
+            }
+        }
+
+        public void sendPing(IpV4Address ip)
+        {
+            Route r = RoutingTable.Instance.search(ip);
+            if (r != null)
+            {
+                MacAddress dest = Arp.Instance.get(ip, r.outgoingInterfate);
+                if (dest == new MacAddress("aa:ff:ff:ff:ff:aa"))
+                {
+                    Logger.log("[PING] Target unreachable - arp cache search failed " + ip);
+                    return;
+                }
+                Packet p = IcmpBuilder.BuildIcmpRequest(Controller.Instance.communicators[r.outgoingInterfate]._netInterface, ip, dest);
+                Controller.Instance.communicators[r.outgoingInterfate].inject(p);
             }
         }
     }

@@ -67,6 +67,8 @@ namespace sw_router
                 catch (Exception e)
                 {
                     e.GetType();
+                    Thread.Sleep(1000);
+
                 }
             }
             
@@ -499,6 +501,18 @@ namespace sw_router
         private void label11_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Icmp.Instance.sendPing(new IpV4Address(ping_text.Text));
+            }
+            catch (Exception ee)
+            {
+                Logger.log("[PING]Exception - " + ee.ToString());
+            }
         }
     }
 }

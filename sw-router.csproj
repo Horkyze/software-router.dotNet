@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Builder\ArpBuilder.cs" />
     <Compile Include="Builder\Builder.cs" />
+    <Compile Include="Builder\IcmpBuilder.cs" />
     <Compile Include="Builder\RipBuilder.cs" />
     <Compile Include="Model\Stats.cs" />
     <Compile Include="Controller\MainController.cs" />

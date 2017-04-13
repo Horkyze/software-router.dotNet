@@ -45,7 +45,7 @@ namespace sw_router.Processing
         public int recieveInterface = -1;
         public bool insertedManually = false;
 
-        public string ToString()
+        public override string ToString()
         {
             return this.ip + " " + this.mask + " " + this.next_hop + " " + this.metric;
         }
@@ -97,16 +97,11 @@ namespace sw_router.Processing
         }
         /* SINGLETON END*/
 
-        class Timers
-        {
-            public static int UPDATE = 10;
-            public static int INVALID = 40;
-            public static int HOLD_DOWN = 40;
-            public static int FLUSH = 80;
-        }
+        public Timers Timers;
 
         public Rip()
         {
+            Timers = new Timers();
             rip_timers_t = new Thread(new ThreadStart(ripTimers));
             rip_timers_t.Start();
         }
@@ -257,7 +252,7 @@ namespace sw_router.Processing
                 {
                     Logger.log("RIP timers");
                     sendUpdates();
-                    Thread.Sleep(1000 * Rip.Timers.UPDATE);
+                    Thread.Sleep(1000 * Rip.Instance.Timers.UPDATE);
                 }
             } while (true);      
         }

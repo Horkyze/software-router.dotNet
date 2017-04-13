@@ -106,6 +106,7 @@ namespace sw_router.Processing
                             }
                             catch (Exception e)
                             {
+                                e.GetType();
                             }
                         }
                             

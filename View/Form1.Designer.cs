@@ -45,6 +45,16 @@
             this.button5 = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
+            this.stats_grid = new System.Windows.Forms.DataGridView();
+            this.asdas = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.interface_tab = new System.Windows.Forms.TabPage();
             this.mac_2 = new System.Windows.Forms.TextBox();
             this.mac_1 = new System.Windows.Forms.TextBox();
@@ -91,6 +101,12 @@
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.RIP = new System.Windows.Forms.TabPage();
+            this.ripdb_grid = new System.Windows.Forms.DataGridView();
+            this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.next_hop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.metric = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button9 = new System.Windows.Forms.Button();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.button8 = new System.Windows.Forms.Button();
@@ -98,13 +114,9 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.ripdb_grid = new System.Windows.Forms.DataGridView();
-            this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.next_hop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.metric = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tab_control.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).BeginInit();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
@@ -112,6 +124,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.route_dataGridView)).BeginInit();
             this.RIP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -263,11 +276,76 @@
             this.tab_control.Controls.Add(this.tabPage2);
             this.tab_control.Controls.Add(this.routing_tab);
             this.tab_control.Controls.Add(this.RIP);
+            this.tab_control.Controls.Add(this.tabPage3);
             this.tab_control.Location = new System.Drawing.Point(12, 12);
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(1093, 328);
             this.tab_control.TabIndex = 17;
+            // 
+            // stats_grid
+            // 
+            this.stats_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stats_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.asdas,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10,
+            this.Column11,
+            this.Column12,
+            this.Column13});
+            this.stats_grid.Location = new System.Drawing.Point(6, 3);
+            this.stats_grid.Name = "stats_grid";
+            this.stats_grid.ReadOnly = true;
+            this.stats_grid.Size = new System.Drawing.Size(959, 150);
+            this.stats_grid.TabIndex = 0;
+            // 
+            // asdas
+            // 
+            this.asdas.HeaderText = "INT.0 IN";
+            this.asdas.Name = "asdas";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "INT.0 OUT";
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "INT.1 IN";
+            this.Column7.Name = "Column7";
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "INT.1 OUT";
+            this.Column8.Name = "Column8";
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "ARP Cache Timeout";
+            this.Column9.Name = "Column9";
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "RIP Update";
+            this.Column10.Name = "Column10";
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "RIP Hold-down";
+            this.Column11.Name = "Column11";
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "RIP Invalid";
+            this.Column12.Name = "Column12";
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "RIP Flush";
+            this.Column13.Name = "Column13";
             // 
             // interface_tab
             // 
@@ -716,6 +794,45 @@
             this.RIP.Text = "RIP";
             this.RIP.UseVisualStyleBackColor = true;
             // 
+            // ripdb_grid
+            // 
+            this.ripdb_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ripdb_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IP,
+            this.net_mask,
+            this.next_hop,
+            this.metric,
+            this.recv_int});
+            this.ripdb_grid.Location = new System.Drawing.Point(6, 6);
+            this.ripdb_grid.Name = "ripdb_grid";
+            this.ripdb_grid.Size = new System.Drawing.Size(628, 215);
+            this.ripdb_grid.TabIndex = 21;
+            // 
+            // IP
+            // 
+            this.IP.HeaderText = "IP";
+            this.IP.Name = "IP";
+            // 
+            // net_mask
+            // 
+            this.net_mask.HeaderText = "Mask";
+            this.net_mask.Name = "net_mask";
+            // 
+            // next_hop
+            // 
+            this.next_hop.HeaderText = "Next Hop";
+            this.next_hop.Name = "next_hop";
+            // 
+            // metric
+            // 
+            this.metric.HeaderText = "Metric";
+            this.metric.Name = "metric";
+            // 
+            // recv_int
+            // 
+            this.recv_int.HeaderText = "Recieved in int";
+            this.recv_int.Name = "recv_int";
+            // 
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(570, 264);
@@ -777,57 +894,30 @@
             this.textBox1.Size = new System.Drawing.Size(163, 20);
             this.textBox1.TabIndex = 0;
             // 
-            // ripdb_grid
+            // tabPage3
             // 
-            this.ripdb_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ripdb_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IP,
-            this.net_mask,
-            this.next_hop,
-            this.metric,
-            this.recv_int});
-            this.ripdb_grid.Location = new System.Drawing.Point(6, 6);
-            this.ripdb_grid.Name = "ripdb_grid";
-            this.ripdb_grid.Size = new System.Drawing.Size(628, 215);
-            this.ripdb_grid.TabIndex = 21;
-            // 
-            // IP
-            // 
-            this.IP.HeaderText = "IP";
-            this.IP.Name = "IP";
-            // 
-            // net_mask
-            // 
-            this.net_mask.HeaderText = "Mask";
-            this.net_mask.Name = "net_mask";
-            // 
-            // next_hop
-            // 
-            this.next_hop.HeaderText = "Next Hop";
-            this.next_hop.Name = "next_hop";
-            // 
-            // metric
-            // 
-            this.metric.HeaderText = "Metric";
-            this.metric.Name = "metric";
-            // 
-            // recv_int
-            // 
-            this.recv_int.HeaderText = "Recieved in int";
-            this.recv_int.Name = "recv_int";
+            this.tabPage3.Controls.Add(this.stats_grid);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1085, 302);
+            this.tabPage3.TabIndex = 5;
+            this.tabPage3.Text = "Stats";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1117, 669);
-            this.Controls.Add(this.tab_control);
             this.Controls.Add(this.log_richTextBox);
+            this.Controls.Add(this.tab_control);
             this.Name = "Form1";
             this.Text = "sw-router - Matej Bellus";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tab_control.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).EndInit();
             this.interface_tab.ResumeLayout(false);
             this.interface_tab.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -839,6 +929,7 @@
             this.RIP.ResumeLayout(false);
             this.RIP.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).EndInit();
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -921,6 +1012,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn next_hop;
         private System.Windows.Forms.DataGridViewTextBoxColumn metric;
         private System.Windows.Forms.DataGridViewTextBoxColumn recv_int;
+        private System.Windows.Forms.DataGridView stats_grid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn asdas;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 

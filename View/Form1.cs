@@ -48,9 +48,28 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description+device.Name);
                 comboBox2.Items.Add(device.Description+device.Name);
             }
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 2;
+            comboBox1.SelectedIndex = 2;
+            comboBox2.SelectedIndex = 0;
 
+            new Thread(new ThreadStart(refresh_Stats_thread)).Start();
+
+        }
+
+        public void refresh_Stats_thread()
+        {
+            while (true)
+            {
+                try
+                {
+                    updateStats();
+                    Thread.Sleep(1000);
+                }
+                catch (Exception e)
+                {
+                    e.GetType();
+                }
+            }
+            
         }
 
         public void refresArpTable()
@@ -146,6 +165,39 @@ namespace sw_router
                 ripdb_grid.Invoke((MethodInvoker)(() => ripdb_grid.Refresh()));
             else
                 ripdb_grid.Refresh();
+        }
+
+        public void updateStats()
+        {
+            // empty
+            if (this.InvokeRequired)
+                stats_grid.Invoke((MethodInvoker)(() => stats_grid.Rows.Clear()));
+            else
+                stats_grid.Rows.Clear();
+
+            // update
+            object[] data = new object[] {
+                Controller.Instance.communicators[0].stats.pakcets_in,
+                Controller.Instance.communicators[0].stats.pakcets_out,
+                Controller.Instance.communicators[1].stats.pakcets_in,
+                Controller.Instance.communicators[1].stats.pakcets_out,
+                Arp.Instance.arpCacheTimeout,
+                Rip.Instance.Timers.UPDATE,
+                Rip.Instance.Timers.HOLD_DOWN,
+                Rip.Instance.Timers.INVALID,
+                Rip.Instance.Timers.FLUSH
+            };
+            if (this.InvokeRequired)
+                stats_grid.Invoke((MethodInvoker)(() => stats_grid.Rows.Add(data)));
+            else
+                stats_grid.Rows.Add(data);
+
+
+            // refresh
+            if (this.InvokeRequired)
+                stats_grid.Invoke((MethodInvoker)(() => stats_grid.Refresh()));
+            else
+                stats_grid.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -442,6 +494,11 @@ namespace sw_router
                 }
             }
             Controller.Instance.gui.updateRipDb();
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

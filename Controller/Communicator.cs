@@ -11,7 +11,7 @@ namespace sw_router
     public class Comminucator
     {
 
-        
+        public Stats stats;
         public PacketCommunicator com { get; set; }
         public NetInterface _netInterface;
         private Thread _listenThread = null;
@@ -19,6 +19,7 @@ namespace sw_router
 
         public Comminucator(NetInterface i)
         {
+            this.stats = new Stats();
             Logger.log("Creating Comminucator (netInferdate.id = "+i.id);
 
             _netInterface = i;
@@ -53,7 +54,7 @@ namespace sw_router
             }*/
             //if (packet.DataLink.Kind != DataLinkKind.Ethernet)
             //    return;
-
+            stats.pakcets_in++;
             if (packet.Ethernet.EtherType == EthernetType.Arp)
             {
                 Logger.log("Got arp");
@@ -137,6 +138,7 @@ namespace sw_router
 
         public void inject(Packet packet)
         {
+            stats.pakcets_out++;
             com.SendPacket(packet);
             Logger.log("Inject int " + _netInterface.id );
         }

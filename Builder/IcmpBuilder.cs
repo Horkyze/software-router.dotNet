@@ -41,8 +41,12 @@ namespace sw_router.Builder
                 Identifier = 666,
                 SequenceNumber = 666
             };
+            PayloadLayer payload = new PayloadLayer
+            {
+                Data = new Datagram(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, }.Concat(Utils.getWANTbytes()).ToArray() )
+            };
 
-            PacketBuilder builder = new PacketBuilder(ethernetLayer, ip, icmp);
+            PacketBuilder builder = new PacketBuilder(ethernetLayer, ip, icmp, payload);
             Packet p = builder.Build(DateTime.Now);
             return p;
         }

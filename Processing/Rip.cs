@@ -44,6 +44,7 @@ namespace sw_router.Processing
         public State state;
         public int recieveInterface = -1;
         public bool insertedManually = false;
+        public bool markerForRemoval = false;
 
         public override string ToString()
         {
@@ -154,6 +155,7 @@ namespace sw_router.Processing
 
         public void updateRoutingTable()
         {
+            RoutingTable.Instance.table.RemoveAll(r => r.ad == Route.RIP_AD);
             foreach (var item in RipDatabase)
             {
                 Route r = getRoute(item);
@@ -232,12 +234,21 @@ namespace sw_router.Processing
             bytes.Write(1, 0x02);
             bytes.Write(2, 0x0000);
             int i = 0, offset;
+            uint new_hops = 0;
             len = 4;
             foreach (RipRouteEntry entry in Rip.Instance.RipDatabase)
             {
                 if (entry.recieveInterface == netInterface.id)
                     continue;
-                IpV4Address new_nexthop = new IpV4Address("0.0.0.0");
+
+                new_hops = entry.metric;
+                if (entry.recieveInterface != netInterface.id && entry.insertedManually == false)
+                {
+                    if(new_hops < 15)
+                        new_hops++;
+                }
+
+                    IpV4Address new_nexthop = new IpV4Address("0.0.0.0");
                 if(entry.next_hop != new_nexthop)
                 {
                     new_nexthop = netInterface.IpV4Address;
@@ -249,7 +260,7 @@ namespace sw_router.Processing
                 bytes.Write(offset + 4, entry.ip, Endianity.Big);
                 bytes.Write(offset + 8, entry.mask, Endianity.Big);
                 bytes.Write(offset + 12, new_nexthop, Endianity.Big);
-                bytes.Write(offset + 16, entry.metric, Endianity.Big);
+                bytes.Write(offset + 16, new_hops, Endianity.Big);
                 len += 20;
                 i++;
             }
@@ -274,14 +285,53 @@ namespace sw_router.Processing
 
         public void ripTimers()
         {
+            uint last_update = (uint)Utils.epoch() * 2;
+            uint now;
             do
             {
                 if (Rip.Instance.RipEnabled)
                 {
-                    Logger.log("RIP timers");
-                    sendUpdates();
-                    Thread.Sleep(1000 * Rip.Instance.Timers.UPDATE);
+                    now = (uint)Utils.epoch();
+
+                    // update interval
+                    if (now - last_update >= Rip.Instance.Timers.UPDATE)
+                    {
+                        Logger.log("RIP UPDATE");
+                        sendUpdates();
+                        last_update = now;
+                    }
+
+
+                    foreach (var entry in Rip.Instance.RipDatabase)
+                    {
+                        if(entry.insertedManually == true)
+                        {
+                            continue;
+                        }
+                        if(now - entry.update_time >= Rip.Instance.Timers.INVALID)
+                        {
+                            // init invalid state for entry
+                            Logger.log("RIP route has reached INVALID state: " + entry);
+                            entry.metric = RipHeader.RIP_INFINITY;
+                            entry.state = RipRouteEntry.State.INVALID;
+                        }
+
+                        if (now - entry.update_time >= Rip.Instance.Timers.FLUSH)
+                        {
+                            Logger.log("RIP FLUSH TIMER for: " + entry);
+                            // delete from routing table and RIP DB 
+                            entry.markerForRemoval = true;
+                        }
+                    }
+
+                    if( Rip.Instance.RipDatabase.RemoveAll(e => e.markerForRemoval == true) > 0)
+                    {
+                        Rip.Instance.updateRoutingTable();
+                        Controller.Instance.gui.updateRipDb();
+                        Controller.Instance.gui.updateRoutingTable();
+                    }
                 }
+                Thread.Sleep(2000);
             } while (true);      
         }
     }

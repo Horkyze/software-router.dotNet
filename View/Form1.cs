@@ -525,7 +525,9 @@ namespace sw_router
                         recieveInterface = r.outgoingInterfate,
                         ip = Utils.GetNetworkAddress(r.network, r.mask),
                         mask = Utils.prefixToMask(r.mask),
-                        insertedManually = true
+                        insertedManually = true,
+                        update_time = Utils.epoch(),
+                        insert_time = Utils.epoch()
                     });
                     Controller.Instance.communicators[r.outgoingInterfate].inject(
                         RipBuilder.BuildRequest(Controller.Instance.communicators[r.outgoingInterfate]._netInterface)
@@ -549,6 +551,25 @@ namespace sw_router
             catch (Exception ee)
             {
                 Logger.log("[PING]Exception - " + ee.ToString());
+            }
+        }
+
+        private void label11_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Rip.Instance.Timers.UPDATE = int.Parse(updateTimer.Text);
+                Rip.Instance.Timers.INVALID = int.Parse(invalidTimer.Text);
+                Rip.Instance.Timers.FLUSH = int.Parse(flushTimer.Text);
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
             }
         }
     }

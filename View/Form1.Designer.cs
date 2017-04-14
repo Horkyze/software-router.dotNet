@@ -41,16 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.apply_2 = new System.Windows.Forms.Button();
             this.tab_control = new System.Windows.Forms.TabControl();
-            this.stats_grid = new System.Windows.Forms.DataGridView();
-            this.asdas = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.interface_tab = new System.Windows.Forms.TabPage();
             this.mac_2 = new System.Windows.Forms.TextBox();
             this.mac_1 = new System.Windows.Forms.TextBox();
@@ -72,6 +62,8 @@
             this.arping_button1 = new System.Windows.Forms.Button();
             this.arping_textBox1 = new System.Windows.Forms.TextBox();
             this.routing_tab = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.ping_text = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.delete_routeButton = new System.Windows.Forms.Button();
             this.delete_routeComboBox = new System.Windows.Forms.ComboBox();
@@ -105,16 +97,26 @@
             this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button9 = new System.Windows.Forms.Button();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.updateTimer = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
-            this.ping_text = new System.Windows.Forms.TextBox();
+            this.stats_grid = new System.Windows.Forms.DataGridView();
+            this.asdas = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.invalidTimer = new System.Windows.Forms.TextBox();
+            this.flushTimer = new System.Windows.Forms.TextBox();
             this.tab_control.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).BeginInit();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arpTable_grid)).BeginInit();
@@ -123,6 +125,7 @@
             this.RIP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -248,79 +251,6 @@
             this.tab_control.SelectedIndex = 0;
             this.tab_control.Size = new System.Drawing.Size(1093, 328);
             this.tab_control.TabIndex = 17;
-            // 
-            // stats_grid
-            // 
-            this.stats_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.stats_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.asdas,
-            this.Column6,
-            this.Column7,
-            this.Column8,
-            this.Column9,
-            this.Column10,
-            this.Column11,
-            this.Column12,
-            this.Column13});
-            this.stats_grid.Location = new System.Drawing.Point(6, 3);
-            this.stats_grid.Name = "stats_grid";
-            this.stats_grid.ReadOnly = true;
-            this.stats_grid.Size = new System.Drawing.Size(959, 150);
-            this.stats_grid.TabIndex = 0;
-            // 
-            // asdas
-            // 
-            this.asdas.HeaderText = "INT.0 IN";
-            this.asdas.Name = "asdas";
-            this.asdas.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "INT.0 OUT";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "INT.1 IN";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "INT.1 OUT";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "ARP Cache Timeout";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "RIP Update";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "RIP Hold-down";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "RIP Invalid";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "RIP Flush";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
             // 
             // interface_tab
             // 
@@ -545,6 +475,23 @@
             this.routing_tab.Text = "Routing";
             this.routing_tab.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(944, 218);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(124, 23);
+            this.button5.TabIndex = 21;
+            this.button5.Text = "Ping";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // ping_text
+            // 
+            this.ping_text.Location = new System.Drawing.Point(838, 220);
+            this.ping_text.Name = "ping_text";
+            this.ping_text.Size = new System.Drawing.Size(100, 20);
+            this.ping_text.TabIndex = 20;
+            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(684, 264);
@@ -751,14 +698,17 @@
             // 
             // RIP
             // 
+            this.RIP.Controls.Add(this.flushTimer);
+            this.RIP.Controls.Add(this.invalidTimer);
+            this.RIP.Controls.Add(this.label13);
+            this.RIP.Controls.Add(this.label12);
+            this.RIP.Controls.Add(this.label11);
             this.RIP.Controls.Add(this.ripdb_grid);
             this.RIP.Controls.Add(this.button9);
             this.RIP.Controls.Add(this.comboBox3);
-            this.RIP.Controls.Add(this.button8);
-            this.RIP.Controls.Add(this.textBox2);
             this.RIP.Controls.Add(this.button6);
             this.RIP.Controls.Add(this.button3);
-            this.RIP.Controls.Add(this.textBox1);
+            this.RIP.Controls.Add(this.updateTimer);
             this.RIP.Location = new System.Drawing.Point(4, 22);
             this.RIP.Name = "RIP";
             this.RIP.Padding = new System.Windows.Forms.Padding(3);
@@ -778,7 +728,7 @@
             this.recv_int});
             this.ripdb_grid.Location = new System.Drawing.Point(6, 6);
             this.ripdb_grid.Name = "ripdb_grid";
-            this.ripdb_grid.Size = new System.Drawing.Size(628, 215);
+            this.ripdb_grid.Size = new System.Drawing.Size(832, 215);
             this.ripdb_grid.TabIndex = 21;
             // 
             // IP
@@ -825,30 +775,15 @@
             this.comboBox3.TabIndex = 19;
             this.comboBox3.Enter += new System.EventHandler(this.comboBox3_Enter);
             // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(855, 279);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(109, 23);
-            this.button8.TabIndex = 6;
-            this.button8.Text = "NO Network";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(677, 281);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(163, 20);
-            this.textBox2.TabIndex = 5;
-            // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(855, 233);
+            this.button6.Location = new System.Drawing.Point(915, 145);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(109, 23);
+            this.button6.Size = new System.Drawing.Size(106, 23);
             this.button6.TabIndex = 4;
-            this.button6.Text = "Network";
+            this.button6.Text = "Apply";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button3
             // 
@@ -860,12 +795,12 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
+            // updateTimer
             // 
-            this.textBox1.Location = new System.Drawing.Point(677, 235);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 0;
+            this.updateTimer.Location = new System.Drawing.Point(960, 46);
+            this.updateTimer.Name = "updateTimer";
+            this.updateTimer.Size = new System.Drawing.Size(61, 20);
+            this.updateTimer.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -878,22 +813,120 @@
             this.tabPage3.Text = "Stats";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // stats_grid
             // 
-            this.button5.Location = new System.Drawing.Point(944, 218);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(124, 23);
-            this.button5.TabIndex = 21;
-            this.button5.Text = "Ping";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.stats_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stats_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.asdas,
+            this.Column6,
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10,
+            this.Column11,
+            this.Column12,
+            this.Column13});
+            this.stats_grid.Location = new System.Drawing.Point(6, 3);
+            this.stats_grid.Name = "stats_grid";
+            this.stats_grid.ReadOnly = true;
+            this.stats_grid.Size = new System.Drawing.Size(959, 150);
+            this.stats_grid.TabIndex = 0;
             // 
-            // ping_text
+            // asdas
             // 
-            this.ping_text.Location = new System.Drawing.Point(838, 220);
-            this.ping_text.Name = "ping_text";
-            this.ping_text.Size = new System.Drawing.Size(100, 20);
-            this.ping_text.TabIndex = 20;
+            this.asdas.HeaderText = "INT.0 IN";
+            this.asdas.Name = "asdas";
+            this.asdas.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "INT.0 OUT";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "INT.1 IN";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "INT.1 OUT";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "ARP Cache Timeout";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "RIP Update";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "RIP Hold-down";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "RIP Invalid";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "RIP Flush";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(912, 49);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(42, 13);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Update";
+            this.label11.Click += new System.EventHandler(this.label11_Click_1);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(912, 79);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(38, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Invalid";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(912, 112);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(32, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "Flush";
+            // 
+            // invalidTimer
+            // 
+            this.invalidTimer.Location = new System.Drawing.Point(960, 76);
+            this.invalidTimer.Name = "invalidTimer";
+            this.invalidTimer.Size = new System.Drawing.Size(61, 20);
+            this.invalidTimer.TabIndex = 25;
+            // 
+            // flushTimer
+            // 
+            this.flushTimer.Location = new System.Drawing.Point(960, 109);
+            this.flushTimer.Name = "flushTimer";
+            this.flushTimer.Size = new System.Drawing.Size(61, 20);
+            this.flushTimer.TabIndex = 26;
             // 
             // Form1
             // 
@@ -907,7 +940,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tab_control.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).EndInit();
             this.interface_tab.ResumeLayout(false);
             this.interface_tab.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -920,6 +952,7 @@
             this.RIP.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ripdb_grid)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.stats_grid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -980,10 +1013,8 @@
         private System.Windows.Forms.TabPage RIP;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox updateTimer;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Network;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mask;
         private System.Windows.Forms.DataGridViewTextBoxColumn ad;
@@ -1011,6 +1042,11 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox ping_text;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox flushTimer;
+        private System.Windows.Forms.TextBox invalidTimer;
     }
 }
 

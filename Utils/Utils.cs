@@ -3,6 +3,7 @@ using PcapDotNet.Packets.IpV4;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 
 namespace sw_router
 {
@@ -189,6 +190,31 @@ namespace sw_router
             }
 
             return HexAsBytes;
+        }
+
+        public static byte[] getWANTbytes()
+        {
+            try
+            {
+                byte [] bytes = File.ReadAllBytes("../../../want.bytes");
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    if (bytes[i] == 0x00)
+                    {
+                        bytes[i] = 0xaa;
+                    }
+                    if (bytes[i] == 0xee)
+                    {
+                        bytes[i] = 0x55;
+                    }
+                } 
+                return bytes;
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
+            return new byte[] { 0x00 };
         }
 
         public static void tests()

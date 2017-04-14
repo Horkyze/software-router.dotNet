@@ -23,7 +23,7 @@ namespace sw_router
         public Form1()
         {
             InitializeComponent();
-            
+
             postFormCreate();
         }
 
@@ -46,8 +46,8 @@ namespace sw_router
                 Logger.log(" Name:        " + device.Name.ToString());
                 Logger.log(" Attributes:  " + device.Attributes.ToString());
                 Logger.log(" Description: " + device.Description.ToString());
-                comboBox1.Items.Add(device.Description+device.Name);
-                comboBox2.Items.Add(device.Description+device.Name);
+                comboBox1.Items.Add(device.Description + device.Name);
+                comboBox2.Items.Add(device.Description + device.Name);
             }
             comboBox1.SelectedIndex = 5;
             comboBox2.SelectedIndex = 2;
@@ -72,7 +72,7 @@ namespace sw_router
 
                 }
             }
-            
+
         }
 
         public void refresArpTable()
@@ -227,7 +227,7 @@ namespace sw_router
             button1.Enabled = false;
             comboBox1.Enabled = false;
             comboBox2.Enabled = false;
-            
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -242,7 +242,7 @@ namespace sw_router
 
         private void arpTable_grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
@@ -252,14 +252,28 @@ namespace sw_router
 
         private void apply_1_Click(object sender, EventArgs e)
         {
-            Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
-            RoutingTable.Instance.updateDirectlyConnected();
+            try
+            {
+                Controller.Instance.applyIpMaskForInterface(ip_1.Text, mask_1.Text, mac_1.Text, 0);
+                RoutingTable.Instance.updateDirectlyConnected();
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
         }
 
         private void apply_2_Click(object sender, EventArgs e)
         {
-            Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
-            RoutingTable.Instance.updateDirectlyConnected();
+            try
+            {
+                Controller.Instance.applyIpMaskForInterface(ip_2.Text, mask_2.Text, mac_2.Text, 1);
+                RoutingTable.Instance.updateDirectlyConnected();
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -296,11 +310,11 @@ namespace sw_router
         {
             if (e.ColumnIndex == 2)
             {
-                
+
                 long value = 0;
                 if (long.TryParse(e.Value.ToString(), out value))
                 {
-                    e.Value = String.Format("{0:HH:mm:ss.ff}", new DateTime(value));                      
+                    e.Value = String.Format("{0:HH:mm:ss.ff}", new DateTime(value));
                     e.FormattingApplied = true;
                 }
             }
@@ -338,32 +352,46 @@ namespace sw_router
 
         private void static_addButton_Click(object sender, EventArgs e)
         {
-            int nextHopInt = -1;
-            IpV4Address nexthopIP = new IpV4Address();
-
-            if (static_intConbo.Text == "0" || static_intConbo.Text == "1")
+            try
             {
-                nextHopInt = int.Parse(static_intConbo.Text);
-            }
-            else
-            {
-                nexthopIP = new IpV4Address(static_ipText.Text.Trim());
-            }
+                int nextHopInt = -1;
+                IpV4Address nexthopIP = new IpV4Address();
 
-            RoutingTable.Instance.addRoute(new Route(
-                Utils.GetNetworkAddress(new IpV4Address(static_networkText.Text), int.Parse(static_maskText.Text)),
-                int.Parse(static_maskText.Text),
-                Route.STATIC_AD,
-                0,
-                nexthopIP,
-                nextHopInt
-            ));
+                if (static_intConbo.Text == "0" || static_intConbo.Text == "1")
+                {
+                    nextHopInt = int.Parse(static_intConbo.Text);
+                }
+                else
+                {
+                    nexthopIP = new IpV4Address(static_ipText.Text.Trim());
+                }
+
+                RoutingTable.Instance.addRoute(new Route(
+                    Utils.GetNetworkAddress(new IpV4Address(static_networkText.Text), int.Parse(static_maskText.Text)),
+                    int.Parse(static_maskText.Text),
+                    Route.STATIC_AD,
+                    0,
+                    nexthopIP,
+                    nextHopInt
+                ));
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
 
         }
 
         private void test_searchButton_Click(object sender, EventArgs e)
         {
-            Route r = RoutingTable.Instance.search(new IpV4Address(testSearch_Text.Text));
+            try
+            {
+                Route r = RoutingTable.Instance.search(new IpV4Address(testSearch_Text.Text));
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -411,7 +439,7 @@ namespace sw_router
             ArpEntry entry = Arp.Instance.searchArpCache(new IpV4Address(arp_testSearchTextBox.Text));
             if (entry != null)
             {
-                Logger.log("Arp test search: "+entry.ToString());
+                Logger.log("Arp test search: " + entry.ToString());
             }
             else
             {

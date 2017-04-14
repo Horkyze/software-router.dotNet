@@ -39,9 +39,16 @@ namespace sw_router
 
         public void applyIpMaskForInterface(String ip, String mask, String mac, int interfaceIndex)
         {
-            netInterfaces[interfaceIndex].IpV4Address = new PcapDotNet.Packets.IpV4.IpV4Address(ip);
-            netInterfaces[interfaceIndex].NetMask = Int32.Parse(mask);
-            netInterfaces[interfaceIndex].MacAddress = new PcapDotNet.Packets.Ethernet.MacAddress(mac);
+            try
+            {
+                netInterfaces[interfaceIndex].IpV4Address = new PcapDotNet.Packets.IpV4.IpV4Address(ip);
+                netInterfaces[interfaceIndex].NetMask = Int32.Parse(mask);
+                netInterfaces[interfaceIndex].MacAddress = new PcapDotNet.Packets.Ethernet.MacAddress(mac);
+            }
+            catch (Exception ee)
+            {
+                Logger.log(ee.ToString());
+            }
         }
 
         public void createInterfaces(String i1, String i2)

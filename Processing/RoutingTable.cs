@@ -165,15 +165,8 @@ namespace sw_router.Processing
 
         public void updateDirectlyConnected()
         {
-            for (int i = 0; i < table.Count; i++)
-            {
-                Route r = table.ElementAt(i);
-                if (r.ad == Route.DIRECTLY_CONNECTED_AD)
-                {
-                    table.RemoveAt(i);
-                    i--;
-                }
-            }
+
+            RoutingTable.Instance.table.RemoveAll(r => r.ad == Route.DIRECTLY_CONNECTED_AD);
 
             // add static routes
             for (int a = 0; a < 2; a++)

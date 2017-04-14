@@ -85,7 +85,6 @@ namespace sw_router.Processing
         public void checkOldArp()
         {
             // dont delete
-            return;
             long value = 0;     
             while (true)
             {

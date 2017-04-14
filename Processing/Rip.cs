@@ -180,16 +180,28 @@ namespace sw_router.Processing
             var rip_raw_data = packet.Ethernet.IpV4.Udp.Payload.ToHexadecimalString();
 
             RipData ripData = new RipData(rip_raw_data);
-            foreach (var entry in ripData.entries)
+            if (ripData.hdr.version != RipHeader.RIP_VERSION)
             {
-                // here parsing route entries from update packet
-                if (entry.next_hop == new IpV4Address("0.0.0.0"))
-                    entry.next_hop = packet.Ethernet.IpV4.Source;
-
-                entry.recieveInterface = com._netInterface.id;
-                updateRipDb(entry);
+                Logger.log("got RIP v1 -> drop..");
+                return;
             }
-            updateRoutingTable();
+            if (ripData.hdr.command == RipHeader.RIP_RESPONSE)
+            {
+                foreach (var entry in ripData.entries)
+                {
+                    // here parsing route entries from update packet
+                    if (entry.next_hop == new IpV4Address("0.0.0.0"))
+                        entry.next_hop = packet.Ethernet.IpV4.Source;
+
+                    entry.recieveInterface = com._netInterface.id;
+                    updateRipDb(entry);
+                }
+                updateRoutingTable();
+            } 
+            else if (ripData.hdr.command == RipHeader.RIP_REQUEST)
+            {
+                sendUpdates();
+            }
         }
 
         public void sendUpdates()
@@ -242,6 +254,22 @@ namespace sw_router.Processing
                 i++;
             }
             return bytes;
+        }
+
+        public void afterRipDisabled()
+        {
+            // empty RIP DB
+            Rip.Instance.RipDatabase.Clear();
+
+            // delete all RIP routes
+            RoutingTable.Instance.table.RemoveAll(table => table.ad == Route.RIP_AD);
+
+            // no longer advertise routes
+            RoutingTable.Instance.table.ForEach(table => table.advertiseInRip = false);
+
+            Controller.Instance.gui.updateRipDb();
+            Controller.Instance.gui.updateRoutingTable();
+            Logger.log("RIP - flushing all rip routes");
         }
 
         public void ripTimers()

@@ -1,5 +1,6 @@
 ﻿using PcapDotNet.Core;
 using PcapDotNet.Packets.IpV4;
+using sw_router.Builder;
 using sw_router.Processing;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,8 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description+device.Name);
                 comboBox2.Items.Add(device.Description+device.Name);
             }
-            comboBox1.SelectedIndex = 2;
-            comboBox2.SelectedIndex = 0;
+            comboBox1.SelectedIndex = 5;
+            comboBox2.SelectedIndex = 2;
 
             new Thread(new ThreadStart(refresh_Stats_thread)).Start();
 
@@ -460,6 +461,11 @@ namespace sw_router
         {
             Rip.Instance.RipEnabled = Rip.Instance.RipEnabled == false;
             button3.Text = (Rip.Instance.RipEnabled) ? "Rip enabled - turn OFF" : "Rip disabled - turn ON";
+            if (Rip.Instance.RipEnabled == false)
+            {
+                Rip.Instance.afterRipDisabled();
+            }
+
         }
 
         private void comboBox3_Enter(object sender, EventArgs e)
@@ -493,6 +499,9 @@ namespace sw_router
                         mask = Utils.prefixToMask(r.mask),
                         insertedManually = true
                     });
+                    Controller.Instance.communicators[r.outgoingInterfate].inject(
+                        RipBuilder.BuildRequest(Controller.Instance.communicators[r.outgoingInterfate]._netInterface)
+                        );
                 }
             }
             Controller.Instance.gui.updateRipDb();

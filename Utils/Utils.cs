@@ -2,6 +2,7 @@
 using PcapDotNet.Packets.IpV4;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace sw_router
 {
@@ -171,6 +172,23 @@ namespace sw_router
             UInt32 full = 0xFFFFFFFF;
             UInt32 mask = full << (32 - prefix);
             return new IpV4Address(mask);
+        }
+
+        public static byte[] ConvertHexStringToByteArray(string hexString)
+        {
+            if (hexString.Length % 2 != 0)
+            {
+                return null;
+            }
+
+            byte[] HexAsBytes = new byte[hexString.Length / 2];
+            for (int index = 0; index < HexAsBytes.Length; index++)
+            {
+                string byteValue = hexString.Substring(index * 2, 2);
+                HexAsBytes[index] = byte.Parse(byteValue, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+            }
+
+            return HexAsBytes;
         }
 
         public static void tests()

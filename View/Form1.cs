@@ -155,7 +155,9 @@ namespace sw_router
                     item.mask,
                     item.next_hop,
                     item.metric,
-                    item.recieveInterface
+                    item.recieveInterface,
+                    item.markerForRemoval,
+                    item.garbageTimer
                 };
                 if (this.InvokeRequired)
                     ripdb_grid.Invoke((MethodInvoker)(() => ripdb_grid.Rows.Add(data)));
@@ -592,6 +594,34 @@ namespace sw_router
             catch (Exception ee)
             {
                 Logger.log("error reseting stats: " + e.ToString());
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            foreach (var entry in Rip.Instance.RipDatabase)
+            {
+                if (no_network_combo.Text == entry.ToString())
+                {
+                    entry.metric = RipHeader.RIP_INFINITY;
+                    entry.garbageTimer = 3;
+                    entry.markerForRemoval = true;
+                    updateRipDb();
+                }
+            }
+        }
+
+        private void no_network_combo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void no_network_combo_Enter(object sender, EventArgs e)
+        {
+            no_network_combo.Items.Clear();
+            foreach( var entry in Rip.Instance.RipDatabase)
+            {
+                no_network_combo.Items.Add(entry);
             }
         }
     }

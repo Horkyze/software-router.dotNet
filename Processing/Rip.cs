@@ -45,6 +45,7 @@ namespace sw_router.Processing
         public int recieveInterface = -1;
         public bool insertedManually = false;
         public bool markerForRemoval = false;
+        public int garbageTimer = 0;
 
         public override string ToString()
         {
@@ -119,15 +120,23 @@ namespace sw_router.Processing
                 if(item.ip == entry.ip && item.mask == item.mask)
                 {
                     item.update_time = Utils.epoch();
-                    if(item.metric <= entry.metric)
+                    item.metric = entry.metric;
+                    if(entry.metric == RipHeader.RIP_INFINITY && item.markerForRemoval == false)
                     {
-
-                    } else
-                    {
-
+                        // delete the route after 3 updates
+                        item.markerForRemoval = true;
+                        item.garbageTimer = 3;
                     }
+                    Controller.Instance.gui.updateRipDb();
                     return;
                 }
+            }
+
+            if(entry.metric == RipHeader.RIP_INFINITY)
+            {
+                // no point adding 16 metric to database..
+                Logger.log("Recieved route with 16 metric..");
+                return;
             }
 
             // if we get here, entry was not found in db
@@ -248,6 +257,11 @@ namespace sw_router.Processing
             {
                 foreach (RipRouteEntry entry in Rip.Instance.RipDatabase)
                 {
+                    if(entry.garbageTimer > 0)
+                    {
+                        entry.garbageTimer--;
+                    }
+
                     if (entry.recieveInterface == netInterface.id)
                         continue;
 
@@ -336,17 +350,18 @@ namespace sw_router.Processing
                             Logger.log("RIP FLUSH TIMER for: " + entry);
                             // delete from routing table and RIP DB 
                             entry.markerForRemoval = true;
+                            entry.garbageTimer = 0;
                         }
                     }
 
-                    if( Rip.Instance.RipDatabase.RemoveAll(e => e.markerForRemoval == true) > 0)
+                    if( Rip.Instance.RipDatabase.RemoveAll(e => e.markerForRemoval == true && e.garbageTimer == 0) > 0)
                     {
                         Rip.Instance.updateRoutingTable();
                         Controller.Instance.gui.updateRipDb();
                         Controller.Instance.gui.updateRoutingTable();
                     }
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             } while (true);      
         }
     }

@@ -95,11 +95,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.ripdb_grid = new System.Windows.Forms.DataGridView();
-            this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.next_hop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.metric = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button9 = new System.Windows.Forms.Button();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.button6 = new System.Windows.Forms.Button();
@@ -117,6 +112,15 @@
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button4 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.no_network_combo = new System.Windows.Forms.ComboBox();
+            this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.next_hop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.metric = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.recv_int = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sfrf = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.w46yhfgh = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -699,6 +703,8 @@
             // 
             // RIP
             // 
+            this.RIP.Controls.Add(this.no_network_combo);
+            this.RIP.Controls.Add(this.button8);
             this.RIP.Controls.Add(this.flushTimer);
             this.RIP.Controls.Add(this.invalidTimer);
             this.RIP.Controls.Add(this.label13);
@@ -768,36 +774,13 @@
             this.net_mask,
             this.next_hop,
             this.metric,
-            this.recv_int});
+            this.recv_int,
+            this.sfrf,
+            this.w46yhfgh});
             this.ripdb_grid.Location = new System.Drawing.Point(6, 6);
             this.ripdb_grid.Name = "ripdb_grid";
             this.ripdb_grid.Size = new System.Drawing.Size(832, 215);
             this.ripdb_grid.TabIndex = 21;
-            // 
-            // IP
-            // 
-            this.IP.HeaderText = "IP";
-            this.IP.Name = "IP";
-            // 
-            // net_mask
-            // 
-            this.net_mask.HeaderText = "Mask";
-            this.net_mask.Name = "net_mask";
-            // 
-            // next_hop
-            // 
-            this.next_hop.HeaderText = "Next Hop";
-            this.next_hop.Name = "next_hop";
-            // 
-            // metric
-            // 
-            this.metric.HeaderText = "Metric";
-            this.metric.Name = "metric";
-            // 
-            // recv_int
-            // 
-            this.recv_int.HeaderText = "Recieved in int";
-            this.recv_int.Name = "recv_int";
             // 
             // button9
             // 
@@ -940,6 +923,61 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(931, 264);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(90, 23);
+            this.button8.TabIndex = 27;
+            this.button8.Text = "NO Network";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // no_network_combo
+            // 
+            this.no_network_combo.FormattingEnabled = true;
+            this.no_network_combo.Location = new System.Drawing.Point(723, 264);
+            this.no_network_combo.Name = "no_network_combo";
+            this.no_network_combo.Size = new System.Drawing.Size(202, 21);
+            this.no_network_combo.TabIndex = 28;
+            this.no_network_combo.Click += new System.EventHandler(this.no_network_combo_Click);
+            this.no_network_combo.Enter += new System.EventHandler(this.no_network_combo_Enter);
+            // 
+            // IP
+            // 
+            this.IP.HeaderText = "IP";
+            this.IP.Name = "IP";
+            // 
+            // net_mask
+            // 
+            this.net_mask.HeaderText = "Mask";
+            this.net_mask.Name = "net_mask";
+            // 
+            // next_hop
+            // 
+            this.next_hop.HeaderText = "Next Hop";
+            this.next_hop.Name = "next_hop";
+            // 
+            // metric
+            // 
+            this.metric.HeaderText = "Metric";
+            this.metric.Name = "metric";
+            // 
+            // recv_int
+            // 
+            this.recv_int.HeaderText = "Recieved in int";
+            this.recv_int.Name = "recv_int";
+            // 
+            // sfrf
+            // 
+            this.sfrf.HeaderText = "Marked for removal";
+            this.sfrf.Name = "sfrf";
+            // 
+            // w46yhfgh
+            // 
+            this.w46yhfgh.HeaderText = "Garbage collector timer";
+            this.w46yhfgh.Name = "w46yhfgh";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1036,11 +1074,6 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.DataGridView ripdb_grid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IP;
-        private System.Windows.Forms.DataGridViewTextBoxColumn net_mask;
-        private System.Windows.Forms.DataGridViewTextBoxColumn next_hop;
-        private System.Windows.Forms.DataGridViewTextBoxColumn metric;
-        private System.Windows.Forms.DataGridViewTextBoxColumn recv_int;
         private System.Windows.Forms.DataGridView stats_grid;
         private System.Windows.Forms.DataGridViewTextBoxColumn asdas;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
@@ -1060,6 +1093,15 @@
         private System.Windows.Forms.TextBox flushTimer;
         private System.Windows.Forms.TextBox invalidTimer;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.ComboBox no_network_combo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IP;
+        private System.Windows.Forms.DataGridViewTextBoxColumn net_mask;
+        private System.Windows.Forms.DataGridViewTextBoxColumn next_hop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn metric;
+        private System.Windows.Forms.DataGridViewTextBoxColumn recv_int;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sfrf;
+        private System.Windows.Forms.DataGridViewTextBoxColumn w46yhfgh;
     }
 }
 

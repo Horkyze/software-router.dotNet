@@ -49,8 +49,8 @@ namespace sw_router
                 comboBox1.Items.Add(device.Description + device.Name);
                 comboBox2.Items.Add(device.Description + device.Name);
             }
-            comboBox1.SelectedIndex = 5;
-            comboBox2.SelectedIndex = 2;
+            comboBox1.SelectedIndex = 2;
+            comboBox2.SelectedIndex = 0;
 
             new Thread(new ThreadStart(refresh_Stats_thread)).Start();
 
@@ -361,10 +361,17 @@ namespace sw_router
                 {
                     nextHopInt = int.Parse(static_intConbo.Text);
                 }
-                else
+
+
+                try
                 {
                     nexthopIP = new IpV4Address(static_ipText.Text.Trim());
                 }
+                catch (Exception eee)
+                {
+                    
+                }
+
 
                 RoutingTable.Instance.addRoute(new Route(
                     Utils.GetNetworkAddress(new IpV4Address(static_networkText.Text), int.Parse(static_maskText.Text)),
@@ -570,6 +577,21 @@ namespace sw_router
             catch (Exception ee)
             {
                 Logger.log(ee.ToString());
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Controller.Instance.communicators[0].stats.pakcets_in = 0;
+                Controller.Instance.communicators[0].stats.pakcets_out = 0;
+                Controller.Instance.communicators[1].stats.pakcets_in = 0;
+                Controller.Instance.communicators[1].stats.pakcets_out = 0;
+            }
+            catch (Exception ee)
+            {
+                Logger.log("error reseting stats: " + e.ToString());
             }
         }
     }

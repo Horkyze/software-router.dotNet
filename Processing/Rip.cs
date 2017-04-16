@@ -156,14 +156,22 @@ namespace sw_router.Processing
         public void updateRoutingTable()
         {
             RoutingTable.Instance.table.RemoveAll(r => r.ad == Route.RIP_AD);
-            foreach (var item in RipDatabase)
+            try
             {
-                Route r = getRoute(item);
-                if (r == null && item.state == RipRouteEntry.State.ACTIVE)
+                foreach (var item in RipDatabase)
                 {
-                    RoutingTable.Instance.addRoute(new Route(item.ip, Utils.getPrefix(item.mask), Route.RIP_AD, (int)item.metric, item.next_hop, -1));
+                    Route r = getRoute(item);
+                    if (r == null && item.state == RipRouteEntry.State.ACTIVE)
+                    {
+                        RoutingTable.Instance.addRoute(new Route(item.ip, Utils.getPrefix(item.mask), Route.RIP_AD, (int)item.metric, item.next_hop, -1));
+                    }
                 }
             }
+            catch (Exception ee)
+            {
+                Logger.log("collection was modified RipDatabase");
+            }
+            Controller.Instance.gui.updateRoutingTable();
         }
 
         public override void forwardPacketToProcessor(Packet packet, Comminucator com)
@@ -236,33 +244,40 @@ namespace sw_router.Processing
             int i = 0, offset;
             uint new_hops = 0;
             len = 4;
-            foreach (RipRouteEntry entry in Rip.Instance.RipDatabase)
+            try
             {
-                if (entry.recieveInterface == netInterface.id)
-                    continue;
-
-                new_hops = entry.metric;
-                if (entry.recieveInterface != netInterface.id && entry.insertedManually == false)
+                foreach (RipRouteEntry entry in Rip.Instance.RipDatabase)
                 {
-                    if(new_hops < 15)
-                        new_hops++;
-                }
+                    if (entry.recieveInterface == netInterface.id)
+                        continue;
+
+                    new_hops = entry.metric;
+                    if (entry.recieveInterface != netInterface.id && entry.insertedManually == false)
+                    {
+                        if (new_hops < 15)
+                            new_hops++;
+                    }
 
                     IpV4Address new_nexthop = new IpV4Address("0.0.0.0");
-                if(entry.next_hop != new_nexthop)
-                {
-                    new_nexthop = netInterface.IpV4Address;
-                }
+                    if (entry.next_hop != new_nexthop)
+                    {
+                        new_nexthop = netInterface.IpV4Address;
+                    }
 
-                offset = 4 + i * 20;
-                bytes.Write(offset, entry.family, Endianity.Big);
-                bytes.Write(offset + 2, entry.route_tag, Endianity.Big);
-                bytes.Write(offset + 4, entry.ip, Endianity.Big);
-                bytes.Write(offset + 8, entry.mask, Endianity.Big);
-                bytes.Write(offset + 12, new_nexthop, Endianity.Big);
-                bytes.Write(offset + 16, new_hops, Endianity.Big);
-                len += 20;
-                i++;
+                    offset = 4 + i * 20;
+                    bytes.Write(offset, entry.family, Endianity.Big);
+                    bytes.Write(offset + 2, entry.route_tag, Endianity.Big);
+                    bytes.Write(offset + 4, entry.ip, Endianity.Big);
+                    bytes.Write(offset + 8, entry.mask, Endianity.Big);
+                    bytes.Write(offset + 12, new_nexthop, Endianity.Big);
+                    bytes.Write(offset + 16, new_hops, Endianity.Big);
+                    len += 20;
+                    i++;
+                }
+            }
+            catch (Exception ee)
+            {
+                Logger.log("Collection may have beed modified Rip.Instance.RipDatabase");
             }
             return bytes;
         }

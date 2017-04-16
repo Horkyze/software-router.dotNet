@@ -45,15 +45,19 @@ namespace sw_router
         // high level processing
         private void ProcessCapturedPacket(Packet packet)
         {
-            /*
+            
             if (packet.Ethernet.Source == _netInterface.MacAddress)
             {
-                //Logging.InstanceLogger.LogMessage("ListenController:ProcessReceivedPacket: Source IP is my...Dropping packet");
+                Logger.log("Source MAC is my ...Dropping packet");
+                return;                
+            }
+
+            if (packet.DataLink.Kind != DataLinkKind.Ethernet)
+            {
+                Logger.log("DataLink is not Ehterhet ... Drop");
                 return;
-                
-            }*/
-            //if (packet.DataLink.Kind != DataLinkKind.Ethernet)
-            //    return;
+            }
+
             stats.pakcets_in++;
             if (packet.Ethernet.EtherType == EthernetType.Arp)
             {
@@ -127,6 +131,13 @@ namespace sw_router
                 }
                 ethLayer.Destination = got;
                 ethLayer.Source = Controller.Instance.netInterfaces[r.outgoingInterfate].MacAddress;
+                if(ipLayer.Ttl < 2)
+                {
+                    Logger.log("TTL < 2 -> drop packet");
+                    return;
+                }
+                ipLayer.Ttl -= (byte)1;
+                ipLayer.HeaderChecksum = null;
 
                 ILayer[] layers = { ethLayer, ipLayer, ipPayload };
 

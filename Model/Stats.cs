@@ -21,8 +21,8 @@ namespace sw_router
     public class Timers
     {
         public int UPDATE { get; set; } = 10;
-        public int INVALID { get; set; } = 10;
-        public int HOLD_DOWN { get; set; } = 40;
-        public int FLUSH { get; set; } = 25;
+        public int INVALID { get; set; } = 40;
+        public int HOLD_DOWN { get; set; } = 40; // not used anyway
+        public int FLUSH { get; set; } = 70;
     }
 }

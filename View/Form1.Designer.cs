@@ -89,6 +89,11 @@
             this.OutInterface = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.RIP = new System.Windows.Forms.TabPage();
+            this.flushTimer = new System.Windows.Forms.TextBox();
+            this.invalidTimer = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.ripdb_grid = new System.Windows.Forms.DataGridView();
             this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.net_mask = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -111,11 +116,7 @@
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.invalidTimer = new System.Windows.Forms.TextBox();
-            this.flushTimer = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.tab_control.SuspendLayout();
             this.interface_tab.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -717,6 +718,48 @@
             this.RIP.Text = "RIP";
             this.RIP.UseVisualStyleBackColor = true;
             // 
+            // flushTimer
+            // 
+            this.flushTimer.Location = new System.Drawing.Point(960, 109);
+            this.flushTimer.Name = "flushTimer";
+            this.flushTimer.Size = new System.Drawing.Size(61, 20);
+            this.flushTimer.TabIndex = 26;
+            // 
+            // invalidTimer
+            // 
+            this.invalidTimer.Location = new System.Drawing.Point(960, 76);
+            this.invalidTimer.Name = "invalidTimer";
+            this.invalidTimer.Size = new System.Drawing.Size(61, 20);
+            this.invalidTimer.TabIndex = 25;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(912, 112);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(32, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "Flush";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(912, 79);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(38, 13);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "Invalid";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(912, 49);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(42, 13);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Update";
+            this.label11.Click += new System.EventHandler(this.label11_Click_1);
+            // 
             // ripdb_grid
             // 
             this.ripdb_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -804,6 +847,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button4);
             this.tabPage3.Controls.Add(this.stats_grid);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -886,47 +930,15 @@
             this.Column13.Name = "Column13";
             this.Column13.ReadOnly = true;
             // 
-            // label11
+            // button4
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(912, 49);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(42, 13);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Update";
-            this.label11.Click += new System.EventHandler(this.label11_Click_1);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(912, 79);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(38, 13);
-            this.label12.TabIndex = 23;
-            this.label12.Text = "Invalid";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(912, 112);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(32, 13);
-            this.label13.TabIndex = 24;
-            this.label13.Text = "Flush";
-            // 
-            // invalidTimer
-            // 
-            this.invalidTimer.Location = new System.Drawing.Point(960, 76);
-            this.invalidTimer.Name = "invalidTimer";
-            this.invalidTimer.Size = new System.Drawing.Size(61, 20);
-            this.invalidTimer.TabIndex = 25;
-            // 
-            // flushTimer
-            // 
-            this.flushTimer.Location = new System.Drawing.Point(960, 109);
-            this.flushTimer.Name = "flushTimer";
-            this.flushTimer.Size = new System.Drawing.Size(61, 20);
-            this.flushTimer.TabIndex = 26;
+            this.button4.Location = new System.Drawing.Point(378, 181);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(130, 23);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "Reset STATS";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 
@@ -1047,6 +1059,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox flushTimer;
         private System.Windows.Forms.TextBox invalidTimer;
+        private System.Windows.Forms.Button button4;
     }
 }
 

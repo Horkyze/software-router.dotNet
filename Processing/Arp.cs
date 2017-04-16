@@ -15,11 +15,11 @@ namespace sw_router.Processing
     {
         public IpV4Address ip { get; set; }
         public MacAddress mac { get; set; }
-        public long time { get; set; }
+        public int time { get; set; }
         public int netInterface { get; set; }
 
 
-        public ArpEntry(IpV4Address ip, MacAddress mac, long time, int netInterface)
+        public ArpEntry(IpV4Address ip, MacAddress mac, int time, int netInterface)
         {
             this.ip = ip;
             this.mac = mac;
@@ -49,7 +49,7 @@ namespace sw_router.Processing
         public List<ArpEntry> arpTable;
         public Thread checkOldArp_t;
         public Object arpCache_lock;
-        public int arpCacheTimeout = 3;
+        public int arpCacheTimeout = 5*60;
 
         private Arp()
         {
@@ -83,36 +83,18 @@ namespace sw_router.Processing
         
 
         public void checkOldArp()
-        {
-            // dont delete
-            long value = 0;     
+        {  
             while (true)
             {
                 // Logger.log("Check arp for old");
-                for (int i = arpTable.Count - 1; i >= 0; i--)
+                int count = arpTable.RemoveAll(e => Utils.epoch() - e.time > arpCacheTimeout);
+                if (count > 0)
                 {
-                    ArpEntry entry = arpTable[i];
-
-                    if ( long.TryParse(entry.time.ToString(), out value) ) 
-                    {                  
-                        if (value + arpCacheTimeout * 10000000 < DateTime.Now.Ticks)
-                        {
-                            arpTable.RemoveAt(i);
-                            i--;
-                            try
-                            {
-                                Controller.Instance.gui.refresArpTable();
-                            }
-                            catch (Exception e)
-                            {
-                                e.GetType();
-                            }
-                        }
-                            
-                    }  
+                    Controller.Instance.gui.refresArpTable();
+                    Logger.log("Removed ARP entry");
                 }
                 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
         }
        
@@ -132,7 +114,7 @@ namespace sw_router.Processing
             return null;
         }
 
-        public void addArp(IpV4Address ip, MacAddress mac, DateTime time, int netInterface)
+        public void addArp(IpV4Address ip, MacAddress mac, int time, int netInterface)
         {
             if ( arpTable.Exists(ArpEntry => ArpEntry.ip == ip && ArpEntry.mac == mac) )
             {
@@ -141,7 +123,7 @@ namespace sw_router.Processing
             else
             {
                 // perhaps change, can same ip have more mac and vice versa?
-                ArpEntry record = new ArpEntry(ip, mac, time.Ticks, netInterface);
+                ArpEntry record = new ArpEntry(ip, mac, time, netInterface);
                 arpTable.Add(record);
                 Logger.log("ARP cache update");
                 Controller.Instance.gui.refresArpTable();
@@ -169,7 +151,7 @@ namespace sw_router.Processing
             {
                 Utils.ByteToMac(packet.Ethernet.Arp.SenderHardwareAddress, out m);
                 entry.mac = m;
-                entry.time = DateTime.Now.Ticks;
+                entry.time = Utils.epoch();
                 mergeFlag = true;
             }
 
@@ -182,7 +164,7 @@ namespace sw_router.Processing
                     addArp(
                         packet.Ethernet.Arp.SenderProtocolIpV4Address,
                         m,
-                        DateTime.Now,
+                        Utils.epoch(),
                         com._netInterface.id
                     );
                 }
